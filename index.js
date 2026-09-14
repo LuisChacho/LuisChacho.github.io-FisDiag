@@ -1,4 +1,4 @@
-// BANCO DE 30 PREGUNTAS DE FÍSICA GENERAL (NIVEL INTERMEDIO-AVANZADO)
+// BANCO DE 30 PREGUNTAS DE FÍSICA GENERAL (g = 9.8 m/s²)
 const questions = [
     { 
         id: 1, 
@@ -24,7 +24,7 @@ const questions = [
     { 
         id: 4, 
         topic: "Despeje de Fórmulas", 
-        question: "En la ecuación de densidad $d = m / V$, al despejar el volumen ($V$) obtenemos:", 
+        question: "En la ecuación de densidad d = m / V, al despejar el volumen (V) obtenemos:", 
         options: ["V = m · d", "V = m / d", "V = d / m", "V = m + d"], 
         answer: 1 
     },
@@ -52,7 +52,7 @@ const questions = [
     { 
         id: 8, 
         topic: "MRU Vectorial (Avión)", 
-        question: "Un avión se desplaza a velocidad constante v = (400i + 300j) km/h durante t = 3 horas. ¿Cuál es el módulo (magnitud) de la distancia recorrida?", 
+        question: "Un avión vuela con velocidad constante v = (400i + 300j) km/h durante t = 3 horas. ¿Cuál es la distancia total recorrida?", 
         options: ["1500 km", "2100 km", "1200 km", "900 km"], 
         answer: 0 
     },
@@ -66,21 +66,21 @@ const questions = [
     { 
         id: 10, 
         topic: "Despeje MRU", 
-        question: "Dada la ecuación de posición $r_f = r_0 + v \\cdot t$, al despejar el tiempo ($t$) se obtiene:", 
+        question: "Dada la ecuación de posición r_f = r_0 + v · t, al despejar el tiempo (t) se obtiene:", 
         options: ["t = (r_f - r_0) / v", "t = v / (r_f - r_0)", "t = r_f - r_0 · v", "t = (r_f + r_0) / v"], 
         answer: 0 
     },
     { 
         id: 11, 
         topic: "MRU Práctica", 
-        question: "Un proyectil viaja a rapidez constante de 340 m/s (velocidad del sonido). ¿Cuánto tiempo (en s) tarda en recorrer 1.7 km?", 
+        question: "Un proyectil viaja a rapidez constante de 340 m/s (velocidad del sonido). ¿Cuánto tiempo tarda en recorrer 1.7 km?", 
         options: ["0.2 s", "2 s", "5 s", "50 s"], 
         answer: 2 
     },
     { 
         id: 12, 
         topic: "MRU Encuentro Vectorial", 
-        question: "Dos partículas A y B se mueven hacia el origen con v_A = (-4i) m/s y v_B = (6i) m/s. Si están separadas por 100i m, ¿en cuántos segundos se cruzan?", 
+        question: "Dos partículas A y B se mueven sobre el eje X con v_A = (-4i) m/s y v_B = (6i) m/s. Si están separadas por 100i m al inicio, ¿en cuántos segundos se cruzan?", 
         options: ["10 s", "20 s", "25 s", "50 s"], 
         answer: 0 
     },
@@ -94,8 +94,8 @@ const questions = [
     { 
         id: 14, 
         topic: "Despeje MRUV", 
-        question: "Dada la ecuación $v_f^2 = v_0^2 + 2a \\cdot d$, el despeje correcto para la aceleración ($a$) es:", 
-        options: ["a = (v_f^2 - v_0^2) / (2d)", "a = (v_f - v_0)^2 / (2d)", "a = (v_f^2 + v_0^2) / (2d)", "a = 2d / (v_f^2 - v_0^2)"], 
+        question: "Dada la ecuación v_f² = v_0² + 2a · d, el despeje correcto para la aceleración (a) es:", 
+        options: ["a = (v_f² - v_0²) / (2d)", "a = (v_f - v_0)² / (2d)", "a = (v_f² + v_0²) / (2d)", "a = 2d / (v_f² - v_0²)"], 
         answer: 0 
     },
     { 
@@ -115,7 +115,7 @@ const questions = [
     { 
         id: 17, 
         topic: "Despeje MCU", 
-        question: "Sabiendo que la aceleración centrípeta es $a_c = v^2 / R$, al despejar la velocidad tangencial ($v$) se obtiene:", 
+        question: "Sabiendo que la aceleración centrípeta es a_c = v² / R, al despejar la velocidad tangencial (v) se obtiene:", 
         options: ["v = √(a_c · R)", "v = (a_c · R)³", "v = a_c / R", "v = √(a_c / R)"], 
         answer: 0 
     },
@@ -128,30 +128,30 @@ const questions = [
     },
     { 
         id: 19, 
-        topic: "Despeje Caída Libre", 
-        question: "En caída libre desde el reposo, $h = \\frac{1}{2}g \\cdot t^2$. Al despejar el tiempo ($t$), resulta:", 
-        options: ["t = √(2h / g)", "t = 2h / g", "t = √(h / 2g)", "t = (2h · g)²"], 
+        topic: "Caída Libre Calculo (g = 9.8)", 
+        question: "Se deja caer un objeto desde el reposo. Usando g = 9.8 m/s², ¿cuál es su rapidez al cabo de t = 3 segundos?", 
+        options: ["29.4 m/s", "19.6 m/s", "44.1 m/s", "9.8 m/s"], 
         answer: 0 
     },
     { 
         id: 20, 
-        topic: "Tiro Vertical Vectorial", 
-        question: "Un cuerpo se lanza verticalmente con v₀ = (40j) m/s. Considerando g = (-10j) m/s², ¿cuál es su vector velocidad a los t = 5 s?", 
-        options: ["(10j) m/s", "(-10j) m/s", "(50j) m/s", "(-50j) m/s"], 
-        answer: 1 
+        topic: "Tiro Vertical Vectorial (g = 9.8)", 
+        question: "Un cuerpo se lanza verticalmente con v₀ = (39.2 j) m/s. Considerando g = (-9.8 j) m/s², ¿cuánto tiempo tarda en alcanzar su altura máxima?", 
+        options: ["4.0 s", "2.0 s", "8.0 s", "3.92 s"], 
+        answer: 0 
     },
     { 
         id: 21, 
         topic: "Parabólico Vectorial", 
-        question: "Un proyectil es disparado con velocidad inicial v₀ = (30i + 40j) m/s. ¿Cuál es su vector velocidad en el punto más alto del trayecto?", 
+        question: "Un proyectil se dispara con v₀ = (30i + 40j) m/s. ¿Cuál es su vector velocidad en el punto más alto del trayecto?", 
         options: ["(0i + 0j) m/s", "(30i + 0j) m/s", "(0i + 40j) m/s", "(30i + 40j) m/s"], 
         answer: 1 
     },
     { 
         id: 22, 
-        topic: "Despeje Parabólico", 
-        question: "El alcance horizontal máximo en tiro parabólico es $R = (v_0^2 \\cdot \\sin(2\\theta)) / g$. El despeje para $v_0$ es:", 
-        options: ["v₀ = √((R · g) / sin(2θ))", "v₀ = (R · g) / sin(2θ)", "v₀ = √((R · sin(2θ)) / g)", "v₀ = (R · g · sin(2θ))²"], 
+        topic: "Despeje Caída Libre", 
+        question: "Partiendo del reposo, h = (1/2) · g · t². Al despejar el tiempo (t), resulta:", 
+        options: ["t = √(2h / g)", "t = 2h / g", "t = √(h / 2g)", "t = (2h · g)²"], 
         answer: 0 
     },
     { 
@@ -171,28 +171,28 @@ const questions = [
     { 
         id: 25, 
         topic: "Despeje Segunda Ley", 
-        question: "En un sistema donde $F_{neta} = m \\cdot a$, si $m = W / g$ (donde W es el peso), al despejar la fuerza neta en función de $W$ queda:", 
+        question: "Sabiendo que F_neta = m · a y que la masa es m = W / g, al despejar la Fuerza neta en función del peso (W) queda:", 
         options: ["F = (W · a) / g", "F = (W · g) / a", "F = W / (a · g)", "F = W · a · g"], 
         answer: 0 
     },
     { 
         id: 26, 
-        topic: "Tercera Ley Newton", 
-        question: "Las fuerzas de Acción y Reacción no se anulan mutuamente debido a que:", 
-        options: ["Tienen magnitudes diferentes", "Actúan sobre cuerpos distintos", "Tienen diferente dirección", "Ocurren en momentos distintos"], 
-        answer: 1 
+        topic: "Peso y Gravedad (g = 9.8)", 
+        question: "Un cuerpo tiene una masa de 5 kg. ¿Cuál es su peso (fuerza de gravedad) considerando g = 9.8 m/s²?", 
+        options: ["49.0 N", "50.0 N", "9.8 N", "24.5 N"], 
+        answer: 0 
     },
     { 
         id: 27, 
         topic: "Trabajo Mecánico Vectorial", 
-        question: "Una fuerza F = (6i + 8j) N desplaza un objeto d = (5i + 2j) m. ¿Qué trabajo mecánico realiza? (Sugerencia: producto escalar F · d)", 
+        question: "Una fuerza F = (6i + 8j) N desplaza un objeto d = (5i + 2j) m. Mediante el producto escalar F · d, ¿qué trabajo realiza?", 
         options: ["46 Joules", "30 Joules", "16 Joules", "70 Joules"], 
         answer: 0 
     },
     { 
         id: 28, 
         topic: "Despeje Energía Cinética", 
-        question: "A partir de la fórmula de Energía Cinética $E_k = \\frac{1}{2} m \\cdot v^2$, al despejar la rapidez ($v$) obtenemos:", 
+        question: "A partir de la fórmula E_k = (1/2) · m · v², al despejar la rapidez (v) obtenemos:", 
         options: ["v = √(2E_k / m)", "v = 2E_k / m", "v = √(E_k / 2m)", "v = (2E_k · m)²"], 
         answer: 0 
     },
@@ -205,9 +205,9 @@ const questions = [
     },
     { 
         id: 30, 
-        topic: "Conservación de la Energía", 
-        question: "Se suelta un objeto de 2 kg desde una altura h = 5 m. ¿Cuál es su Energía Cinética justo antes de impactar el suelo? (g = 10 m/s²)", 
-        options: ["100 J", "50 J", "200 J", "25 J"], 
+        topic: "Energía Potencial (g = 9.8)", 
+        question: "Un objeto de 2 kg se ubica a una altura h = 10 m. Considerando g = 9.8 m/s², ¿cuál es su Energía Potencial Gravitatoria?", 
+        options: ["196 J", "200 J", "98 J", "392 J"], 
         answer: 0 
     }
 ];
@@ -216,7 +216,7 @@ const questions = [
 let idx = 0;
 let userAnswers = {};
 let violations = 0;
-let timeLeft = 3600; // 1 Hora en segundos
+let timeLeft = 3000; // 50 Minutos en segundos (50 * 60)
 let timerId = null;
 let examActive = false;
 
