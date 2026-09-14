@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación de Física General</title>
+    <title>Evaluación de Física General - Modo Kiosco</title>
     <link rel="stylesheet" href="index.css">
     
-    <!-- Renderizador Profesional de Fórmulas Matemáticas KaTeX -->
+    <!-- Renderizador Profesional de Fórmulas Matemáticas (KaTeX) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -15,36 +15,36 @@
 
     <!-- BANNER DE ADVERTENCIA POR VIOLACIÓN DE SEGURIDAD -->
     <div id="alert-banner" class="alert-banner hidden">
-        ⚠️ ADVERTENCIA: Se ha detectado una acción no permitida. El intento ha quedado registrado.
+        ⚠️ ADVERTENCIA: Acción no permitida detectada. La incidencia ha sido registrada.
     </div>
 
     <!-- OVERLAY 1: PANTALLA INICIAL DE BLOQUEO -->
     <div id="start-overlay" class="overlay">
         <div class="overlay-card">
             <h2>Evaluación Diagnóstica de Física General</h2>
-            <p>Esta prueba consta de 30 preguntas que evalúan componentes vectoriales, despejes algebraicos y resolución de problemas físicos. Al iniciar, el navegador entrará automáticamente en modo pantalla completa y se activarán los protocolos de seguridad.</p>
+            <p>La evaluación consta de 30 reactivos con notación vectorial formal en \\(\hat{i}, \hat{j}\\), despejes de fórmulas y problemas cinemáticos con \\(g = 9.8\\text{ m/s}^2\\).</p>
             <ul style="text-align: left; margin: 1.5rem 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
                 <li>⏱️ Tiempo límite: <strong>50 minutos</strong></li>
                 <li>🚫 Prohibido cambiar de pestaña o salir de pantalla completa.</li>
-                <li>🚫 Click derecho, atajos de teclado y selección de texto desactivados.</li>
+                <li>🚫 Atajos de teclado, clic derecho y copia desactivados.</li>
             </ul>
             <button id="btn-start" class="btn-primary">Iniciar Evaluación</button>
         </div>
     </div>
 
-    <!-- OVERLAY 2: REBLOQUEO POR SALIR DE PANTALLA COMPLETA O CAMBIAR DE PESTAÑA -->
+    <!-- OVERLAY 2: REBLOQUEO POR SALIR DE PANTALLA COMPLETA -->
     <div id="block-overlay" class="overlay hidden">
         <div class="overlay-card">
             <h2 style="color: var(--danger-color);">Evaluación Pausada</h2>
-            <p>Se ha detectado una pérdida de foco o salida de la pantalla completa. Para continuar con tu evaluación, reingresa al modo seguro.</p>
-            <button id="btn-unlock" class="btn-primary" style="margin-top:1.5rem;">Volver a la Evaluación</button>
+            <p>Se detectó una salida del entorno seguro o pérdida de foco. Para reanudar tu intento, debes reingresar a la pantalla completa.</p>
+            <button id="btn-unlock" class="btn-primary" style="margin-top:1.5rem;">Volver al Examen</button>
         </div>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL DE LA PLATAFORMA -->
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="app-container">
         
-        <!-- PANEL IZQUIERDO: ÁREA DE PREGUNTAS -->
+        <!-- PANEL IZQUIERDO: ÁREA DE EXAMEN -->
         <main id="panel-exam" class="panel-main">
             <header class="exam-header">
                 <div>
@@ -54,7 +54,7 @@
             </header>
 
             <div class="question-body">
-                <p id="q-text" class="question-text">Cargando pregunta...</p>
+                <div id="q-text" class="question-text">Cargando pregunta...</div>
                 <div id="options-box" class="options-container"></div>
             </div>
 
@@ -64,7 +64,7 @@
             </footer>
         </main>
 
-        <!-- PANEL DERECHO: BARRA LATERAL, CRONÓMETRO Y MAPA -->
+        <!-- PANEL DERECHO: SIDEBAR Y MAPA -->
         <aside id="panel-side" class="panel-sidebar">
             <div class="timer-card">
                 <span class="timer-label">Tiempo Restante</span>
@@ -89,12 +89,12 @@
             <button id="btn-finish" class="btn-danger">Finalizar Evaluación</button>
         </aside>
 
-        <!-- PANEL DE RESULTADOS (OCULTO HASTA FINALIZAR) -->
+        <!-- PANEL DE RESULTADOS -->
         <section id="panel-results" class="panel-results hidden">
             <h2>Resultados de la Evaluación</h2>
             <div class="results-stats">
                 <div class="stat-box">
-                    <span>Puntaje Obtendio</span>
+                    <span>Puntaje Correcto</span>
                     <strong id="res-score">0 / 30</strong>
                 </div>
                 <div class="stat-box">
@@ -106,7 +106,7 @@
                     <strong id="res-violations" style="color: var(--danger-color);">0</strong>
                 </div>
             </div>
-            <h3>Revisión Detallada</h3>
+            <h3>Revisión de Preguntas</h3>
             <div id="review-box" class="review-container"></div>
         </section>
     </div>
