@@ -1,129 +1,533 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación Diagnóstica de Física General</title>
-    <link rel="stylesheet" href="index.css">
-    
-    <!-- Renderizador de Ecuaciones (KaTeX) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma de Evaluación - Física</title>
+  
+  <!-- KaTeX CSS & JS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-blue: #3b82f6;
+      --status-answered: #22c55e;
+      --status-current: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Navbar superior */
+    header {
+      height: 60px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .badge-sec {
+      background-color: #eff6ff;
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* Contenedor principal de 2 columnas */
+    .app-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      height: calc(100vh - 60px);
+    }
+
+    /* Área de pregunta */
+    .main-content {
+      padding: 32px 48px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .topic-tag {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .question-number {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .question-statement {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .equation-box {
+      background: #f1f5f9;
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 6px;
+      margin: 16px 0 24px 0;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    /* Opciones de respuesta */
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-item {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: var(--bg-card);
+    }
+
+    .option-item:hover {
+      border-color: #93c5fd;
+      background-color: #f8fafc;
+    }
+
+    .option-item.selected {
+      border-color: var(--primary);
+      background-color: #eff6ff;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .option-radio {
+      width: 18px;
+      height: 18px;
+      margin-right: 16px;
+      accent-color: var(--primary);
+    }
+
+    .option-content {
+      font-size: 1rem;
+      flex-grow: 1;
+    }
+
+    /* Controles de navegación */
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+    }
+
+    .btn {
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e1;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Panel lateral (Sidebar) */
+    .sidebar {
+      background: var(--bg-card);
+      border-left: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+
+    .widget {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .widget-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    .timer-display {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .progress-bar-bg {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Cuadrícula de 40 preguntas */
+    .grid-navigator {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .nav-btn {
+      aspect-ratio: 1;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .nav-btn.active {
+      border-color: var(--primary);
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .nav-btn.answered {
+      background-color: #dcfce7;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .nav-btn.answered.active {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      justify-content: space-between;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- ALERTA FLOTANTE DE SEGURIDAD -->
-    <div id="alert-banner" class="alert-banner hidden">
-        ⚠️ REGISTRO DE INFRACCIÓN: Salida o acción no permitida detectada.
-    </div>
+  <header>
+    <h1>Evaluación de Física General</h1>
+    <span class="badge-sec">Unidad 2: MRU Vectorial</span>
+  </header>
 
-    <!-- OVERLAY 1: PANTALLA INICIAL -->
-    <div id="start-overlay" class="overlay">
-        <div class="overlay-card">
-            <div class="brand-badge">EVALUACIÓN ACADÉMICA</div>
-            <h2>Física General y Vectorial</h2>
-            <p>La evaluación consta de 40 reactivos con notación vectorial formal en $\hat{i}, \hat{j}$, despeje de fórmulas y problemas cinemáticos con $g = 9.8\text{ m/s}^2$.</p>
-            
-            <div class="rules-box">
-                <ul>
-                    <li>⏱️ <strong>Tiempo límite:</strong> 50 minutos (cierre automático)</li>
-                    <li>🔒 <strong>Entorno Seguro:</strong> Pantalla completa obligatoria</li>
-                    <li>🚫 <strong>Restricciones:</strong> Prohibido copiar, alternar pestañas o usar atajos</li>
-                </ul>
-            </div>
-            <button id="btn-start" class="btn-primary-large">Iniciar Examen</button>
+  <div class="app-layout">
+    
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main-content">
+      <div>
+        <div id="question-container" class="question-card">
+          <!-- Se inyecta con JS -->
         </div>
-    </div>
+      </div>
 
-    <!-- OVERLAY 2: BLOQUEO POR PÉRDIDA DE FOCO / PANTALLA COMPLETA -->
-    <div id="block-overlay" class="overlay hidden">
-        <div class="overlay-card danger-border">
-            <h2 class="text-danger">Examen Pausado</h2>
-            <p>Se ha detectado una interrupción en la seguridad del entorno (salida de pantalla completa o cambio de foco). Reingrese para continuar.</p>
-            <button id="btn-unlock" class="btn-primary" style="margin-top: 1.5rem;">Reanudar Evaluación</button>
+      <div class="actions-bar">
+        <button class="btn btn-secondary" id="btn-prev" onclick="changeQuestion(-1)">◄ Anterior</button>
+        <button class="btn btn-primary" id="btn-next" onclick="changeQuestion(1)">Siguiente ►</button>
+      </div>
+    </main>
+
+    <!-- PANEL LATERAL -->
+    <aside class="sidebar">
+      
+      <!-- Temporizador -->
+      <div class="widget">
+        <div class="widget-title">Tiempo Restante</div>
+        <div class="timer-display" id="timer">60:00</div>
+      </div>
+
+      <!-- Progreso -->
+      <div class="widget">
+        <div class="widget-title" id="progress-text">Progreso: 0 de 40</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
         </div>
-    </div>
+      </div>
 
-    <!-- CONTENEDOR PRINCIPAL TEMA CLARO -->
-    <div class="app-layout">
+      <!-- Cuadrícula de Navegación Directa -->
+      <div class="widget" style="flex-grow: 1;">
+        <div class="widget-title">Navegación de Preguntas</div>
+        <div class="grid-navigator" id="grid-navigator">
+          <!-- 40 Botones generados con JS -->
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background: #e2e8f0;"></div> Pendiente
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--status-answered);"></div> Respondida
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--status-current);"></div> Actual
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <script>
+    // Configuración para 40 preguntas
+    const TOTAL_QUESTIONS = 40;
+    let currentIndex = 0;
+    let userAnswers = new Array(TOTAL_QUESTIONS).fill(null);
+
+    // Banco de datos de ejemplo (se escala a 40)
+    const questionsData = Array.from({ length: TOTAL_QUESTIONS }, (_, i) => {
+      const qNum = i + 1;
+      return {
+        id: qNum,
+        topic: "MRU Vectorial en $\\hat{i}, \\hat{j}$",
+        statement: `Un dron se desplaza con MRU desde una posición inicial hasta una posición final en un tiempo $\\Delta t = ${qNum % 5 + 2}\\text{ s}$:`,
+        equation: `\\vec{r}_0 = (${qNum}\\hat{i} + 2\\hat{j})\\text{ m}, \\quad \\vec{r}_f = (${qNum * 3}\\hat{i} - 6\\hat{j})\\text{ m}`,
+        targetText: "Calcular su vector velocidad constante $\\vec{v}$:",
+        options: [
+          `\\vec{v} = (${qNum + 1}\\hat{i} - 4\\hat{j})\\text{ m/s}`,
+          `\\vec{v} = (${qNum * 2}\\hat{i} - 8\\hat{j})\\text{ m/s}`,
+          `\\vec{v} = (7\\hat{i} - 2\\hat{j})\\text{ m/s}`,
+          `\\vec{v} = (14\\hat{i} - 4\\hat{j})\\text{ m/s}`
+        ]
+      };
+    });
+
+    // Inicialización
+    document.addEventListener("DOMContentLoaded", () => {
+      initGrid();
+      renderQuestion();
+      startTimer(3600); // 60 minutos
+    });
+
+    function initGrid() {
+      const grid = document.getElementById("grid-navigator");
+      grid.innerHTML = "";
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const btn = document.createElement("button");
+        btn.className = "nav-btn";
+        btn.id = `nav-${i}`;
+        btn.innerText = i + 1;
+        btn.onclick = () => goToQuestion(i);
+        grid.appendChild(btn);
+      }
+      updateGridUI();
+    }
+
+    function renderQuestion() {
+      const q = questionsData[currentIndex];
+      const container = document.getElementById("question-container");
+
+      const selectedOpt = userAnswers[currentIndex];
+
+      container.innerHTML = `
+        <div class="question-header">
+          <span class="topic-tag">${q.topic}</span>
+        </div>
+        <div class="question-number">Pregunta ${q.id} de ${TOTAL_QUESTIONS}</div>
+        <div class="question-statement">${q.statement}</div>
+        <div class="equation-box">${q.equation}</div>
+        <div class="question-statement">${q.targetText}</div>
         
-        <!-- HEADER SUPERIOR -->
-        <header class="main-header">
-            <div class="header-titles">
-                <h1>Plataforma de Evaluación Diagnóstica</h1>
-                <span id="q-topic" class="topic-tag">Cargando tema...</span>
-            </div>
-            <div class="header-timer">
-                <span class="timer-title">TIEMPO RESTANTE</span>
-                <div id="timer" class="timer-clock">50:00</div>
-            </div>
-        </header>
-
-        <!-- ÁREA CENTRAL DE TRABAJO -->
-        <div class="workspace">
-            
-            <!-- PANEL IZQUIERDO: PREGUNTA Y OPCIONES -->
-            <main id="panel-exam" class="card-panel main-content">
-                <div class="question-header">
-                    <h3 id="q-number">Pregunta 1 de 40</h3>
-                </div>
-
-                <div class="question-body">
-                    <div id="q-text" class="question-text">Cargando reactivo...</div>
-                    <div id="options-box" class="options-group"></div>
-                </div>
-
-                <footer class="question-footer">
-                    <button id="btn-prev" class="btn-secondary" disabled>◀ Anterior</button>
-                    <button id="btn-next" class="btn-primary">Siguiente ▶</button>
-                </footer>
-            </main>
-
-            <!-- PANEL DERECHO: NAVEGACIÓN Y PROGRESO -->
-            <aside id="panel-side" class="card-panel sidebar">
-                <div class="progress-section">
-                    <div class="progress-labels">
-                        <span>Avance</span>
-                        <strong id="prog-val">0 / 40</strong>
-                    </div>
-                    <div class="progress-track">
-                        <div id="progress-bar" class="progress-fill"></div>
-                    </div>
-                </div>
-
-                <div class="grid-section">
-                    <h4>Mapa de Reactivos</h4>
-                    <div id="questions-grid" class="questions-grid"></div>
-                </div>
-
-                <button id="btn-finish" class="btn-danger-outline">Finalizar Examen</button>
-            </aside>
-
-            <!-- PANEL DE RESULTADOS -->
-            <section id="panel-results" class="card-panel results-panel hidden">
-                <h2>Resumen de Evaluación</h2>
-                <div id="time-up-msg" class="alert-timeup hidden">⚠️ El tiempo ha finalizado. La evaluación se ha guardado automáticamente con las respuestas registradas hasta el momento.</div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span>Puntaje Obtenido</span>
-                        <strong id="res-score">0 / 40</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span>Porcentaje</span>
-                        <strong id="res-percent">0%</strong>
-                    </div>
-                    <div class="stat-card danger">
-                        <span>Infracciones</span>
-                        <strong id="res-violations">0</strong>
-                    </div>
-                </div>
-                <h3>Revisión de Respuestas</h3>
-                <div id="review-box" class="review-list"></div>
-            </section>
+        <div class="options-grid">
+          ${q.options.map((opt, idx) => `
+            <label class="option-item ${selectedOpt === idx ? 'selected' : ''}" onclick="selectOption(${idx})">
+              <input type="radio" name="opt" class="option-radio" ${selectedOpt === idx ? 'checked' : ''}>
+              <div class="option-content">${opt}</div>
+            </label>
+          `).join('')}
         </div>
-    </div>
+      `;
 
-    <script src="index.js"></script>
+      // Renderizar fórmulas con KaTeX
+      if (window.renderMathInElement) {
+        renderMathInElement(container, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ]
+        });
+      }
+
+      // Deshabilitar botones en extremos
+      document.getElementById("btn-prev").disabled = currentIndex === 0;
+      document.getElementById("btn-next").innerText = currentIndex === TOTAL_QUESTIONS - 1 ? "Finalizar" : "Siguiente ►";
+
+      updateGridUI();
+    }
+
+    function selectOption(index) {
+      userAnswers[currentIndex] = index;
+      renderQuestion();
+      updateProgress();
+    }
+
+    function changeQuestion(dir) {
+      const newIndex = currentIndex + dir;
+      if (newIndex >= 0 && newIndex < TOTAL_QUESTIONS) {
+        currentIndex = newIndex;
+        renderQuestion();
+      }
+    }
+
+    function goToQuestion(index) {
+      currentIndex = index;
+      renderQuestion();
+    }
+
+    function updateGridUI() {
+      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+        const btn = document.getElementById(`nav-${i}`);
+        if (!btn) continue;
+        
+        btn.className = "nav-btn";
+        if (userAnswers[i] !== null) btn.classList.add("answered");
+        if (i === currentIndex) btn.classList.add("active");
+      }
+    }
+
+    function updateProgress() {
+      const answeredCount = userAnswers.filter(a => a !== null).length;
+      document.getElementById("progress-text").innerText = `Progreso: ${answeredCount} de ${TOTAL_QUESTIONS}`;
+      const percentage = (answeredCount / TOTAL_QUESTIONS) * 100;
+      document.getElementById("progress-fill").style.width = `${percentage}%`;
+    }
+
+    function startTimer(durationSeconds) {
+      let timer = durationSeconds;
+      const display = document.getElementById("timer");
+      
+      const interval = setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+
+        display.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (--timer < 0) {
+          clearInterval(interval);
+          alert("Tiempo finalizado.");
+        }
+      }, 1000);
+    }
+  </script>
 </body>
 </html>
