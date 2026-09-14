@@ -1,4 +1,4 @@
-// BANCO DE 30 PREGUNTAS (RESPUESTAS ESCALARES/MAGNITUDES EN PROBLEMAS VECTORIALES)
+// BANCO DE PREGUNTAS (RESPUESTAS ESCALARES/MAGNITUDES)
 const questions = [
     { 
         id: 1, 
@@ -244,48 +244,52 @@ const examSection = document.getElementById('exam-section');
 const sidebarSection = document.querySelector('.sidebar-section');
 const resultsSection = document.getElementById('results-section');
 
-// INICIALIZACIÓN DE LA APLICACIÓN
+// INICIALIZACIÓN SECURIZADA
 document.addEventListener('DOMContentLoaded', () => {
     initQuestionMap();
     renderQuestion(currentIndex);
     updateProgress();
     setupMaximumSecurity();
 
-    btnEnter.addEventListener('click', () => {
-        enterFullscreen();
+    btnEnter.addEventListener('click', async () => {
+        await enterFullscreen();
         overlay.classList.add('hidden');
         startTimer();
     });
 
-    btnResume.addEventListener('click', () => {
+    btnResume.addEventListener('click', async () => {
         blackoutScreen.classList.add('hidden');
-        enterFullscreen();
+        await enterFullscreen();
     });
 });
 
-// SISTEMA DE PANTALLA COMPLETA
-function enterFullscreen() {
+// PANTALLA COMPLETA CON CONTROL DE ERRORES ASÍNCRONOS
+async function enterFullscreen() {
     const docEl = document.documentElement;
     const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
 
     if (requestFS && !document.fullscreenElement) {
-        requestFS.call(docEl).catch(() => {});
+        try {
+            await requestFS.call(docEl);
+        } catch (err) {
+            console.warn("Pantalla completa bloqueada por el navegador:", err);
+        }
     }
 }
 
-// CONFIGURACIÓN DE SEGURIDAD ESTRICTA
+// SISTEMA DE SEGURIDAD ESTRICTA
 function setupMaximumSecurity() {
-    // 1. Bloqueo de Clic Derecho y Selección de Texto
+    // 1. Bloqueo de Clic Derecho y Selección
     document.addEventListener('contextmenu', (e) => e.preventDefault());
     document.addEventListener('copy', (e) => e.preventDefault());
     document.addEventListener('cut', (e) => e.preventDefault());
     document.addEventListener('selectstart', (e) => e.preventDefault());
 
-    // 2. Control del Botón "Atrás"
+    // 2. Control Navegación
     window.history.pushState(null, "", window.location.href);
     window.onpopstate = () => window.history.pushState(null, "", window.location.href);
 
-    // 3. Captura y Bloqueo de Teclas
+    // 3. Captura de Atajos
     window.addEventListener('keydown', (e) => {
         if (e.key === 'PrintScreen' || e.keyCode === 44) {
             e.preventDefault();
@@ -305,13 +309,13 @@ function setupMaximumSecurity() {
         }
     }, true);
 
-    // 4. Detección de Salida / Pérdida de Foco
+    // 4. Detección de Foco y Salidas
     window.addEventListener('blur', () => registerViolation());
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) registerViolation();
     });
 
-    // 5. Re-bloqueo si salen de pantalla completa
+    // 5. Re-bloqueo tras salir de pantalla completa
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) {
             overlay.classList.remove('hidden');
@@ -349,7 +353,7 @@ function startTimer() {
     }, 1000);
 }
 
-// RENDERIZADO Y LÓGICA DE PREGUNTAS
+// RENDERIZADO
 function renderQuestion(index) {
     const q = questions[index];
     questionNumber.textContent = `Pregunta ${index + 1} de ${questions.length}`;
