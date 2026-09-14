@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prueba Diagnóstica de Física</title>
+  <title>Evaluación Nacional de Física General</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --bg-body: #f8fafc;
+      --bg-body: #ebf1f7;
+      --bg-header: #0e1726;
       --bg-card: #ffffff;
+      --border-color: #e0e6ed;
+      --primary-blue: #2563eb;
+      --primary-hover: #1d4ed8;
       --text-dark: #1e293b;
       --text-muted: #64748b;
-      --border: #e2e8f0;
       --danger: #dc2626;
-      --success: #16a34a;
     }
 
     * {
@@ -26,7 +26,7 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-body);
       color: var(--text-dark);
       min-height: 100vh;
@@ -34,25 +34,113 @@
       flex-direction: column;
     }
 
-    /* Topbar */
-    header {
-      background-color: #0f172a;
+    /* Modal de Inicio / Seguridad */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(14, 23, 38, 0.95);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-box h2 {
+      color: var(--primary-blue);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-box p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-box ul {
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      background: #f8fafc;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      list-style: none;
+    }
+
+    .modal-box li::before {
+      content: "🔒 ";
+    }
+
+    .btn-start {
+      background: var(--primary-blue);
       color: white;
-      padding: 1rem 2rem;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+
+    .btn-start:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Header Principal */
+    header {
+      background-color: var(--bg-header);
+      color: white;
+      padding: 0.85rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: #3b82f6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
     }
 
     .header-title h1 {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 0.5px;
     }
 
     .header-title p {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       color: #94a3b8;
     }
 
@@ -61,68 +149,81 @@
       gap: 1rem;
     }
 
-    .stat-box {
-      background: #1e293b;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      text-align: center;
-      border: 1px solid #334155;
-      min-width: 100px;
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
     }
 
-    .stat-box label {
-      display: block;
-      font-size: 0.7rem;
+    .stat-pill label {
       color: #94a3b8;
+      font-size: 0.7rem;
       text-transform: uppercase;
+      font-weight: 600;
     }
 
-    .stat-box span {
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: #f8fafc;
+    .stat-pill span {
+      font-weight: 700;
     }
 
     /* Layout Principal */
     main {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 2rem auto;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
       display: grid;
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr 340px;
       gap: 1.5rem;
       width: 100%;
     }
 
-    /* Tarjeta de Pregunta */
-    .card {
+    /* Card Pregunta */
+    .card-question {
       background: var(--bg-card);
       border-radius: 12px;
       padding: 2rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .badge {
-      display: inline-block;
+    .question-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-num {
       background: #eff6ff;
-      color: var(--primary);
+      color: var(--primary-blue);
+      border: 1px solid #bfdbfe;
       padding: 0.35rem 0.85rem;
       border-radius: 20px;
       font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 1.25rem;
-      border: 1px solid #bfdbfe;
+      font-weight: 700;
     }
 
-    .question-title {
-      font-size: 1.15rem;
+    .pill-cat {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
       line-height: 1.5;
+      margin-bottom: 2rem;
     }
 
-    .options {
+    .options-list {
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
@@ -131,49 +232,72 @@
     .option-btn {
       display: flex;
       align-items: center;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
       background: white;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.2s;
       font-size: 0.95rem;
+      font-weight: 500;
     }
 
     .option-btn:hover {
-      border-color: var(--primary);
+      border-color: var(--primary-blue);
       background: #f8fafc;
     }
 
-    .option-btn input[type="radio"] {
-      margin-right: 1rem;
-      accent-color: var(--primary);
-      width: 18px;
-      height: 18px;
+    .option-btn.selected {
+      border-color: var(--primary-blue);
+      background: #f0f7ff;
     }
 
-    /* Controles de Navegación */
-    .nav-buttons {
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .option-btn.selected .radio-circle {
+      border-color: var(--primary-blue);
+    }
+
+    .option-btn.selected .radio-circle::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: var(--primary-blue);
+      border-radius: 50%;
+    }
+
+    .card-footer {
       display: flex;
       justify-content: space-between;
-      margin-top: 2rem;
+      margin-top: 2.5rem;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-color);
     }
 
     .btn {
-      padding: 0.65rem 1.5rem;
-      border-radius: 6px;
-      font-weight: 600;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
       cursor: pointer;
-      border: 1px solid var(--border);
-      background: white;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
       color: var(--text-dark);
       transition: all 0.2s;
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: var(--primary-blue);
       color: white;
       border: none;
     }
@@ -183,27 +307,31 @@
     }
 
     .btn:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    /* Lateral: Mapa de Preguntas */
-    .map-header {
-      font-size: 0.9rem;
+    /* Panel Lateral (Mapa) */
+    .card-map {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .map-title {
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .map-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 0.5rem;
-      max-height: 400px;
-      overflow-y: auto;
-      padding-right: 4px;
+      gap: 0.6rem;
     }
 
     .map-node {
@@ -211,29 +339,49 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
       background: white;
+      color: var(--text-dark);
       transition: all 0.15s;
     }
 
     .map-node.active {
-      border-color: var(--primary);
-      color: var(--primary);
+      border: 2px solid var(--primary-blue);
+      color: var(--primary-blue);
       background: #eff6ff;
-      border-width: 2px;
     }
 
     .map-node.answered {
-      background: #2563eb;
+      background: var(--primary-blue);
       color: white;
-      border-color: #2563eb;
+      border-color: var(--primary-blue);
     }
 
-    .btn-danger {
+    .map-legend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .btn-submit {
       width: 100%;
       background: var(--danger);
       color: white;
@@ -241,16 +389,16 @@
       padding: 0.85rem;
       border-radius: 8px;
       font-weight: 700;
+      font-size: 0.9rem;
       margin-top: 1.5rem;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
-    .btn-danger:hover {
+    .btn-submit:hover {
       background: #b91c1c;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       main {
         grid-template-columns: 1fr;
       }
@@ -259,17 +407,35 @@
 </head>
 <body>
 
-  <header>
-    <div class="header-title">
-      <h1>PRUEBA DIAGNÓSTICA DE FÍSICA</h1>
-      <p>Evaluación Continua • Bachillerato & Pre-Universitario</p>
+  <!-- Modal Inicial de Entrada Seguro -->
+  <div class="modal-overlay" id="start-modal">
+    <div class="modal-box">
+      <h2>Simulador de Física General</h2>
+      <p>Plataforma de Admisión Académica Pre-U & BGU</p>
+      <ul>
+        <li>Pantalla Completa obligatoria activada al iniciar.</li>
+        <li>Bloqueo de menú contextual (clic derecho) y atajos F12/Copiar.</li>
+        <li>Monitoreo de cambio de pestaña/navegador en vivo.</li>
+      </ul>
+      <button class="btn-start" onclick="initSimulator()">Iniciar Simulador Ahora</button>
     </div>
+  </div>
+
+  <header>
+    <div class="header-brand">
+      <div class="brand-icon">⚛</div>
+      <div class="header-title">
+        <h1>Evaluación Nacional de Física General</h1>
+        <p>Plataforma de Admisión Académica</p>
+      </div>
+    </div>
+
     <div class="header-stats">
-      <div class="stat-box">
-        <label>Tiempo Restante</label>
+      <div class="stat-pill">
+        <label>Tiempo</label>
         <span id="timer">60:00</span>
       </div>
-      <div class="stat-box">
+      <div class="stat-pill">
         <label>Progreso</label>
         <span id="progress-text">0 / 40</span>
       </div>
@@ -277,69 +443,107 @@
   </header>
 
   <main>
-    <section class="card">
-      <span class="badge" id="q-category">Categoría</span>
-      <div class="question-title" id="q-title">Cargando pregunta...</div>
-      <div class="options" id="q-options"></div>
-      
-      <div class="nav-buttons">
+    <section class="card-question">
+      <div>
+        <div class="question-top">
+          <span class="pill-num" id="q-num">Pregunta 1 de 40</span>
+          <span class="pill-cat" id="q-category">UNIDADES SI (TEORÍA)</span>
+        </div>
+
+        <div class="question-text" id="q-text">
+          ¿Cuál de las siguientes unidades corresponde a una magnitud fundamental en el Sistema Internacional (SI)?
+        </div>
+
+        <div class="options-list" id="options-container"></div>
+      </div>
+
+      <div class="card-footer">
         <button class="btn" id="btn-prev" onclick="prevQuestion()">◄ Anterior</button>
         <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Siguiente ►</button>
       </div>
     </section>
 
-    <aside class="card">
-      <div class="map-header">Mapa de Preguntas</div>
+    <aside class="card-map">
+      <div class="map-title">Mapa de Preguntas</div>
       <div class="map-grid" id="map-grid"></div>
-      <button class="btn-danger" onclick="finishExam()">Finalizar Examen</button>
+
+      <div class="map-legend">
+        <div class="legend-item"><span class="dot" style="background: #2563eb;"></span> Actual</div>
+        <div class="legend-item"><span class="dot" style="background: #2563eb;"></span> Hecha</div>
+        <div class="legend-item"><span class="dot" style="background: #e0e6ed;"></span> Pendiente</div>
+      </div>
+
+      <button class="btn-submit" onclick="finishExam()">✉ Entregar Examen</button>
     </aside>
   </main>
 
   <script>
-    // --- BANCO DE PREGUNTAS (EJEMPLO ESTRUCTURADO) ---
-    const questions = Array.from({ length: 40 }, (_, i) => ({
-      id: i + 1,
-      category: i < 10 ? "Unidades SI & Vectores" : i < 25 ? "Cinemática & Dinámica" : "Trabajo, Energía & Potencia",
-      title: `${i + 1}. ¿Cuál de las siguientes magnitudes corresponde a una magnitud fundamental en el Sistema Internacional (SI)?`,
-      options: ["Joule (J)", "Kilogramo (kg)", "Newton (N)", "Watt (W)"],
-      correct: 1
-    }));
+    // Banco de Preguntas (40 Preguntas de Estructura Diagnóstica)
+    const questions = [
+      {
+        category: "UNIDADES SI (TEORÍA)",
+        text: "¿Cuál de las siguientes unidades corresponde a una magnitud fundamental en el Sistema Internacional (SI)?",
+        options: ["Joule (J)", "Kilogramo (kg)", "Newton (N)", "Watt (W)"],
+        correct: 1
+      },
+      // Generación dinámica del banco para completar 40 ítems
+      ...Array.from({ length: 39 }, (_, i) => ({
+        category: i < 12 ? "CINEMÁTICA EN 1D" : i < 25 ? "DINÁMICA Y LEYES DE NEWTON" : "TRABAJO, ENERGÍA Y POTENCIA",
+        text: `${i + 2}. Pregunta de física general de evaluación pre-universitaria ítem ${i + 2}. Seleccione la respuesta correcta según corresponda:`,
+        options: ["Opción de respuesta A", "Opción de respuesta B", "Opción de respuesta C", "Opción de respuesta D"],
+        correct: 0
+      }))
+    ];
 
     let currentIndex = 0;
-    let userAnswers = JSON.parse(localStorage.getItem('fisica_diag_answers')) || {};
-    let timeRemaining = parseInt(localStorage.getItem('fisica_diag_time')) || 3600;
+    let userAnswers = {};
+    let timeRemaining = 3600;
 
-    // --- RENDERING ---
+    function initSimulator() {
+      // Activar pantalla completa
+      const doc = document.documentElement;
+      if (doc.requestFullscreen) {
+        doc.requestFullscreen().catch(() => {});
+      } else if (doc.webkitRequestFullscreen) {
+        doc.webkitRequestFullscreen();
+      }
+
+      document.getElementById('start-modal').style.display = 'none';
+      startTimer();
+      renderQuestion();
+    }
+
     function renderQuestion() {
       const q = questions[currentIndex];
+      document.getElementById('q-num').textContent = `Pregunta ${currentIndex + 1} de ${questions.length}`;
       document.getElementById('q-category').textContent = q.category;
-      document.getElementById('q-title').textContent = q.title;
-      
-      const optionsContainer = document.getElementById('q-options');
-      optionsContainer.innerHTML = '';
+      document.getElementById('q-text').textContent = q.text;
+
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
 
       q.options.forEach((opt, idx) => {
-        const isChecked = userAnswers[currentIndex] === idx ? 'checked' : '';
-        optionsContainer.innerHTML += `
-          <label class="option-btn">
-            <input type="radio" name="option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
-            ${opt}
-          </label>
+        const isSelected = userAnswers[currentIndex] === idx;
+        const div = document.createElement('div');
+        div.className = `option-btn ${isSelected ? 'selected' : ''}`;
+        div.onclick = () => selectOption(idx);
+        div.innerHTML = `
+          <div class="radio-circle"></div>
+          <div>${opt}</div>
         `;
+        container.appendChild(div);
       });
 
       document.getElementById('btn-prev').disabled = currentIndex === 0;
       document.getElementById('btn-next').disabled = currentIndex === questions.length - 1;
-      
-      updateProgress();
+
       renderMap();
+      updateProgress();
     }
 
     function selectOption(idx) {
       userAnswers[currentIndex] = idx;
-      localStorage.setItem('fisica_diag_answers', JSON.stringify(userAnswers));
-      updateProgress();
-      renderMap();
+      renderQuestion();
     }
 
     function nextQuestion() {
@@ -361,7 +565,10 @@
       grid.innerHTML = '';
       questions.forEach((_, idx) => {
         const node = document.createElement('div');
-        node.className = `map-node ${idx === currentIndex ? 'active' : ''} ${userAnswers[idx] !== undefined ? 'answered' : ''}`;
+        const isCurrent = idx === currentIndex;
+        const isAnswered = userAnswers[idx] !== undefined;
+
+        node.className = `map-node ${isCurrent ? 'active' : ''} ${isAnswered ? 'answered' : ''}`;
         node.textContent = idx + 1;
         node.onclick = () => {
           currentIndex = idx;
@@ -372,36 +579,32 @@
     }
 
     function updateProgress() {
-      const answeredCount = Object.keys(userAnswers).length;
-      document.getElementById('progress-text').textContent = `${answeredCount} / ${questions.length}`;
+      const count = Object.keys(userAnswers).length;
+      document.getElementById('progress-text').textContent = `${count} / ${questions.length}`;
     }
 
-    // --- TEMPORIZADOR ---
-    const timerInterval = setInterval(() => {
-      timeRemaining--;
-      localStorage.setItem('fisica_diag_time', timeRemaining);
-      
-      const mins = Math.floor(timeRemaining / 60);
-      const secs = timeRemaining % 60;
-      document.getElementById('timer').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-
-      if (timeRemaining <= 0) {
-        clearInterval(timerInterval);
-        alert('El tiempo ha finalizado.');
-        finishExam();
-      }
-    }, 1000);
+    function startTimer() {
+      setInterval(() => {
+        timeRemaining--;
+        const mins = Math.floor(timeRemaining / 60);
+        const secs = timeRemaining % 60;
+        document.getElementById('timer').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        if (timeRemaining <= 0) {
+          alert('Tiempo agotado.');
+          finishExam();
+        }
+      }, 1000);
+    }
 
     function finishExam() {
-      if (confirm('¿Estás seguro de que deseas finalizar la prueba?')) {
-        localStorage.removeItem('fisica_diag_answers');
-        localStorage.removeItem('fisica_diag_time');
-        alert('Evaluación enviada con éxito.');
+      if (confirm('¿Deseas finalizar y enviar la evaluación?')) {
+        alert('Evaluación entregada con éxito.');
         window.location.reload();
       }
     }
 
-    // --- CAPAS DE SEGURIDAD ---
+    // --- RESTRICCIONES DE SEGURIDAD ---
     document.addEventListener('contextmenu', e => e.preventDefault());
 
     document.addEventListener('keydown', e => {
@@ -414,16 +617,13 @@
       }
     });
 
-    let tabSwitches = 0;
+    let tabViolations = 0;
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        tabSwitches++;
-        alert(`¡ADVERTENCIA DE SEGURIDAD!\nHas cambiado de pestaña o minimizado la evaluación (${tabSwitches}/3). Este evento queda registrado.`);
+      if (document.hidden && document.getElementById('start-modal').style.display === 'none') {
+        tabViolations++;
+        alert(`¡ALERTA DE SEGURIDAD! (${tabViolations}/3)\nHa salido de la pantalla del examen. El incidente ha sido registrado.`);
       }
     });
-
-    // Inicializar
-    renderQuestion();
   </script>
 </body>
 </html>
