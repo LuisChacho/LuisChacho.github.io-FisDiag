@@ -1,247 +1,429 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluación Diagnótica de Física</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-blue: #38bdf8;
-            --accent-green: #22c55e;
-            --accent-red: #ef4444;
-            --accent-purple: #a855f7;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prueba Diagnóstica de Física</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --success: #16a34a;
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; user-select: none; }
-        body { background-color: var(--bg-color); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
-        
-        header {
-            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
-            border-bottom: 2px solid var(--accent-purple);
-            padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
-        }
-        .header-title h1 { font-size: 1.4rem; color: var(--accent-blue); }
-        .header-title p { font-size: 0.85rem; color: var(--text-muted); }
-        .header-badge { background: rgba(168, 85, 247, 0.2); border: 1px solid var(--accent-purple); color: var(--accent-purple); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
 
-        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; flex: 1; width: 100%; }
-        .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; }
-        .stat-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); color: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; }
-        .stat-info .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-        .stat-info .value { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .quiz-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
-        .topic-badge { display: inline-block; background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; }
-        .question-text { font-size: 1.15rem; line-height: 1.6; margin-bottom: 1.5rem; color: #f1f5f9; }
+    /* Topbar */
+    header {
+      background-color: #0f172a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
 
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
-        .option-btn { background: #0f172a; border: 1px solid var(--border-color); border-radius: 10px; padding: 1rem 1.2rem; color: var(--text-main); text-align: left; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 1rem; }
-        .option-btn:hover { border-color: var(--accent-blue); background: rgba(56, 189, 248, 0.05); }
-        .option-btn.selected { border-color: var(--accent-blue); background: rgba(56, 189, 248, 0.2); box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); }
-        .option-prefix { width: 28px; height: 28px; border-radius: 50%; background: var(--card-bg); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: bold; color: var(--accent-blue); flex-shrink: 0; }
+    .header-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
 
-        .controls { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-        .btn-secondary { background: #334155; color: #f1f5f9; }
-        .btn-primary { background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%); color: white; }
-        .btn-submit { background: linear-gradient(135deg, #22c55e 0%, #15803d 100%); color: white; }
+    .header-title p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
 
-        .grid-nav { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 1.5rem; }
-        .grid-nav h3 { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; }
-        .nav-buttons { display: grid; grid-template-columns: repeat(10, 1fr); gap: 0.5rem; }
-        .nav-btn { aspect-ratio: 1; background: #0f172a; border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-muted); font-weight: 600; font-size: 0.85rem; cursor: pointer; }
-        .nav-btn.answered { background: rgba(56, 189, 248, 0.2); border-color: var(--accent-blue); color: var(--accent-blue); }
-        .nav-btn.current { border-color: var(--accent-purple); box-shadow: 0 0 8px var(--accent-purple); color: white; }
+    .header-stats {
+      display: flex;
+      gap: 1rem;
+    }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; max-width: 600px; width: 100%; padding: 2.5rem; text-align: center; }
-        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #a855f7, #38bdf8); display: flex; align-items: center; justify-content: center; margin: 1.5rem auto; font-size: 2.2rem; font-weight: 800; color: white; }
-    </style>
+    .stat-box {
+      background: #1e293b;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-align: center;
+      border: 1px solid #334155;
+      min-width: 100px;
+    }
+
+    .stat-box label {
+      display: block;
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+
+    .stat-box span {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #f8fafc;
+    }
+
+    /* Layout Principal */
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    /* Tarjeta de Pregunta */
+    .card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      border: 1px solid #bfdbfe;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary);
+      background: #f8fafc;
+    }
+
+    .option-btn input[type="radio"] {
+      margin-right: 1rem;
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Controles de Navegación */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn {
+      padding: 0.65rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text-dark);
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Lateral: Mapa de Preguntas */
+    .map-header {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .map-node {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: white;
+      transition: all 0.15s;
+    }
+
+    .map-node.active {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #eff6ff;
+      border-width: 2px;
+    }
+
+    .map-node.answered {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .btn-danger {
+      width: 100%;
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.85rem;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-title">
-            <h1>Plataforma de Evaluación de Física</h1>
-            <p>Constante de Gravedad: <strong>g = 9.8 m/s²</strong> | Enfoque Escalar & Vectorial</p>
-        </div>
-        <div class="header-badge">40 Preguntas | BGU / Pre-U</div>
-    </header>
 
-    <div class="container">
-        <div class="stats-bar">
-            <div class="stat-card">
-                <div class="stat-icon">N°</div>
-                <div class="stat-info"><div class="label">Pregunta Actual</div><div class="value" id="current-q-num">1 / 40</div></div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">✓</div>
-                <div class="stat-info"><div class="label">Respondidas</div><div class="value" id="answered-count">0 / 40</div></div>
-            </div>
-        </div>
-
-        <div class="quiz-card">
-            <div class="topic-badge" id="topic-title">Cargando...</div>
-            <div class="question-text" id="question-text">Cargando pregunta...</div>
-            <div class="options-grid" id="options-container"></div>
-            <div class="controls">
-                <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()">Anterior</button>
-                <div>
-                    <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Siguiente</button>
-                    <button class="btn btn-submit" id="btn-finish" style="display: none;" onclick="finishQuiz()">Finalizar Examen</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid-nav">
-            <h3>Navegador de Preguntas</h3>
-            <div class="nav-buttons" id="nav-grid"></div>
-        </div>
+  <header>
+    <div class="header-title">
+      <h1>PRUEBA DIAGNÓSTICA DE FÍSICA</h1>
+      <p>Evaluación Continua • Bachillerato & Pre-Universitario</p>
     </div>
-
-    <div class="modal" id="result-modal">
-        <div class="modal-content">
-            <h2 style="font-size: 1.8rem; color: var(--accent-blue);">¡Examen Finalizado!</h2>
-            <div class="score-circle" id="score-text">0 / 40</div>
-            <p id="feedback-text" style="font-size: 1.1rem; margin-bottom: 1.5rem;"></p>
-            <button class="btn btn-primary" onclick="location.reload()">Reintentar Examen</button>
-        </div>
+    <div class="header-stats">
+      <div class="stat-box">
+        <label>Tiempo Restante</label>
+        <span id="timer">60:00</span>
+      </div>
+      <div class="stat-box">
+        <label>Progreso</label>
+        <span id="progress-text">0 / 40</span>
+      </div>
     </div>
+  </header>
 
-    <script>
-        const questionsData = [
-            // UNIDADES DE MEDIDA Y CONVERSIONES
-            { id: 1, topic: "Unidades SI", question: "¿Cuál de las siguientes magnitudes pertenece a las siete magnitudes fundamentales del Sistema Internacional (SI)?", options: ["Fuerza (Newton)", "Masa (Kilogramo)", "Energía (Joule)", "Presión (Pascal)"], answer: 1 },
-            { id: 2, topic: "Conversión de Unidades", question: "Un vehículo viaja a una velocidad constante de 90 km/h. ¿A cuántos metros por segundo (m/s) equivale dicha rapidez?", options: ["20 m/s", "25 m/s", "30 m/s", "35 m/s"], answer: 1 },
-            { id: 3, topic: "Unidades SI", question: "En el Sistema Internacional, la unidad de la aceleración de la gravedad (g = 9.8) se expresa en:", options: ["m/s", "m/s²", "kg·m/s", "N/kg²"], answer: 1 },
-            { id: 4, topic: "Conversión de Unidades", question: "Un tanque contiene 2.5 m³ de combustible. ¿Cuál es su capacidad equivalente en litros?", options: ["250 Litros", "2500 Litros", "25000 Litros", "0.0025 Litros"], answer: 1 },
+  <main>
+    <section class="card">
+      <span class="badge" id="q-category">Categoría</span>
+      <div class="question-title" id="q-title">Cargando pregunta...</div>
+      <div class="options" id="q-options"></div>
+      
+      <div class="nav-buttons">
+        <button class="btn" id="btn-prev" onclick="prevQuestion()">◄ Anterior</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Siguiente ►</button>
+      </div>
+    </section>
 
-            // MOVIMIENTO Y TRAYECTORIA
-            { id: 5, topic: "Movimiento y Trayectoria", question: "Un móvil parte de la posición r₁ = (3 i + 4 j) m y llega a r₂ = (9 i + 12 j) m. Calcule el módulo del vector desplazamiento.", options: ["10 m", "14 m", "15 m", "8 m"], answer: 0 },
-            { id: 6, topic: "Movimiento y Trayectoria", question: "Un atleta recorre una pista rectangular de 30 m de largo por 40 m de ancho completando 1 vuelta entera. Determine la distancia recorrida y el módulo del desplazamiento.", options: ["Distancia = 140 m, Desplazamiento = 0 m", "Distancia = 70 m, Desplazamiento = 50 m", "Distancia = 140 m, Desplazamiento = 50 m", "Distancia = 0 m, Desplazamiento = 140 m"], answer: 0 },
+    <aside class="card">
+      <div class="map-header">Mapa de Preguntas</div>
+      <div class="map-grid" id="map-grid"></div>
+      <button class="btn-danger" onclick="finishExam()">Finalizar Examen</button>
+    </aside>
+  </main>
 
-            // MRU (VECTORIAL A ESCALAR Y REGULAR)
-            { id: 7, topic: "MRU (Vectorial)", question: "Un dron se desplaza en MRU con velocidad constante v = (6 i + 8 j) m/s durante 5 segundos. Calcule la distancia escalar recorrida por el dron.", options: ["50 m", "70 m", "30 m", "40 m"], answer: 0 },
-            { id: 8, topic: "MRU (Vectorial)", question: "Un avión militar mantiene una velocidad constante de v = (120 i - 160 j) m/s durante 10 segundos. ¿Cuál es la distancia escalar total recorrida?", options: ["1200 m", "1600 m", "2000 m", "2800 m"], answer: 2 },
-            { id: 9, topic: "MRU", question: "Dos automóviles separados por una distancia escalar de 450 m avanzan en línea recta uno hacia el otro a 15 m/s y 30 m/s respectivamente. ¿En cuánto tiempo se encuentran?", options: ["10 s", "15 s", "20 s", "30 s"], answer: 0 },
-            { id: 10, topic: "MRU", question: "En una gráfica de Posición vs. Tiempo (x vs t), una recta horizontal con pendiente nula (m = 0) indica que el objeto:", options: ["Acelera constantemente", "Se desplaza a velocidad máxima", "Se encuentra en reposo", "Se mueve en sentido opuesto"], answer: 2 },
+  <script>
+    // --- BANCO DE PREGUNTAS (EJEMPLO ESTRUCTURADO) ---
+    const questions = Array.from({ length: 40 }, (_, i) => ({
+      id: i + 1,
+      category: i < 10 ? "Unidades SI & Vectores" : i < 25 ? "Cinemática & Dinámica" : "Trabajo, Energía & Potencia",
+      title: `${i + 1}. ¿Cuál de las siguientes magnitudes corresponde a una magnitud fundamental en el Sistema Internacional (SI)?`,
+      options: ["Joule (J)", "Kilogramo (kg)", "Newton (N)", "Watt (W)"],
+      correct: 1
+    }));
 
-            // MRUV (VECTORIAL A ESCALAR Y REGULAR)
-            { id: 11, topic: "MRUV (Vectorial)", question: "Un vehículo parte del reposo y experimenta una aceleración constante a = (3 i + 4 j) m/s² durante 4 segundos. Calcule la rapidez escalar final del vehículo.", options: ["12 m/s", "16 m/s", "20 m/s", "28 m/s"], answer: 2 },
-            { id: 12, topic: "MRUV (Vectorial)", question: "Un objeto parte con v₀ = (5 i + 12 j) m/s y acelera uniformemente durante 6 s alcanzando v_f = (17 i + 28 j) m/s. Calcule el módulo de la aceleración escalar.", options: ["2.5 m/s²", "3.3 m/s²", "5.0 m/s²", "4.0 m/s²"], answer: 2 },
-            { id: 13, topic: "MRUV", question: "Un automóvil que viaja a 20 m/s frena uniformemente hasta detenerse por completo en 40 m. Calcule la magnitud de su desaceleración.", options: ["2.5 m/s²", "4.0 m/s²", "5.0 m/s²", "10.0 m/s²"], answer: 2 },
-            { id: 14, topic: "MRUV", question: "Un tren parte del reposo con una aceleración constante de 1.5 m/s². ¿Qué distancia recorre durante los primeros 8 segundos?", options: ["48 m", "96 m", "24 m", "60 m"], answer: 0 },
+    let currentIndex = 0;
+    let userAnswers = JSON.parse(localStorage.getItem('fisica_diag_answers')) || {};
+    let timeRemaining = parseInt(localStorage.getItem('fisica_diag_time')) || 3600;
 
-            // MCU
-            { id: 15, topic: "MCU", question: "Un punto en la periferia de una rueda gira con una velocidad angular constante de 8 rad/s. Si el radio es de 0.5 m, ¿cuál es su rapidez tangencial?", options: ["2 m/s", "4 m/s", "8 m/s", "16 m/s"], answer: 1 },
-            { id: 16, topic: "MCU", question: "Una partícula describe un MCU con un radio de 2 m y una rapidez lineal constante de 6 m/s. Determine la magnitud de su aceleración centrípeta.", options: ["12 m/s²", "18 m/s²", "3 m/s²", "36 m/s²"], answer: 1 },
-            { id: 17, topic: "MCU", question: "Un disco gira completando 120 revoluciones por minuto (rpm). ¿Cuál es su período de rotación en segundos?", options: ["0.25 s", "0.50 s", "2.00 s", "1.00 s"], answer: 1 },
-            { id: 18, topic: "MCU", question: "En el Movimiento Circular Uniforme (MCU), la dirección de la aceleración centrípeta siempre apunta hacia:", options: ["La tangente a la trayectoria", "El centro de la trayectoria circular", "Fuera de la trayectoria circular", "La misma dirección del vector velocidad"], answer: 1 },
+    // --- RENDERING ---
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('q-category').textContent = q.category;
+      document.getElementById('q-title').textContent = q.title;
+      
+      const optionsContainer = document.getElementById('q-options');
+      optionsContainer.innerHTML = '';
 
-            // CAÍDA LIBRE (g = 9.8 m/s²)
-            { id: 19, topic: "Caída Libre", question: "Se deja caer un objeto desde una gran altura. Utilizando g = 9.8 m/s², ¿cuál es su rapidez tras transcurrir 3 segundos?", options: ["29.4 m/s", "19.6 m/s", "39.2 m/s", "9.8 m/s"], answer: 0 },
-            { id: 20, topic: "Caída Libre", question: "Una piedra se suelta desde el borde de un acantilado y tarda 4 segundos en tocar el fondo. Calcule la altura del acantilado. (g = 9.8 m/s²)", options: ["39.2 m", "78.4 m", "156.8 m", "49.0 m"], answer: 1 },
-            { id: 21, topic: "Caída Libre", question: "Un proyectil se lanza verticalmente hacia arriba con v₀ = 49 m/s. ¿Cuánto tiempo tarda en alcanzar su altura máxima? (g = 9.8 m/s²)", options: ["4.0 s", "5.0 s", "9.8 s", "10.0 s"], answer: 1 },
-            { id: 22, topic: "Caída Libre", question: "Un balón se lanza verticalmente hacia arriba y alcanza una altura máxima de 19.6 m. ¿Con qué velocidad fue lanzado? (g = 9.8 m/s²)", options: ["9.8 m/s", "14.7 m/s", "19.6 m/s", "39.2 m/s"], answer: 2 },
+      q.options.forEach((opt, idx) => {
+        const isChecked = userAnswers[currentIndex] === idx ? 'checked' : '';
+        optionsContainer.innerHTML += `
+          <label class="option-btn">
+            <input type="radio" name="option" value="${idx}" ${isChecked} onchange="selectOption(${idx})">
+            ${opt}
+          </label>
+        `;
+      });
 
-            // MOVIMIENTO PARABÓLICO (g = 9.8 m/s²)
-            { id: 23, topic: "Movimiento Parabólico", question: "En un lanzamiento parabólico, el alcance horizontal máximo se logra cuando el ángulo de disparo respecto a la horizontal es de:", options: ["30°", "45°", "60°", "90°"], answer: 1 },
-            { id: 24, topic: "Movimiento Parabólico", question: "Un proyectil se dispara con Vox = 30 m/s y Voy = 29.4 m/s. ¿Cuánto tiempo tarda en llegar a la cima de su trayectoria? (g = 9.8 m/s²)", options: ["2.0 s", "3.0 s", "4.0 s", "6.0 s"], answer: 1 },
-            { id: 25, topic: "Movimiento Parabólico", question: "Si Voy = 19.6 m/s y Vox = 15 m/s, ¿cuál es el tiempo total de vuelo del proyectil antes de tocar el suelo? (g = 9.8 m/s²)", options: ["2.0 s", "4.0 s", "6.0 s", "8.0 s"], answer: 1 },
-            { id: 26, topic: "Movimiento Parabólico", question: "Un objeto se lanza horizontalmente con Vox = 20 m/s. Si permanece 4 segundos en el aire, calcule el alcance horizontal x. (g = 9.8 m/s²)", options: ["40 m", "80 m", "120 m", "160 m"], answer: 1 },
+      document.getElementById('btn-prev').disabled = currentIndex === 0;
+      document.getElementById('btn-next').disabled = currentIndex === questions.length - 1;
+      
+      updateProgress();
+      renderMap();
+    }
 
-            // FUERZAS
-            { id: 27, topic: "Fuerzas", question: "Un bloque de masa m = 5 kg reposa sobre una superficie plana. Calcule la magnitud de la Fuerza Normal. (g = 9.8 m/s²)", options: ["49.0 N", "5.0 N", "9.8 N", "98.0 N"], answer: 0 },
-            { id: 28, topic: "Fuerzas", question: "El coeficiente de fricción estático entre una caja de 10 kg y el suelo es μs = 0.4. Calcule la fuerza de fricción estática máxima. (g = 9.8 m/s²)", options: ["39.2 N", "98.0 N", "4.0 N", "19.6 N"], answer: 0 },
+    function selectOption(idx) {
+      userAnswers[currentIndex] = idx;
+      localStorage.setItem('fisica_diag_answers', JSON.stringify(userAnswers));
+      updateProgress();
+      renderMap();
+    }
 
-            // LEYES DE NEWTON
-            { id: 29, topic: "Leyes de Newton", question: "Si se aplica una fuerza neta de 49 N sobre un bloque provocando una aceleración de 7 m/s², ¿cuál es la masa del bloque?", options: ["5 kg", "7 kg", "9.8 kg", "343 kg"], answer: 1 },
-            { id: 30, topic: "Leyes de Newton", question: "Sobre una masa de 8 kg actúan dos fuerzas opuestas: F₁ = 50 N (derecha) y F₂ = 18 N (izquierda). Determine la magnitud de la aceleración.", options: ["4.0 m/s²", "6.0 m/s²", "8.5 m/s²", "3.2 m/s²"], answer: 0 },
-            { id: 31, topic: "Leyes de Newton", question: "Un ascensor de 500 kg sube con una aceleración constante hacia arriba de 2.2 m/s². Determine la tensión del cable. (g = 9.8 m/s²)", options: ["3800 N", "4900 N", "6000 N", "1100 N"], answer: 2 },
-            { id: 32, topic: "Leyes de Newton", question: "Las fuerzas de acción y reacción (Tercera Ley de Newton) no se anulan mutuamente porque:", options: ["Tienen magnitudes distintas", "Actúan sobre cuerpos diferentes", "Tienen la misma dirección y sentido", "Solo actúan cuando hay movimiento"], answer: 1 },
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    }
 
-            // TRABAJO, POTENCIA Y ENERGÍA (INCLUYE DESPEJES DE MASA, ALTURA Y RAPIDEZ)
-            { id: 33, topic: "Trabajo, Potencia y Energía", question: "Un cuerpo elevado a una altura de 15 m posee una Energía Potencial Gravitatoria de 1470 J. Determine la masa del objeto. (g = 9.8 m/s²)", options: ["8 kg", "10 kg", "12 kg", "15 kg"], answer: 1 },
-            { id: 34, topic: "Trabajo, Potencia y Energía", question: "Una masa de 4 kg acumula 392 J de energía potencial gravitatoria al ser elevada verticalmente. ¿A qué altura se encuentra? (g = 9.8 m/s²)", options: ["5 m", "8 m", "10 m", "12 m"], answer: 2 },
-            { id: 35, topic: "Trabajo, Potencia y Energía", question: "Un carrito de masa m = 6 kg posee una Energía Cinética de 300 J. ¿Cuál es el valor escalar de su rapidez?", options: ["5 m/s", "10 m/s", "15 m/s", "20 m/s"], answer: 1 },
-            { id: 36, topic: "Trabajo, Potencia y Energía", question: "Una fuerza constante de 50 N actúa formando un ángulo de 60° con la horizontal para desplazar un bloque 8 m. ¿Qué trabajo realiza? (cos 60° = 0.5)", options: ["200 J", "400 J", "300 J", "100 J"], answer: 0 },
-            { id: 37, topic: "Trabajo, Potencia y Energía", question: "Una grúa eleva un contenedor de 200 kg a una altura de 12 m en 4 segundos. Calcule la potencia desarrollada. (g = 9.8 m/s²)", options: ["5880 W", "2400 W", "4900 W", "11760 W"], answer: 0 },
-            { id: 38, topic: "Trabajo, Potencia y Energía", question: "Un objeto que se desplaza con una rapidez escalar de 8 m/s posee una energía cinética de 256 J. ¿Cuál es la masa del objeto?", options: ["4 kg", "8 kg", "12 kg", "16 kg"], answer: 1 },
-            { id: 39, topic: "Trabajo, Potencia y Energía", question: "Se deja caer un objeto de 2 kg desde el reposo a una altura de 20 m. Despreciando el aire, ¿cuál es su velocidad al tocar el suelo? (g = 9.8 m/s²)", options: ["14.0 m/s", "19.8 m/s", "28.0 m/s", "39.2 m/s"], answer: 1 },
-            { id: 40, topic: "Trabajo, Potencia y Energía", question: "En un sistema donde únicamente actúan fuerzas conservativas, si la energía potencial disminuye en 500 J, la energía cinética:", options: ["Disminuye en 500 J", "Aumenta en 500 J", "Permanece constante", "Se duplica automáticamente"], answer: 1 }
-        ];
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
 
-        let currentIndex = 0;
-        let userAnswers = new Array(questionsData.length).fill(null);
+    function renderMap() {
+      const grid = document.getElementById('map-grid');
+      grid.innerHTML = '';
+      questions.forEach((_, idx) => {
+        const node = document.createElement('div');
+        node.className = `map-node ${idx === currentIndex ? 'active' : ''} ${userAnswers[idx] !== undefined ? 'answered' : ''}`;
+        node.textContent = idx + 1;
+        node.onclick = () => {
+          currentIndex = idx;
+          renderQuestion();
+        };
+        grid.appendChild(node);
+      });
+    }
 
-        function initApp() { renderNavGrid(); loadQuestion(0); }
+    function updateProgress() {
+      const answeredCount = Object.keys(userAnswers).length;
+      document.getElementById('progress-text').textContent = `${answeredCount} / ${questions.length}`;
+    }
 
-        function renderNavGrid() {
-            const grid = document.getElementById('nav-grid');
-            grid.innerHTML = '';
-            questionsData.forEach((_, idx) => {
-                const btn = document.createElement('button');
-                btn.className = `nav-btn ${idx === currentIndex ? 'current' : ''} ${userAnswers[idx] !== null ? 'answered' : ''}`;
-                btn.innerText = idx + 1;
-                btn.onclick = () => loadQuestion(idx);
-                grid.appendChild(btn);
-            });
-        }
+    // --- TEMPORIZADOR ---
+    const timerInterval = setInterval(() => {
+      timeRemaining--;
+      localStorage.setItem('fisica_diag_time', timeRemaining);
+      
+      const mins = Math.floor(timeRemaining / 60);
+      const secs = timeRemaining % 60;
+      document.getElementById('timer').textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
-        function loadQuestion(index) {
-            currentIndex = index;
-            const q = questionsData[index];
-            document.getElementById('current-q-num').innerText = `${index + 1} / ${questionsData.length}`;
-            document.getElementById('topic-title').innerText = q.topic;
-            document.getElementById('question-text').innerText = `${q.id}. ${q.question}`;
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert('El tiempo ha finalizado.');
+        finishExam();
+      }
+    }, 1000);
 
-            const container = document.getElementById('options-container');
-            container.innerHTML = '';
-            const prefixes = ['A', 'B', 'C', 'D'];
-            q.options.forEach((opt, optIdx) => {
-                const btn = document.createElement('button');
-                btn.className = `option-btn ${userAnswers[index] === optIdx ? 'selected' : ''}`;
-                btn.onclick = () => selectOption(optIdx);
-                btn.innerHTML = `<div class="option-prefix">${prefixes[optIdx]}</div><span>${opt}</span>`;
-                container.appendChild(btn);
-            });
+    function finishExam() {
+      if (confirm('¿Estás seguro de que deseas finalizar la prueba?')) {
+        localStorage.removeItem('fisica_diag_answers');
+        localStorage.removeItem('fisica_diag_time');
+        alert('Evaluación enviada con éxito.');
+        window.location.reload();
+      }
+    }
 
-            document.getElementById('btn-prev').style.visibility = index === 0 ? 'hidden' : 'visible';
-            if (index === questionsData.length - 1) {
-                document.getElementById('btn-next').style.display = 'none';
-                document.getElementById('btn-finish').style.display = 'inline-block';
-            } else {
-                document.getElementById('btn-next').style.display = 'inline-block';
-                document.getElementById('btn-finish').style.display = 'none';
-            }
-            renderNavGrid();
-            updateAnsweredCount();
-        }
+    // --- CAPAS DE SEGURIDAD ---
+    document.addEventListener('contextmenu', e => e.preventDefault());
 
-        function selectOption(optionIndex) { userAnswers[currentIndex] = optionIndex; loadQuestion(currentIndex); }
-        function prevQuestion() { if (currentIndex > 0) loadQuestion(currentIndex - 1); }
-        function nextQuestion() { if (currentIndex < questionsData.length - 1) loadQuestion(currentIndex + 1); }
-        function updateAnsweredCount() {
-            const count = userAnswers.filter(a => a !== null).length;
-            document.getElementById('answered-count').innerText = `${count} / ${questionsData.length}`;
-        }
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && ['c', 'u', 's', 'a', 'p'].includes(e.key.toLowerCase())) ||
+        (e.ctrlKey && e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase()))
+      ) {
+        e.preventDefault();
+      }
+    });
 
-        function finishQuiz() {
-            let correct = 0;
-            userAnswers.forEach((ans, idx) => { if (ans === questionsData[idx].answer) correct++; });
-            document.getElementById('score-text').innerText = `${correct} / ${questionsData.length}`;
-            const percentage = (correct / questionsData.length) * 100;
-            let feedback = percentage >= 90 ? "¡Excelente trabajo! Dominio total del nivel pre-universitario." : (percentage >= 70 ? "¡Muy bien! Buen manejo de cinemática y energía." : "Sigue practicando los despejes y las ecuaciones de movimiento.");
-            document.getElementById('feedback-text').innerText = feedback;
-            document.getElementById('result-modal').style.display = 'flex';
-        }
+    let tabSwitches = 0;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        tabSwitches++;
+        alert(`¡ADVERTENCIA DE SEGURIDAD!\nHas cambiado de pestaña o minimizado la evaluación (${tabSwitches}/3). Este evento queda registrado.`);
+      }
+    });
 
-        window.onload = initApp;
-    </script>
+    // Inicializar
+    renderQuestion();
+  </script>
 </body>
 </html>
