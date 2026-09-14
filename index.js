@@ -1,213 +1,258 @@
-// BANCO DE 30 PREGUNTAS DE FÍSICA GENERAL (g = 9.8 m/s²)
+// BANCO DE 30 PREGUNTAS DE FÍSICA GENERAL (g = 9.8 m/s²) CON KaTeX
 const questions = [
     { 
         id: 1, 
         topic: "Unidades SI", 
         question: "¿Cuál de las siguientes magnitudes corresponde a una magnitud fundamental en el Sistema Internacional?", 
-        options: ["Joule (J)", "Kilogramo (kg)", "Newton (N)", "Watt (W)"], 
+        options: ["Joule (\\text{J})", "Kilogramo (\\text{kg})", "Newton (\\text{N})", "Watt (\\text{W})"], 
         answer: 1 
     },
     { 
         id: 2, 
         topic: "Conversión de Unidades", 
-        question: "Un avión vuela a una rapidez constante de 216 km/h. ¿A cuántos m/s equivale dicha velocidad?", 
-        options: ["40 m/s", "60 m/s", "80 m/s", "100 m/s"], 
+        question: "Un avión vuela a una rapidez constante de \\(216\\text{ km/h}\\). ¿A cuántos \\(\\text{m/s}\\) equivale dicha velocidad?", 
+        options: ["\\(40\\text{ m/s}\\)", "\\(60\\text{ m/s}\\)", "\\(80\\text{ m/s}\\)", "\\(100\\text{ m/s}\\)"], 
         answer: 1 
     },
     { 
         id: 3, 
         topic: "Unidades Derivadas", 
-        question: "La unidad de fuerza Newton (N) expresada en magnitudes fundamentales del SI equivale a:", 
-        options: ["kg·m/s", "kg·m/s²", "kg·m²/s²", "kg/m·s²"], 
+        question: "La unidad de fuerza Newton (\\(\\text{N}\\)) expresada en magnitudes fundamentales del SI equivale a:", 
+        options: ["\\(\\text{kg}\\cdot\\text{m/s}\\)", "\\(\\text{kg}\\cdot\\text{m/s}^2\\)", "\\(\\text{kg}\\cdot\\text{m}^2/\\text{s}^2\\)", "\\(\\text{kg}/(\\text{m}\\cdot\\text{s}^2)\\)"], 
         answer: 1 
     },
     { 
         id: 4, 
         topic: "Despeje de Fórmulas", 
-        question: "En la ecuación de densidad d = m / V, al despejar el volumen (V) obtenemos:", 
-        options: ["V = m · d", "V = m / d", "V = d / m", "V = m + d"], 
+        question: "En la ecuación de densidad \\(\\rho = \\frac{m}{V}\\), al despejar el volumen (\\(V\\)) obtenemos:", 
+        options: ["\\(V = m \\cdot \\rho\\)", "\\(V = \\frac{m}{\\rho}\\)", "\\(V = \\frac{\\rho}{m}\\)", "\\(V = m + \\rho\\)"], 
         answer: 1 
     },
     { 
         id: 5, 
         topic: "Cinemática Vectorial", 
-        question: "Un dron se desplaza desde la posición r₁ = (4i + 2j) m hasta r₂ = (10i - 6j) m en 2 segundos. ¿Cuál es su vector velocidad media?", 
-        options: ["(3i - 4j) m/s", "(6i - 8j) m/s", "(7i - 2j) m/s", "(14i - 4j) m/s"], 
+        question: "Un dron se desplaza desde la posición \\(\\vec{r}_1 = (4\\hat{i} + 2\\hat{j})\\text{ m}\\) hasta \\(\\vec{r}_2 = (10\\hat{i} - 6\\hat{j})\\text{ m}\\) en \\(\\Delta t = 2\\text{ s}\\). ¿Cuál es su vector velocidad media \\(\\vec{v}_m\\)?", 
+        options: ["\\((3\\hat{i} - 4\\hat{j})\\text{ m/s}\\)", "\\((6\\hat{i} - 8\\hat{j})\\text{ m/s}\\)", "\\((7\\hat{i} - 2\\hat{j})\\text{ m/s}\\)", "\\((14\\hat{i} - 4\\hat{j})\\text{ m/s}\\)"], 
         answer: 0 
     },
     { 
         id: 6, 
         topic: "Cinemática Conceptos", 
         question: "¿Cuál es la diferencia fundamental entre el desplazamiento y la distancia recorrida?", 
-        options: ["El desplazamiento es escalar y la distancia es vectorial", "El desplazamiento depende del camino y la distancia es en línea recta", "El desplazamiento es el vector (r₂ - r₁); la distancia es la longitud de la trayectoria", "Son términos idénticos"], 
+        options: [
+            "El desplazamiento es escalar y la distancia es vectorial", 
+            "El desplazamiento depende de la trayectoria y la distancia es en línea recta", 
+            "El desplazamiento es el vector \\(\\Delta\\vec{r} = \\vec{r}_2 - \\vec{r}_1\\); la distancia es la longitud de la trayectoria", 
+            "Ambos conceptos son escalarmente idénticos"
+        ], 
         answer: 2 
     },
     { 
         id: 7, 
         topic: "Desplazamiento Vectorial", 
-        question: "Si una partícula efectúa los desplazamientos d₁ = (3i + 4j) m y d₂ = (5i - 10j) m, ¿cuál es la magnitud de su desplazamiento total?", 
-        options: ["14 m", "10 m", "8 m", "12 m"], 
+        question: "Si una partícula efectúa los desplazamientos \\(\\Delta\\vec{r}_1 = (3\\hat{i} + 4\\hat{j})\\text{ m}\\) y \\(\\Delta\\vec{r}_2 = (5\\hat{i} - 10\\hat{j})\\text{ m}\\), ¿cuál es el módulo de su desplazamiento total \\(|\\Delta\\vec{r}_T|\\)?", 
+        options: ["\\(14\\text{ m}\\)", "\\(10\\text{ m}\\)", "\\(8\\text{ m}\\)", "\\(12\\text{ m}\\)"], 
         answer: 1 
     },
     { 
         id: 8, 
         topic: "MRU Vectorial (Avión)", 
-        question: "Un avión vuela con velocidad constante v = (400i + 300j) km/h durante t = 3 horas. ¿Cuál es la distancia total recorrida?", 
-        options: ["1500 km", "2100 km", "1200 km", "900 km"], 
+        question: "Un avión vuela a velocidad constante \\(\\vec{v} = (400\\hat{i} + 300\\hat{j})\\text{ km/h}\\) durante \\(t = 3\\text{ h}\\). ¿Cuál es la distancia escalar total recorrida?", 
+        options: ["\\(1500\\text{ km}\\)", "\\(2100\\text{ km}\\)", "\\(1200\\text{ km}\\)", "\\(900\\text{ km}\\)"], 
         answer: 0 
     },
     { 
         id: 9, 
         topic: "MRU Vectorial", 
-        question: "Un barco viaja a v = (8i - 6j) m/s partiendo de la posición r₀ = (10i + 20j) m. ¿Cuál es su posición vectorial r a los t = 5 segundos?", 
-        options: ["(50i - 10j) m", "(40i - 30j) m", "(30i - 50j) m", "(18i + 14j) m"], 
+        question: "Un barco navega a \\(\\vec{v} = (8\\hat{i} - 6\\hat{j})\\text{ m/s}\\) partiendo de la posición \\(\\vec{r}_0 = (10\\hat{i} + 20\\hat{j})\\text{ m}\\). ¿Cuál es su vector posición final \\(\\vec{r}\\) a los \\(t = 5\\text{ s}\\)?", 
+        options: ["\\((50\\hat{i} - 10\\hat{j})\\text{ m}\\)", "\\((40\\hat{i} - 30\\hat{j})\\text{ m}\\)", "\\((30\\hat{i} - 50\\hat{j})\\text{ m}\\)", "\\((18\\hat{i} + 14\\hat{j})\\text{ m}\\)"], 
         answer: 0 
     },
     { 
         id: 10, 
         topic: "Despeje MRU", 
-        question: "Dada la ecuación de posición r_f = r_0 + v · t, al despejar el tiempo (t) se obtiene:", 
-        options: ["t = (r_f - r_0) / v", "t = v / (r_f - r_0)", "t = r_f - r_0 · v", "t = (r_f + r_0) / v"], 
+        question: "Dada la ecuación de posición \\(\\vec{r}_f = \\vec{r}_0 + \\vec{v}\\cdot t\\), al despejar el tiempo (\\(t\\)) se obtiene:", 
+        options: [
+            "\\(t = \\frac{|\\vec{r}_f - \\vec{r}_0|}{|\\vec{v}|}\\)", 
+            "\\(t = \\frac{|\\vec{v}|}{|\\vec{r}_f - \\vec{r}_0|}\\)", 
+            "\\(t = |\\vec{r}_f - \\vec{r}_0| \\cdot |\\vec{v}|\\)", 
+            "\\(t = \\frac{|\\vec{r}_f + \\vec{r}_0|}{|\\vec{v}|}\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 11, 
         topic: "MRU Práctica", 
-        question: "Un proyectil viaja a rapidez constante de 340 m/s (velocidad del sonido). ¿Cuánto tiempo tarda en recorrer 1.7 km?", 
-        options: ["0.2 s", "2 s", "5 s", "50 s"], 
+        question: "Un proyectil se desplaza con MRU a una rapidez de \\(340\\text{ m/s}\\). ¿Cuánto tiempo tarda en recorrer una distancia de \\(1.7\\text{ km}\\)?", 
+        options: ["\\(0.2\\text{ s}\\)", "\\(2\\text{ s}\\)", "\\(5\\text{ s}\\)", "\\(50\\text{ s}\\)"], 
         answer: 2 
     },
     { 
         id: 12, 
         topic: "MRU Encuentro Vectorial", 
-        question: "Dos partículas A y B se mueven sobre el eje X con v_A = (-4i) m/s y v_B = (6i) m/s. Si están separadas por 100i m al inicio, ¿en cuántos segundos se cruzan?", 
-        options: ["10 s", "20 s", "25 s", "50 s"], 
+        question: "Dos partículas A y B se mueven sobre el eje X con \\(\\vec{v}_A = (-4\\hat{i})\\text{ m/s}\\) y \\(\\vec{v}_B = (6\\hat{i})\\text{ m/s}\\). Si inicialmente están separadas \\(100\\hat{i}\\text{ m}\\) y se dirigen una hacia la otra, ¿en cuántos segundos se cruzan?", 
+        options: ["\\(10\\text{ s}\\)", "\\(20\\text{ s}\\)", "\\(25\\text{ s}\\)", "\\(50\\text{ s}\\)"], 
         answer: 0 
     },
     { 
         id: 13, 
         topic: "MRUV Vectorial", 
-        question: "Un móvil parte con velocidad v₀ = (2i - 3j) m/s y experimenta una aceleración constante a = (4i + 2j) m/s². ¿Cuál es su vector velocidad a los t = 3 s?", 
-        options: ["(14i + 3j) m/s", "(12i + 6j) m/s", "(6i - 1j) m/s", "(10i + 3j) m/s"], 
+        question: "Un móvil parte con velocidad \\(\\vec{v}_0 = (2\\hat{i} - 3\\hat{j})\\text{ m/s}\\) y acelera a constante \\(\\vec{a} = (4\\hat{i} + 2\\hat{j})\\text{ m/s}^2\\). ¿Cuál es su vector velocidad a los \\(t = 3\\text{ s}\\)?", 
+        options: ["\\((14\\hat{i} + 3\\hat{j})\\text{ m/s}\\)", "\\((12\\hat{i} + 6\\hat{j})\\text{ m/s}\\)", "\\((6\\hat{i} - 1\\hat{j})\\text{ m/s}\\)", "\\((10\\hat{i} + 3\\hat{j})\\text{ m/s}\\)"], 
         answer: 0 
     },
     { 
         id: 14, 
         topic: "Despeje MRUV", 
-        question: "Dada la ecuación v_f² = v_0² + 2a · d, el despeje correcto para la aceleración (a) es:", 
-        options: ["a = (v_f² - v_0²) / (2d)", "a = (v_f - v_0)² / (2d)", "a = (v_f² + v_0²) / (2d)", "a = 2d / (v_f² - v_0²)"], 
+        question: "Dada la ecuación escalar \\(v_f^2 = v_0^2 + 2a d\\), el despeje correcto para la aceleración (\\(a\\)) es:", 
+        options: [
+            "\\(a = \\frac{v_f^2 - v_0^2}{2d}\\)", 
+            "\\(a = \\frac{(v_f - v_0)^2}{2d}\\)", 
+            "\\(a = \\frac{v_f^2 + v_0^2}{2d}\\)", 
+            "\\(a = \\frac{2d}{v_f^2 - v_0^2}\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 15, 
         topic: "MRUV Posición Vectorial", 
-        question: "Un objeto parte del reposo en el origen con a = (6i + 8j) m/s². ¿Cuál es la magnitud del vector posición |r| a los t = 2 s?", 
-        options: ["10 m", "20 m", "28 m", "40 m"], 
+        question: "Un objeto parte del reposo en el origen con aceleración constante \\(\\vec{a} = (6\\hat{i} + 8\\hat{j})\\text{ m/s}^2\\). ¿Cuál es la magnitud de su posición \\(|\\vec{r}|\\) a los \\(t = 2\\text{ s}\\)?", 
+        options: ["\\(10\\text{ m}\\)", "\\(20\\text{ m}\\)", "\\(28\\text{ m}\\)", "\\(40\\text{ m}\\)"], 
         answer: 1 
     },
     { 
         id: 16, 
         topic: "MCU Aceleración", 
-        question: "Una partícula recorre una circunferencia de radio R = 2 m con velocidad angular constante w = 3 rad/s. ¿Cuál es el módulo de su aceleración centrípeta?", 
-        options: ["6 m/s²", "12 m/s²", "18 m/s²", "36 m/s²"], 
+        question: "Una partícula recorre una trayectoria circular de radio \\(R = 2\\text{ m}\\) con velocidad angular constante \\(\\omega = 3\\text{ rad/s}\\). ¿Cuál es el módulo de su aceleración centrípeta \\(a_c\\)?", 
+        options: ["\\(6\\text{ m/s}^2\\)", "\\(12\\text{ m/s}^2\\)", "\\(18\\text{ m/s}^2\\)", "\\(36\\text{ m/s}^2\\)"], 
         answer: 2 
     },
     { 
         id: 17, 
         topic: "Despeje MCU", 
-        question: "Sabiendo que la aceleración centrípeta es a_c = v² / R, al despejar la velocidad tangencial (v) se obtiene:", 
-        options: ["v = √(a_c · R)", "v = (a_c · R)³", "v = a_c / R", "v = √(a_c / R)"], 
+        question: "Sabiendo que la aceleración centrípeta es \\(a_c = \\frac{v^2}{R}\\), al despejar la velocidad tangencial (\\(v\\)) se obtiene:", 
+        options: [
+            "\\(v = \\sqrt{a_c \\cdot R}\\)", 
+            "\\(v = (a_c \\cdot R)^2\\)", 
+            "\\(v = \\frac{a_c}{R}\\)", 
+            "\\(v = \\sqrt{\\frac{a_c}{R}}\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 18, 
         topic: "Caída Libre Teórico", 
-        question: "Si se desprecia la resistencia del aire, al soltar desde la misma altura una esfera de 1 kg y otra de 10 kg:", 
-        options: ["La de 10 kg cae primero", "Llegan al piso exactamente al mismo tiempo", "La de 1 kg cae más rápido", "Depende de la forma del cuerpo"], 
+        question: "En ausencia de resistencia del aire, si se dejan caer simultáneamente desde la misma altura una esfera de \\(1\\text{ kg}\\) y otra de \\(10\\text{ kg}\\):", 
+        options: [
+            "La esfera de \\(10\\text{ kg}\\) llega primero", 
+            "Llegan al suelo simultáneamente con la misma aceleración \\(g\\)", 
+            "La esfera de \\(1\\text{ kg}\\) cae más rápido por menor inercia", 
+            "El tiempo depende de la geometría del cuerpo"
+        ], 
         answer: 1 
     },
     { 
         id: 19, 
-        topic: "Caída Libre Calculo (g = 9.8)", 
-        question: "Se deja caer un objeto desde el reposo. Usando g = 9.8 m/s², ¿cuál es su rapidez al cabo de t = 3 segundos?", 
-        options: ["29.4 m/s", "19.6 m/s", "44.1 m/s", "9.8 m/s"], 
+        topic: "Caída Libre Cálculo", 
+        question: "Se suelta un cuerpo desde el reposo. Asumiendo \\(g = 9.8\\text{ m/s}^2\\), ¿cuál es su rapidez al cabo de \\(t = 3\\text{ s}\\)?", 
+        options: ["\\(29.4\\text{ m/s}\\)", "\\(19.6\\text{ m/s}\\)", "\\(44.1\\text{ m/s}\\)", "\\(9.8\\text{ m/s}\\)"], 
         answer: 0 
     },
     { 
         id: 20, 
-        topic: "Tiro Vertical Vectorial (g = 9.8)", 
-        question: "Un cuerpo se lanza verticalmente con v₀ = (39.2 j) m/s. Considerando g = (-9.8 j) m/s², ¿cuánto tiempo tarda en alcanzar su altura máxima?", 
-        options: ["4.0 s", "2.0 s", "8.0 s", "3.92 s"], 
+        topic: "Tiro Vertical Vectorial", 
+        question: "Un objeto es lanzado verticalmente hacia arriba con \\(\\vec{v}_0 = (39.2\\hat{j})\\text{ m/s}\\). Con \\(\\vec{g} = (-9.8\\hat{j})\\text{ m/s}^2\\), ¿cuánto tiempo tarda en alcanzar su altura máxima?", 
+        options: ["\\(4.0\\text{ s}\\)", "\\(2.0\\text{ s}\\)", "\\(8.0\\text{ s}\\)", "\\(3.92\\text{ s}\\)"], 
         answer: 0 
     },
     { 
         id: 21, 
         topic: "Parabólico Vectorial", 
-        question: "Un proyectil se dispara con v₀ = (30i + 40j) m/s. ¿Cuál es su vector velocidad en el punto más alto del trayecto?", 
-        options: ["(0i + 0j) m/s", "(30i + 0j) m/s", "(0i + 40j) m/s", "(30i + 40j) m/s"], 
+        question: "Un proyectil se lanza con velocidad inicial \\(\\vec{v}_0 = (30\\hat{i} + 40\\hat{j})\\text{ m/s}\\). ¿Cuál es su vector velocidad \\(\\vec{v}\\) en el punto más alto de su trayectoria parabólica?", 
+        options: ["\\((0\\hat{i} + 0\\hat{j})\\text{ m/s}\\)", "\\((30\\hat{i} + 0\\hat{j})\\text{ m/s}\\)", "\\((0\\hat{i} + 40\\hat{j})\\text{ m/s}\\)", "\\((30\\hat{i} + 40\\hat{j})\\text{ m/s}\\)"], 
         answer: 1 
     },
     { 
         id: 22, 
         topic: "Despeje Caída Libre", 
-        question: "Partiendo del reposo, h = (1/2) · g · t². Al despejar el tiempo (t), resulta:", 
-        options: ["t = √(2h / g)", "t = 2h / g", "t = √(h / 2g)", "t = (2h · g)²"], 
+        question: "Partiendo del reposo, la distancia recorrida en caída libre es \\(h = \\frac{1}{2}g t^2\\). Al despejar el tiempo (\\(t\\)), la expresión correcta es:", 
+        options: [
+            "\\(t = \\sqrt{\\frac{2h}{g}}\\)", 
+            "\\(t = \\frac{2h}{g}\\)", 
+            "\\(t = \\sqrt{\\frac{h}{2g}}\\)", 
+            "\\(t = \\left(\\frac{2h}{g}\\right)^2\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 23, 
         topic: "Leyes de Newton Vectorial", 
-        question: "Dos fuerzas F₁ = (5i + 8j) N y F₂ = (3i - 2j) N actúan sobre un cuerpo de m = 2 kg. ¿Cuál es el vector aceleración resultante?", 
-        options: ["(4i + 3j) m/s²", "(8i + 6j) m/s²", "(2i + 5j) m/s²", "(16i + 12j) m/s²"], 
+        question: "Dos fuerzas \\(\\vec{F}_1 = (5\\hat{i} + 8\\hat{j})\\text{ N}\\) y \\(\\vec{F}_2 = (3\\hat{i} - 2\\hat{j})\\text{ N}\\) actúan sobre un cuerpo de masa \\(m = 2\\text{ kg}\\). ¿Cuál es el vector aceleración resultante \\(\\vec{a}\\)?", 
+        options: ["\\((4\\hat{i} + 3\\hat{j})\\text{ m/s}^2\\)", "\\((8\\hat{i} + 6\\hat{j})\\text{ m/s}^2\\)", "\\((2\\hat{i} + 5\\hat{j})\\text{ m/s}^2\\)", "\\((16\\hat{i} + 12\\hat{j})\\text{ m/s}^2\\)"], 
         answer: 0 
     },
     { 
         id: 24, 
-        topic: "Primera Ley Newton", 
-        question: "Si la suma vectorial de todas las fuerzas sobre un objeto es nula (∑F = 0i + 0j), el objeto se encuentra en:", 
-        options: ["Aceleración constante", "Movimiento Circular Uniforme", "Reposo o Movimiento Rectilíneo Uniforme", "Caída libre constante"], 
+        topic: "Primera Ley de Newton", 
+        question: "Si la suma vectorial de todas las fuerzas externas sobre un objeto es nula (\\(\\sum \\vec{F} = 0\\hat{i} + 0\\hat{j}\\)), el objeto mantiene:", 
+        options: [
+            "Aceleración constante no nula", 
+            "Movimiento Circular Uniforme", 
+            "Estado de reposo o velocidad constante en línea recta (MRU)", 
+            "Trayectoria parabólica"
+        ], 
         answer: 2 
     },
     { 
         id: 25, 
         topic: "Despeje Segunda Ley", 
-        question: "Sabiendo que F_neta = m · a y que la masa es m = W / g, al despejar la Fuerza neta en función del peso (W) queda:", 
-        options: ["F = (W · a) / g", "F = (W · g) / a", "F = W / (a · g)", "F = W · a · g"], 
+        question: "Sabiendo que \\(F_{\\text{neta}} = m \\cdot a\\) y que el peso es \\(W = m \\cdot g\\), al despejar la fuerza neta en función de \\(W\\) se obtiene:", 
+        options: [
+            "\\(F_{\\text{neta}} = \\frac{W \\cdot a}{g}\\)", 
+            "\\(F_{\\text{neta}} = \\frac{W \\cdot g}{a}\\)", 
+            "\\(F_{\\text{neta}} = \\frac{W}{a \\cdot g}\\)", 
+            "\\(F_{\\text{neta}} = W \\cdot a \\cdot g\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 26, 
-        topic: "Peso y Gravedad (g = 9.8)", 
-        question: "Un cuerpo tiene una masa de 5 kg. ¿Cuál es su peso (fuerza de gravedad) considerando g = 9.8 m/s²?", 
-        options: ["49.0 N", "50.0 N", "9.8 N", "24.5 N"], 
+        topic: "Peso y Gravedad", 
+        question: "Un cuerpo tiene una masa de \\(5\\text{ kg}\\). ¿Cuál es la magnitud de su peso considerando \\(g = 9.8\\text{ m/s}^2\\)?", 
+        options: ["\\(49.0\\text{ N}\\)", "\\(50.0\\text{ N}\\)", "\\(9.8\\text{ N}\\)", "\\(24.5\\text{ N}\\)"], 
         answer: 0 
     },
     { 
         id: 27, 
         topic: "Trabajo Mecánico Vectorial", 
-        question: "Una fuerza F = (6i + 8j) N desplaza un objeto d = (5i + 2j) m. Mediante el producto escalar F · d, ¿qué trabajo realiza?", 
-        options: ["46 Joules", "30 Joules", "16 Joules", "70 Joules"], 
+        question: "Una fuerza \\(\\vec{F} = (6\\hat{i} + 8\\hat{j})\\text{ N}\\) produce un desplazamiento \\(\\Delta\\vec{r} = (5\\hat{i} + 2\\hat{j})\\text{ m}\\). Mediante el producto escalar \\(W = \\vec{F} \\cdot \\Delta\\vec{r}\\), ¿qué trabajo realiza?", 
+        options: ["\\(46\\text{ Joules}\\)", "\\(30\\text{ Joules}\\)", "\\(16\\text{ Joules}\\)", "\\(70\\text{ Joules}\\)"], 
         answer: 0 
     },
     { 
         id: 28, 
         topic: "Despeje Energía Cinética", 
-        question: "A partir de la fórmula E_k = (1/2) · m · v², al despejar la rapidez (v) obtenemos:", 
-        options: ["v = √(2E_k / m)", "v = 2E_k / m", "v = √(E_k / 2m)", "v = (2E_k · m)²"], 
+        question: "A partir de la ecuación de energía cinética \\(E_k = \\frac{1}{2} m v^2\\), al despejar la rapidez (\\(v\\)) resulta:", 
+        options: [
+            "\\(v = \\sqrt{\\frac{2E_k}{m}}\\)", 
+            "\\(v = \\frac{2E_k}{m}\\)", 
+            "\\(v = \\sqrt{\\frac{E_k}{2m}}\\)", 
+            "\\(v = (2E_k \\cdot m)^2\\)"
+        ], 
         answer: 0 
     },
     { 
         id: 29, 
         topic: "Potencia Mecánica", 
-        question: "Un motor realiza un trabajo W = 4500 J en un tiempo t = 15 s. ¿Cuál es la potencia desarrollada?", 
-        options: ["300 W", "67500 W", "150 W", "450 W"], 
+        question: "Un motor realiza un trabajo mecánico de \\(W = 4500\\text{ J}\\) en un intervalo de tiempo \\(t = 15\\text{ s}\\). ¿Cuál es la potencia desarrollada?", 
+        options: ["\\(300\\text{ W}\\)", "\\(67500\\text{ W}\\)", "\\(150\\text{ W}\\)", "\\(450\\text{ W}\\)"], 
         answer: 0 
     },
     { 
         id: 30, 
-        topic: "Energía Potencial (g = 9.8)", 
-        question: "Un objeto de 2 kg se ubica a una altura h = 10 m. Considerando g = 9.8 m/s², ¿cuál es su Energía Potencial Gravitatoria?", 
-        options: ["196 J", "200 J", "98 J", "392 J"], 
+        topic: "Energía Potencial Gravitatoria", 
+        question: "Un objeto de \\(2\\text{ kg}\\) se encuentra a una altura \\(h = 10\\text{ m}\\). Con \\(g = 9.8\\text{ m/s}^2\\), ¿cuál es su energía potencial gravitatoria \\(E_p\\)?", 
+        options: ["\\(196\\text{ J}\\)", "\\(200\\text{ J}\\)", "\\(98\\text{ J}\\)", "\\(392\\text{ J}\\)"], 
         answer: 0 
     }
 ];
@@ -216,7 +261,7 @@ const questions = [
 let idx = 0;
 let userAnswers = {};
 let violations = 0;
-let timeLeft = 3000; // 50 Minutos en segundos (50 * 60)
+let timeLeft = 3000; // 50 Minutos expresados en segundos (50 * 60)
 let timerId = null;
 let examActive = false;
 
@@ -241,7 +286,7 @@ const progVal = document.getElementById('prog-val');
 const progressBar = document.getElementById('progress-bar');
 const questionsGrid = document.getElementById('questions-grid');
 
-// INICIALIZACIÓN
+// INICIALIZACIÓN DE LA APLICACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     initGrid();
     loadQuestion(idx);
@@ -268,13 +313,15 @@ function enterFullscreen() {
     }
 }
 
-// BLOQUEO DE KIOSKO Y SEGURIDAD
+// SISTEMA DE SEGURIDAD Y CONTROL DE INCIDENCIAS
 function setupSecurityEvents() {
+    // Bloqueo de menú contextual, copia y pegado
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('copy', e => e.preventDefault());
     document.addEventListener('cut', e => e.preventDefault());
     document.addEventListener('paste', e => e.preventDefault());
 
+    // Bloqueo de atajos de teclado y captura de pantalla
     window.addEventListener('keydown', e => {
         if (!examActive) return;
         if (
@@ -288,6 +335,7 @@ function setupSecurityEvents() {
         }
     });
 
+    // Detección de pérdida de foco o cambio de pestaña
     window.addEventListener('blur', () => {
         if (examActive) triggerViolation();
     });
@@ -296,6 +344,7 @@ function setupSecurityEvents() {
         if (document.hidden && examActive) triggerViolation();
     });
 
+    // Detección de salida de Pantalla Completa
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement && examActive && overlayStart.classList.contains('hidden')) {
             overlayBlock.classList.remove('hidden');
@@ -311,7 +360,7 @@ function triggerViolation() {
     setTimeout(() => alertBanner.classList.add('hidden'), 3500);
 }
 
-// TEMPORIZADOR
+// TEMPORIZADOR DE 50 MINUTOS
 function startTimer() {
     if (timerId) return;
     timerId = setInterval(() => {
@@ -326,12 +375,25 @@ function startTimer() {
     }, 1000);
 }
 
-// RENDERIZADO DE PREGUNTAS
+// RENDERIZADOR MATEMÁTICO KATEX
+function renderMath() {
+    if (window.renderMathInElement) {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "\\(", right: "\\)", display: false},
+                {left: "\\[", right: "\\]", display: true}
+            ],
+            throwOnError: false
+        });
+    }
+}
+
+// RENDERIZADO DE LA PREGUNTA ACTIVA
 function loadQuestion(i) {
     const q = questions[i];
     qNumber.textContent = `Pregunta ${i + 1} de ${questions.length}`;
     qTopic.textContent = q.topic;
-    qText.textContent = q.question;
+    qText.innerHTML = q.question;
 
     optionsBox.innerHTML = '';
     q.options.forEach((opt, oIdx) => {
@@ -352,6 +414,7 @@ function loadQuestion(i) {
     btnPrev.disabled = i === 0;
     btnNext.textContent = i === questions.length - 1 ? "Revisar Respuestas" : "Siguiente ▶";
     updateGrid();
+    renderMath();
 }
 
 function updateProgress() {
@@ -383,7 +446,7 @@ function updateGrid() {
     });
 }
 
-// NAVEGACIÓN
+// CONTROLES DE NAVEGACIÓN
 btnPrev.addEventListener('click', () => {
     if (idx > 0) { idx--; loadQuestion(idx); }
 });
@@ -398,7 +461,7 @@ btnFinish.addEventListener('click', () => {
     }
 });
 
-// RESULTADOS
+// FINALIZACIÓN Y PRESENTACIÓN DE RESULTADOS
 function finishExam() {
     examActive = false;
     clearInterval(timerId);
@@ -429,4 +492,5 @@ function finishExam() {
     document.getElementById('res-score').textContent = `${score} / ${questions.length}`;
     document.getElementById('res-percent').textContent = `${((score / questions.length) * 100).toFixed(1)}%`;
     document.getElementById('res-violations').textContent = violations;
+    renderMath();
 }
