@@ -4,10 +4,305 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación de Física General - Sistema Seguro</title>
-    <!-- RUTA RELATIVA CORREGIDA PARA GITHUB PAGES -->
-    <link rel="stylesheet" href="./styles.css">
-    <!-- FONTAWESOME CDN CON ATRIBUTOS DE SEGURIDAD -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- ICONOS FONTAWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --secondary: #475569;
+            --danger: #dc2626;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --selected-bg: #1e3a8a;
+            --selected-border: #3b82f6;
+        }
+
+        /* BLOQUEO ESTRICTO DE SELECCIÓN Y COPIADO */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .app-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: #60a5fa;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #0f172a;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-box i {
+            font-size: 1.25rem;
+            color: #60a5fa;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+        }
+
+        .warning-banner {
+            background: #450a0a;
+            color: #fca5a5;
+            border-bottom: 1px solid #991b1b;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* LAYOUT */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        /* PREGUNTA Y OPCIONES */
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background: #1e3a8a;
+            color: #bfdbfe;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #3b82f6;
+        }
+
+        .topic-tag {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #0f172a;
+            border-radius: 3px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #2563eb;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-item {
+            border: 1px solid var(--border);
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            border-color: #60a5fa;
+            background: #1e293b;
+        }
+
+        .option-item.selected {
+            border-color: var(--selected-border);
+            background: var(--selected-bg);
+        }
+
+        .option-item label {
+            cursor: pointer;
+            width: 100%;
+            color: #f1f5f9;
+        }
+
+        /* BOTONES */
+        .actions-footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-primary, .btn-secondary, .btn-danger {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s ease;
+        }
+
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+
+        .btn-secondary { background: var(--secondary); color: white; }
+        .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #b91c1c; }
+
+        .full-width { width: 100%; justify-content: center; margin-top: 1rem; }
+
+        /* MAPA DE PREGUNTAS */
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .map-btn {
+            padding: 0.6rem;
+            border: 1px solid var(--border);
+            background: #0f172a;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .map-btn.current { border-color: #60a5fa; background: #1e3a8a; color: #ffffff; }
+        .map-btn.answered { background: #2563eb; color: white; border-color: #3b82f6; }
+
+        .map-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .dot.actual { background: #60a5fa; }
+        .dot.respondida { background: #2563eb; }
+        .dot.pendiente { background: #475569; }
+
+        /* OVERLAYS Y MODALES */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.98);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+        }
+
+        .modal-icon { font-size: 3.5rem; color: #60a5fa; margin-bottom: 1rem; }
+        .modal-card h2 { color: #ffffff; margin-bottom: 0.75rem; }
+        .modal-card p { color: var(--text-muted); margin-bottom: 1.5rem; }
+        .modal-card.error .modal-icon { color: #f87171; }
+        
+        .hidden { display: none !important; }
+
+        /* RESULTADOS */
+        .results-card { grid-column: 1 / -1; }
+        .results-summary { display: flex; gap: 2rem; margin: 1.5rem 0; }
+        .score-card { background: #0f172a; border: 1px solid var(--border); padding: 1.5rem; border-radius: 8px; flex: 1; text-align: center; }
+        .score-number { font-size: 2.5rem; font-weight: 800; display: block; color: #60a5fa; }
+        .score-number.danger { color: #f87171; }
+        .review-item { padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; }
+        .review-item.correct { background: #064e3b; border: 1px solid #059669; }
+        .review-item.incorrect { background: #450a0a; border: 1px solid #dc2626; }
+    </style>
 </head>
 <body>
 
@@ -17,7 +312,7 @@
             <div class="modal-icon"><i class="fas fa-shield-halved"></i></div>
             <h2>Evaluación Controlada de Física</h2>
             <p>Para garantizar la integridad académica, esta evaluación se ejecuta en <strong>modo pantalla completa</strong> con monitoreo activo de seguridad.</p>
-            <button id="btn-enter" class="btn-primary">
+            <button id="btn-enter" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
                 <i class="fas fa-expand"></i> Iniciar / Continuar Evaluación
             </button>
         </div>
@@ -38,8 +333,8 @@
         <div class="header-title">
             <i class="fas fa-atom logo-icon"></i>
             <div>
-                <h1>Evaluación de Física General</h1>
-                <p>Sistema de Evaluación Académica de Máxima Seguridad</p>
+                <h1 style="font-size: 1.25rem;">Evaluación de Física General</h1>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Sistema de Evaluación Académica de Máxima Seguridad</p>
             </div>
         </div>
         <div class="header-stats">
@@ -95,7 +390,7 @@
         <!-- PANEL LATERAL: MAPA DE PREGUNTAS -->
         <aside class="sidebar-section">
             <div class="card map-card">
-                <h3>Mapa de Preguntas</h3>
+                <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Mapa de Preguntas</h3>
                 <div id="question-map" class="map-grid">
                     <!-- Botones 1 a 30 -->
                 </div>
@@ -125,11 +420,10 @@
                 </div>
             </div>
             <h3>Revisiones</h3>
-            <div id="review-list" class="review-container"></div>
+            <div id="review-list" class="review-container" style="margin-top: 1rem;"></div>
         </section>
     </main>
 
-    <!-- RUTA RELATIVA CORREGIDA AL SCRIPT -->
     <script src="./index.js"></script>
 </body>
 </html>
