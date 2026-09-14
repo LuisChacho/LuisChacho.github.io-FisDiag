@@ -1,4 +1,4 @@
-// BANCO DE PREGUNTAS (30 PREGUNTAS CON ENFOQUE VECTORIAL Y RESPUESTAS ESCALARES)
+// BANCO DE 30 PREGUNTAS (RESPUESTAS ESCALARES/MAGNITUDES EN PROBLEMAS VECTORIALES)
 const questions = [
     { 
         id: 1, 
@@ -11,13 +11,8 @@ const questions = [
         id: 2, 
         topic: "MRU (Magnitud de Desplazamiento)", 
         question: "Un automóvil se desplaza con velocidad constante v = (30 i + 40 j) km/h durante t = 2 horas. ¿Cuál es el módulo del desplazamiento total |r| (distancia recorrida)?", 
-        options: [
-            "50.0 km", 
-            "100.0 km", 
-            "140.0 km", 
-            "70.0 km"
-        ], 
-        answer: 1 // |r| = sqrt((60)^2 + (80)^2) = 100 km
+        options: ["50.0 km", "100.0 km", "140.0 km", "70.0 km"], 
+        answer: 1 
     },
     { 
         id: 3, 
@@ -30,13 +25,8 @@ const questions = [
         id: 4, 
         topic: "MRUV (Rapidez Final)", 
         question: "Un objeto parte del reposo y experimenta una aceleración constante a = (4 i - 6 j) m/s² durante t = 3 segundos. ¿Cuál es el módulo de la velocidad final (rapidez |v_f|)?", 
-        options: [
-            "21.63 m/s", 
-            "14.42 m/s", 
-            "30.00 m/s", 
-            "10.00 m/s"
-        ], 
-        answer: 0 // v_f = (12 i - 18 j) => |v_f| = sqrt(12^2 + (-18)^2) = sqrt(468) ≈ 21.63 m/s
+        options: ["21.63 m/s", "14.42 m/s", "30.00 m/s", "10.00 m/s"], 
+        answer: 0 
     },
     { 
         id: 5, 
@@ -57,7 +47,7 @@ const questions = [
         topic: "Dinámica Vectorial", 
         question: "Sobre un cuerpo de masa m = 2 kg actúa una fuerza neta de F = (6 i + 8 j) N. ¿Cuál es el módulo de la aceleración resultante |a|?", 
         options: ["3.0 m/s²", "4.0 m/s²", "5.0 m/s²", "7.0 m/s²"], 
-        answer: 2 // |F| = sqrt(6^2 + 8^2) = 10 N; |a| = 10 N / 2 kg = 5 m/s²
+        answer: 2 
     },
     { 
         id: 8, 
@@ -197,7 +187,7 @@ const questions = [
         topic: "Vectores (Magnitud)", 
         question: "Dado el vector posición r = (5 i - 12 j) m, ¿cuál es el módulo o magnitud |r| de dicho vector?", 
         options: ["7 m", "17 m", "13 m", "169 m"], 
-        answer: 2 // sqrt(5^2 + (-12)^2) = 13 m
+        answer: 2 
     },
     { 
         id: 28, 
@@ -222,7 +212,7 @@ const questions = [
     }
 ];
 
-// ESTADO Y PERSISTENCIA
+// ESTADO DE LA EVALUACIÓN
 let currentIndex = 0;
 let userAnswers = JSON.parse(localStorage.getItem('eval_answers')) || {};
 let violationsCount = parseInt(localStorage.getItem('eval_violations')) || 0;
@@ -254,52 +244,60 @@ const examSection = document.getElementById('exam-section');
 const sidebarSection = document.querySelector('.sidebar-section');
 const resultsSection = document.getElementById('results-section');
 
-// INICIALIZACIÓN
+// INICIALIZACIÓN DE LA APLICACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     initQuestionMap();
     renderQuestion(currentIndex);
     updateProgress();
     setupMaximumSecurity();
+
+    btnEnter.addEventListener('click', () => {
+        enterFullscreen();
+        overlay.classList.add('hidden');
+        startTimer();
+    });
+
+    btnResume.addEventListener('click', () => {
+        blackoutScreen.classList.add('hidden');
+        enterFullscreen();
+    });
 });
 
-// NAVEGACIÓN BLOQUEADA (Prevención del Botón Atrás del Navegador)
-function preventBackNavigation() {
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = function () {
-        window.history.pushState(null, "", window.location.href);
-        registerViolation();
-    };
+// SISTEMA DE PANTALLA COMPLETA
+function enterFullscreen() {
+    const docEl = document.documentElement;
+    const requestFS = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+
+    if (requestFS && !document.fullscreenElement) {
+        requestFS.call(docEl).catch(() => {});
+    }
 }
 
-// CONFIGURACIÓN DE SEGURIDAD MÁXIMA
+// CONFIGURACIÓN DE SEGURIDAD ESTRICTA
 function setupMaximumSecurity() {
-    preventBackNavigation();
+    // 1. Bloqueo de Clic Derecho y Selección de Texto
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    document.addEventListener('copy', (e) => e.preventDefault());
+    document.addEventListener('cut', (e) => e.preventDefault());
+    document.addEventListener('selectstart', (e) => e.preventDefault());
 
-    // 1. Bloqueo de Tecla ESC y Atajos de Teclado / Captura
+    // 2. Control del Botón "Atrás"
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = () => window.history.pushState(null, "", window.location.href);
+
+    // 3. Captura y Bloqueo de Teclas
     window.addEventListener('keydown', (e) => {
-        // Bloquear ESC
-        if (e.key === 'Escape' || e.keyCode === 27) {
-            e.preventDefault();
-            e.stopPropagation();
-            triggerBlackout();
-            return false;
-        }
-
-        // Bloquear PrintScreen / Capturas
         if (e.key === 'PrintScreen' || e.keyCode === 44) {
             e.preventDefault();
+            if (navigator.clipboard) navigator.clipboard.writeText('');
             triggerBlackout();
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText('');
-            }
             return false;
         }
 
-        // Bloquear Ctrl + Shift + S / Win + Shift + S / Ctrl + U / Ctrl + P / F12
         if (
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'S' || e.key === 's')) ||
+            (e.key === 'S' || e.key === 's') && (e.shiftKey && (e.metaKey || e.ctrlKey)) ||
             (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S')) ||
-            (e.key === 'F12')
+            (e.key === 'F12') || (e.key === 'Escape' || e.keyCode === 27)
         ) {
             e.preventDefault();
             triggerBlackout();
@@ -307,18 +305,13 @@ function setupMaximumSecurity() {
         }
     }, true);
 
-    // 2. Control de Foco y Visibilidad
-    window.addEventListener('blur', () => {
-        registerViolation();
-    });
-
+    // 4. Detección de Salida / Pérdida de Foco
+    window.addEventListener('blur', () => registerViolation());
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            registerViolation();
-        }
+        if (document.hidden) registerViolation();
     });
 
-    // 3. Reactivar pantalla completa si el usuario la cancela
+    // 5. Re-bloqueo si salen de pantalla completa
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) {
             overlay.classList.remove('hidden');
@@ -331,29 +324,11 @@ function triggerBlackout() {
     registerViolation();
 }
 
-btnResume.addEventListener('click', () => {
-    blackoutScreen.classList.add('hidden');
-    enterFullscreen();
-});
-
 function registerViolation() {
     violationsCount++;
     localStorage.setItem('eval_violations', violationsCount);
     warningBanner.classList.remove('hidden');
-    setTimeout(() => warningBanner.classList.add('hidden'), 5000);
-}
-
-// PANTALLA COMPLETA
-btnEnter.addEventListener('click', () => {
-    enterFullscreen();
-    overlay.classList.add('hidden');
-    startTimer();
-});
-
-function enterFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-    }
+    setTimeout(() => warningBanner.classList.add('hidden'), 4000);
 }
 
 // TEMPORIZADOR
@@ -374,7 +349,7 @@ function startTimer() {
     }, 1000);
 }
 
-// RENDERIZADO DE PREGUNTAS
+// RENDERIZADO Y LÓGICA DE PREGUNTAS
 function renderQuestion(index) {
     const q = questions[index];
     questionNumber.textContent = `Pregunta ${index + 1} de ${questions.length}`;
@@ -405,7 +380,6 @@ function selectOption(qIndex, optIndex) {
     updateProgress();
 }
 
-// CONTROLES DE NAVEGACIÓN
 btnPrev.addEventListener('click', () => {
     if (currentIndex > 0) {
         currentIndex--;
@@ -420,7 +394,7 @@ btnNext.addEventListener('click', () => {
     }
 });
 
-// MAPA DE PREGUNTAS
+// MAPA DE NAVEGACIÓN
 function initQuestionMap() {
     questionMap.innerHTML = '';
     questions.forEach((_, i) => {
@@ -447,13 +421,12 @@ function updateMapHighlight() {
 function updateProgress() {
     const answeredCount = Object.keys(userAnswers).length;
     progressText.textContent = `${answeredCount} / ${questions.length}`;
-    const percent = (answeredCount / questions.length) * 100;
-    progressBar.style.width = `${percent}%`;
+    progressBar.style.width = `${(answeredCount / questions.length) * 100}%`;
 }
 
-// FINALIZACIÓN Y EVALUACIÓN
+// FINALIZACIÓN
 btnFinish.addEventListener('click', () => {
-    if (confirm("¿Estás seguro de finalizar la evaluación? Una vez enviada no podrás modificar tus respuestas.")) {
+    if (confirm("¿Estás seguro de finalizar la evaluación? Las respuestas no se podrán modificar.")) {
         finishEvaluation();
     }
 });
