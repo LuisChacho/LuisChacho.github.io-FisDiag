@@ -3,22 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examen de Física - Plataforma de Evaluación</title>
+  <title>Plataforma de Evaluación de Física - MÁXIMA SEGURIDAD</title>
   
-  <!-- MathJax para renderizado de fórmulas LaTeX -->
+  <!-- MathJax para ecuaciones LaTeX -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --bg-body: #f1f5f9;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg-body: #f4f7f9;
       --bg-card: #ffffff;
-      --border-color: #e2e8f0;
+      --border-color: #cbd5e1;
       --text-main: #0f172a;
       --text-muted: #64748b;
-      --success: #22c55e;
+      --success: #10b981;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
     }
 
     * {
@@ -26,27 +28,105 @@
       margin: 0;
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      user-select: none; /* Bloqueo de selección */
+      -webkit-user-select: none;
     }
 
     body {
       background-color: var(--bg-body);
       color: var(--text-main);
       height: 100vh;
-      overflow: hidden; /* Evita scroll global */
+      overflow: hidden;
     }
 
-    /* Layout principal dividido en 2 columnas */
+    .hidden { display: none !important; }
+
+    /* OVERLAYS Y MODALES DE SEGURIDAD */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .overlay-card {
+      background: var(--bg-card);
+      max-width: 520px;
+      width: 100%;
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .overlay-card.danger-border {
+      border-top: 6px solid var(--danger);
+    }
+
+    .brand-badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .rules-box {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+
+    .rules-box ul { list-style: none; }
+    .rules-box li {
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-main);
+    }
+
+    /* ALERTAS FLOTANTES */
+    .alert-banner {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--danger);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+    }
+
+    /* LAYOUT PRINCIPAL DE LA PLATAFORMA */
     .app-container {
       display: grid;
-      grid-template-columns: 1fr 340px; /* Columna izquierda flexible, columna derecha fija */
+      grid-template-columns: 1fr 340px;
       height: 100vh;
       width: 100vw;
     }
 
-    /* ÁREA PRINCIPAL DE LA PREGUNTA (Izquierda) */
     .main-panel {
-      padding: 2.5rem;
-      overflow-y: auto; /* Scroll independiente si la pregunta es muy larga */
+      padding: 2rem 3rem;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -61,9 +141,10 @@
     }
 
     .topic-tag {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
 
@@ -76,7 +157,7 @@
     .question-statement {
       font-size: 1.05rem;
       line-height: 1.6;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .equation-container {
@@ -86,10 +167,9 @@
       margin: 1rem 0 1.5rem 0;
       border-radius: 0 8px 8px 0;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
     }
 
-    /* Opciones de respuesta */
     .options-list {
       display: flex;
       flex-direction: column;
@@ -122,9 +202,9 @@
       width: 1.2rem;
       height: 1.2rem;
       accent-color: var(--primary);
+      pointer-events: none;
     }
 
-    /* Botones de Navegación */
     .action-buttons {
       display: flex;
       gap: 1rem;
@@ -132,7 +212,7 @@
     }
 
     .btn {
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.75rem;
       border-radius: 6px;
       font-weight: 600;
       border: none;
@@ -145,20 +225,28 @@
       color: var(--text-main);
     }
 
-    .btn-secondary:hover {
-      background: #cbd5e1;
-    }
+    .btn-secondary:hover { background: #cbd5e1; }
 
     .btn-primary {
       background: var(--primary);
       color: white;
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .btn-primary-large {
+      background: var(--primary);
+      color: white;
+      padding: 0.85rem 1.75rem;
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 6px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
     }
 
-    /* PANEL LATERAL DE NAVEGACIÓN (Derecha) */
+    /* SIDEBAR Y NAVEGACIÓN DIRECTA */
     .sidebar-panel {
       background: var(--bg-card);
       border-left: 1px solid var(--border-color);
@@ -166,7 +254,6 @@
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
-      box-shadow: -4px 0 10px rgba(0, 0, 0, 0.02);
     }
 
     .widget-box {
@@ -190,7 +277,6 @@
       color: var(--text-main);
     }
 
-    /* Cuadrícula de 40 preguntas */
     .grid-container {
       flex-grow: 1;
       display: flex;
@@ -226,44 +312,71 @@
       color: var(--primary);
     }
 
-    /* Estado: Respondida */
     .q-btn.answered {
-      background-color: var(--primary);
+      background-color: var(--success);
       color: white;
-      border-color: var(--primary);
+      border-color: var(--success);
     }
 
-    /* Estado: Pregunta Actual */
     .q-btn.current {
       outline: 3px solid #93c5fd;
       font-weight: 800;
     }
 
-    /* Adaptabilidad en pantallas pequeñas */
-    @media (max-width: 850px) {
-      .app-container {
-        grid-template-columns: 1fr;
-        height: auto;
-      }
-      body {
-        overflow: auto;
-      }
-      .sidebar-panel {
-        border-left: none;
-        border-top: 1px solid var(--border-color);
-      }
+    /* OCULTAR IMPRESIÓN */
+    @media print {
+      body { display: none !important; }
     }
   </style>
 </head>
 <body>
 
+  <!-- BANNER DE ADVERTENCIA DE VIOLACIÓN -->
+  <div id="alert-banner" class="alert-banner hidden">
+    ⚠️ ALERTA DE SEGURIDAD: Acción no permitida registrada.
+  </div>
+
+  <!-- OVERLAY 1: INICIO DE EVALUACIÓN -->
+  <div id="start-overlay" class="overlay">
+    <div class="overlay-card">
+      <span class="brand-badge">Sistema Anti-Fraude Activo</span>
+      <h2 style="margin-bottom: 0.5rem;">Evaluación de Física General</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">40 Preguntas • Tiempo Máximo: 60 Minutos</p>
+      
+      <div class="rules-box">
+        <ul>
+          <li>🔒 La prueba requiere ejecución en <strong>Pantalla Completa</strong>.</li>
+          <li>🚫 Se bloqueará cualquier intento de cambio de pestaña o captura.</li>
+          <li>⚠️ Salir de la pantalla completa registrará una advertencia de fraude.</li>
+        </ul>
+      </div>
+
+      <button class="btn-primary-large" id="btn-start">Iniciar Examen Ahora</button>
+    </div>
+  </div>
+
+  <!-- OVERLAY 2: BLOQUEO POR SALIDA DE PANTALLA COMPLETA -->
+  <div id="block-overlay" class="overlay hidden">
+    <div class="overlay-card danger-border">
+      <h2 style="color: var(--danger); margin-bottom: 0.5rem;">Examen Bloqueado</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Se ha detectado una interrupción en el modo seguro de evaluación.</p>
+      
+      <div class="rules-box">
+        <p style="font-size: 0.875rem; color: var(--text-main);">Para continuar respondiendo la prueba debes reactivar el entorno protegido en pantalla completa.</p>
+      </div>
+
+      <button class="btn-primary-large" id="btn-unlock" style="background: var(--danger);">Reactivar Pantalla Completa</button>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL DE LA PLATAFORMA -->
   <div class="app-container">
     
-    <!-- COLUMNA IZQUIERDA: PREGUNTA Y OPCIONES -->
+    <!-- ÁREA IZQUIERDA: PREGUNTA ACTIVA -->
     <main class="main-panel">
       <div>
         <div class="question-card" id="question-card">
-          <!-- Contenido renderizado por JavaScript -->
+          <!-- Carga dinámicamente -->
         </div>
       </div>
 
@@ -273,67 +386,171 @@
       </div>
     </main>
 
-    <!-- COLUMNA DERECHA: RECUADRO LATERAL DE PREGUNTAS -->
+    <!-- ÁREA DERECHA: PANEL LATERAL Y NAVEGACIÓN -->
     <aside class="sidebar-panel">
-      
-      <!-- Cronómetro -->
       <div class="widget-box">
         <div class="widget-label">Tiempo Restante</div>
-        <div class="timer-text" id="timer">48:52</div>
+        <div class="timer-text" id="timer">60:00</div>
       </div>
 
-      <!-- Indicador de Progreso -->
       <div class="widget-box">
         <div class="widget-label">Estado del Examen</div>
         <div id="progress-text" style="font-weight: 600; font-size: 0.95rem;">Respondidas: 0 / 40</div>
       </div>
 
-      <!-- Panel de Selección Directa (40 Preguntas) -->
       <div class="grid-container">
         <div class="widget-label">Navegación Directa</div>
         <div class="questions-grid" id="questions-grid">
-          <!-- Se generan dinámicamente los 40 botones -->
+          <!-- 40 Botones dinámicos -->
         </div>
       </div>
 
+      <button class="btn btn-secondary" style="color: var(--danger); border: 1px solid var(--danger); background: transparent;" onclick="finishExam()">Finalizar Examen</button>
     </aside>
 
   </div>
 
   <script>
-    const TOTAL_QUESTIONS = 40;
-    let currentQuestionIndex = 7; // Inicia en la pregunta 8 (Índice 7)
-    let answers = new Array(TOTAL_QUESTIONS).fill(null);
+    // BANCO COMPLETO DE 40 PREGUNTAS INDIVIDUALES Y DIVERSIFICADAS
+    const examData = [
+      { id: 1, topic: "MRU Vectorial", statement: "Un dron se desplaza con MRU desde una posición inicial hasta una posición final en $\\Delta t = 2\\text{ s}$:", equation: "\\vec{r}_0 = (4\\hat{i} + 2\\hat{j})\\text{ m}, \\quad \\vec{r}_f = (10\\hat{i} - 6\\hat{j})\\text{ m}", questionText: "Calcular su vector velocidad constante $\\vec{v}$:", options: ["\\vec{v} = (3\\hat{i} - 4\\hat{j})\\text{ m/s}", "\\vec{v} = (6\\hat{i} - 8\\hat{j})\\text{ m/s}", "\\vec{v} = (7\\hat{i} - 2\\hat{j})\\text{ m/s}", "\\vec{v} = (14\\hat{i} - 4\\hat{j})\\text{ m/s}"] },
+      { id: 2, topic: "MRU Vectorial", statement: "Un vehículo se mueve con velocidad constante durante $\\Delta t = 3\\text{ s}$:", equation: "\\vec{v} = (5\\hat{i} - 12\\hat{j})\\text{ m/s}", questionText: "Calcular el módulo del desplazamiento total $|\\Delta \\vec{r}|$: ", options: ["39 m", "51 m", "15 m", "36 m"] },
+      { id: 3, topic: "Vector Posición", statement: "Un móvil parte desde el origen $(0,0)$ y se desplaza según el vector posición:", equation: "\\vec{r}(t) = (3t\\hat{i} + 4t^2\\hat{j})\\text{ m}", questionText: "Determinar el vector posición en $t = 2\\text{ s}$:", options: ["\\vec{r}(2) = (6\\hat{i} + 16\\hat{j})\\text{ m}", "\\vec{r}(2) = (3\\hat{i} + 8\\hat{j})\\text{ m}", "\\vec{r}(2) = (6\\hat{i} + 8\\hat{j})\\text{ m}", "\\vec{r}(2) = (12\\hat{i} + 16\\hat{j})\\text{ m}"] },
+      { id: 4, topic: "MRUV Vectorial", statement: "Una partícula acelera uniformemente en un plano desde el reposo con:", equation: "\\vec{a} = (2\\hat{i} + 4\\hat{j})\\text{ m/s}^2", questionText: "Determinar su velocidad a los $t = 5\\text{ s}$:", options: ["\\vec{v} = (10\\hat{i} + 20\\hat{j})\\text{ m/s}", "\\vec{v} = (5\\hat{i} + 10\\hat{j})\\text{ m/s}", "\\vec{v} = (20\\hat{i} + 40\\hat{j})\\text{ m/s}", "\\vec{v} = (8\\hat{i} + 16\\hat{j})\\text{ m/s}"] },
+      { id: 5, topic: "MRUV Vectorial", statement: "Un objeto tiene una velocidad inicial $\\vec{v}_0 = (3\\hat{i} + 2\\hat{j})\\text{ m/s}$ y acelera con $\\vec{a} = (4\\hat{i} - 2\\hat{j})\\text{ m/s}^2$ durante $2\\text{ s}$.", equation: "\\vec{r} = \\vec{v}_0 t + \\frac{1}{2}\\vec{a}t^2", questionText: "Calcular el vector desplazamiento $\\Delta \\vec{r}$:", options: ["\\Delta \\vec{r} = (14\\hat{i} + 0\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (10\\hat{i} + 4\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (12\\hat{i} - 2\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (8\\hat{i} + 2\\hat{j})\\text{ m}"] },
+      { id: 6, topic: "Cinemática 2D", statement: "Un barco navega en un río. La velocidad del barco respecto al agua es $\\vec{v}_b = (8\\hat{i})\\text{ m/s}$ y la corriente es $\\vec{v}_c = (6\\hat{j})\\text{ m/s}$.", equation: "\\vec{v}_{total} = \\vec{v}_b + \\vec{v}_c", questionText: "Calcular la rapidez resultante respecto a la orilla:", options: ["10 m/s", "14 m/s", "2 m/s", "48 m/s"] },
+      { id: 7, topic: "MRU Vectorial", statement: "Un objeto en MRU pasa por $\\vec{r}_1 = (2\\hat{i} + 5\\hat{j})\\text{ m}$ en $t_1 = 1\\text{ s}$ y por $\\vec{r}_2 = (8\\hat{i} + 13\\hat{j})\\text{ m}$ en $t_2 = 4\\text{ s}$.", equation: "\\vec{v} = \\frac{\\vec{r}_2 - \\vec{r}_1}{t_2 - t_1}", questionText: "Determinar el vector velocidad $\\vec{v}$:", options: ["\\vec{v} = (2\\hat{i} + 2.67\\hat{j})\\text{ m/s}", "\\vec{v} = (2\\hat{i} + 2.67\\hat{j})\\text{ m/s}", "\\vec{v} = (6\\hat{i} + 8\\hat{j})\\text{ m/s}", "\\vec{v} = (3\\hat{i} + 4\\hat{j})\\text{ m/s}"] },
+      { id: 8, topic: "MRU Vectorial", statement: "Un avión se desplaza a velocidad constante durante $t = 3\\text{ h}$:", equation: "\\vec{v} = (400\\hat{i} + 300\\hat{j})\\text{ km/h}", questionText: "Determinar la distancia escalar total recorrida $d$:", options: ["1500 km", "2100 km", "1200 km", "900 km"] },
+      { id: 9, topic: "MCU", statement: "Una partícula describe una trayectoria circular de radio $R = 2\\text{ m}$ con rapidez constante $v = 4\\text{ m/s}$.", equation: "a_c = \\frac{v^2}{R}", questionText: "Calcular el módulo de la aceleración centrípeta $a_c$:", options: ["8 m/s²", "16 m/s²", "4 m/s²", "2 m/s²"] },
+      { id: 10, topic: "MCU", statement: "Un disco gira a una velocidad angular constante de $\\omega = 10\\text{ rad/s}$.", equation: "T = \\frac{2\\pi}{\\omega}", questionText: "Calcular el período $T$ de rotación:", options: ["0.628 s", "1.57 s", "3.14 s", "6.28 s"] },
+      { id: 11, topic: "Dinámica - Leyes de Newton", statement: "Sobre un cuerpo de masa $m = 5\\text{ kg}$ actúan dos fuerzas en un plano horizontal:", equation: "\\vec{F}_1 = (10\\hat{i} + 5\\hat{j})\\text{ N}, \\quad \\vec{F}_2 = (5\\hat{i} + 10\\hat{j})\\text{ N}", questionText: "Determinar el vector aceleración $\\vec{a}$:", options: ["\\vec{a} = (3\\hat{i} + 3\\hat{j})\\text{ m/s}^2", "\\vec{a} = (15\\hat{i} + 15\\hat{j})\\text{ m/s}^2", "\\vec{a} = (2\\hat{i} + 2\\hat{j})\\text{ m/s}^2", "\\vec{a} = (5\\hat{i} + 5\\hat{j})\\text{ m/s}^2"] },
+      { id: 12, topic: "Dinámica", statement: "Un bloque de $m = 10\\text{ kg}$ es arrastrado por una fuerza $\\vec{F} = (50\\hat{i})\\text{ N}$ sobre una superficie con fricción $\\vec{f}_k = (-10\\hat{i})\\text{ N}$.", equation: "\\Sigma \\vec{F} = m\\vec{a}", questionText: "Calcular la aceleración del bloque:", options: ["4 m/s²", "5 m/s²", "6 m/s²", "10 m/s²"] },
+      { id: 13, topic: "Trabajo Mecánico", statement: "Una fuerza $\\vec{F} = (6\\hat{i} + 8\\hat{j})\\text{ N}$ desplaza un objeto a lo largo del vector:", equation: "\\Delta \\vec{r} = (5\\hat{i} + 2\\hat{j})\\text{ m}", questionText: "Calcular el trabajo escalar realizado $W = \\vec{F} \\cdot \\Delta \\vec{r}$:", options: ["46 J", "30 J", "16 J", "70 J"] },
+      { id: 14, topic: "Energía Cinética", statement: "Un objeto de masa $m = 4\\text{ kg}$ se mueve con un vector velocidad:", equation: "\\vec{v} = (3\\hat{i} - 4\\hat{j})\\text{ m/s}", questionText: "Calcular su Energía Cinética $E_k = \\frac{1}{2}m v^2$:", options: ["50 J", "25 J", "100 J", "14 J"] },
+      { id: 15, topic: "Impulso Vectorial", statement: "Una fuerza neta $\\vec{F} = (20\\hat{i} - 10\\hat{j})\\text{ N}$ actúa sobre un cuerpo durante $\\Delta t = 0.5\\text{ s}$.", equation: "\\vec{I} = \\vec{F}\\Delta t", questionText: "Calcular el vector Impulso $\\vec{I}$:", options: ["\\vec{I} = (10\\hat{i} - 5\\hat{j})\\text{ N·s}", "\\vec{I} = (40\\hat{i} - 20\\hat{j})\\text{ N·s}", "\\vec{I} = (20\\hat{i} - 10\\hat{j})\\text{ N·s}", "\\vec{I} = (5\\hat{i} - 2.5\\hat{j})\\text{ N·s}"] },
+      { id: 16, topic: "Cantidad de Movimiento", statement: "Un proyectil de masa $m = 2\\text{ kg}$ lleva una velocidad constante de:", equation: "\\vec{v} = (15\\hat{i} + 20\\hat{j})\\text{ m/s}", questionText: "Calcular el módulo de la cantidad de movimiento $|\\vec{p}| = m|\\vec{v}|$: ", options: ["50 kg·m/s", "70 kg·m/s", "35 kg·m/s", "25 kg·m/s"] },
+      { id: 17, topic: "MRU Vectorial", statement: "Un vehículo autónomo parte del punto $\\vec{r}_0 = (-2\\hat{i} + 4\\hat{j})\\text{ m}$ con velocidad $\\vec{v} = (3\\hat{i} + 5\\hat{j})\\text{ m/s}$.", equation: "\\vec{r}(t) = \\vec{r}_0 + \\vec{v}t", questionText: "Determinar su posición a los $t = 4\\text{ s}$:", options: ["\\vec{r}(4) = (10\\hat{i} + 24\\hat{j})\\text{ m}", "\\vec{r}(4) = (12\\hat{i} + 20\\hat{j})\\text{ m}", "\\vec{r}(4) = (14\\hat{i} + 16\\hat{j})\\text{ m}", "\\vec{r}(4) = (8\\hat{i} + 20\\hat{j})\\text{ m}"] },
+      { id: 18, topic: "Cinemática 2D", statement: "Una partícula realiza dos desplazamientos consecutivos: $\\Delta \\vec{r}_1 = (10\\hat{i} - 5\\hat{j})\\text{ m}$ y $\\Delta \\vec{r}_2 = (-4\\hat{i} + 13\\hat{j})\\text{ m}$.", equation: "\\Delta \\vec{r}_{total} = \\Delta \\vec{r}_1 + \\Delta \\vec{r}_2", questionText: "Calcular el vector desplazamiento resultante:", options: ["\\Delta \\vec{r}_{total} = (6\\hat{i} + 8\\hat{j})\\text{ m}", "\\Delta \\vec{r}_{total} = (14\\hat{i} + 18\\hat{j})\\text{ m}", "\\Delta \\vec{r}_{total} = (-6\\hat{i} - 8\\hat{j})\\text{ m}", "\\Delta \\vec{r}_{total} = (6\\hat{i} - 18\\hat{j})\\text{ m}"] },
+      { id: 19, topic: "Aceleración Media", statement: "Un móvil cambia su velocidad de $\\vec{v}_1 = (2\\hat{i} + 3\\hat{j})\\text{ m/s}$ a $\\vec{v}_2 = (8\\hat{i} + 11\\hat{j})\\text{ m/s}$ en un intervalo $\\Delta t = 2\\text{ s}$.", equation: "\\vec{a}_m = \\frac{\\vec{v}_2 - \\vec{v}_1}{\\Delta t}", questionText: "Calcular la aceleración media $\\vec{a}_m$:", options: ["\\vec{a}_m = (3\\hat{i} + 4\\hat{j})\\text{ m/s}^2", "\\vec{a}_m = (6\\hat{i} + 8\\hat{j})\\text{ m/s}^2", "\\vec{a}_m = (5\\hat{i} + 7\\hat{j})\\text{ m/s}^2", "\\vec{a}_m = (4\\hat{i} + 3\\hat{j})\\text{ m/s}^2"] },
+      { id: 20, topic: "Lanzamiento Horizontal", statement: "Una esfera se lanza horizontalmente desde una altura con $\\vec{v}_0 = (15\\hat{i})\\text{ m/s}$. Despreciando el aire y considerando $g = 10\\text{ m/s}^2$:", equation: "\\vec{v}(t) = v_{0x}\\hat{i} - gt\\hat{j}", questionText: "Determinar el vector velocidad a los $t = 2\\text{ s}$:", options: ["\\vec{v}(2) = (15\\hat{i} - 20\\hat{j})\\text{ m/s}", "\\vec{v}(2) = (15\\hat{i} - 10\\hat{j})\\text{ m/s}", "\\vec{v}(2) = (0\\hat{i} - 20\\hat{j})\\text{ m/s}", "\\vec{v}(2) = (30\\hat{i} - 20\\hat{j})\\text{ m/s}"] },
+      { id: 21, topic: "Cinemática Vectorial", statement: "Un microchip se desplaza dentro de una placa con ecuación de posición:", equation: "\\vec{r}(t) = (t^2 \\hat{i} + 5t \\hat{j})\\text{ m}", questionText: "Calcular el vector velocidad instantánea en $t = 3\\text{ s}$:", options: ["\\vec{v}(3) = (6\\hat{i} + 5\\hat{j})\\text{ m/s}", "\\vec{v}(3) = (9\\hat{i} + 15\\hat{j})\\text{ m/s}", "\\vec{v}(3) = (3\\hat{i} + 5\\hat{j})\\text{ m/s}", "\\vec{v}(3) = (6\\hat{i} + 15\\hat{j})\\text{ m/s}"] },
+      { id: 22, topic: "Cinemática Vectorial", statement: "Para el mismo microchip con posición $\\vec{r}(t) = (t^2 \\hat{i} + 5t \\hat{j})\\text{ m}$:", equation: "\\vec{a}(t) = \\frac{d\\vec{v}}{dt}", questionText: "Determinar el vector aceleración instantánea en cualquier instante:", options: ["\\vec{a} = (2\\hat{i} + 0\\hat{j})\\text{ m/s}^2", "\\vec{a} = (2\\hat{i} + 5\\hat{j})\\text{ m/s}^2", "\\vec{a} = (6\\hat{i} + 0\\hat{j})\\text{ m/s}^2", "\\vec{a} = (0\\hat{i} + 2\\hat{j})\\text{ m/s}^2"] },
+      { id: 23, topic: "Estática Vectorial", statement: "Un cuerpo permanece en equilibrio bajo la acción de tres fuerzas. Si dos de ellas son $\\vec{F}_1 = (12\\hat{i} - 5\\hat{j})\\text{ N}$ y $\\vec{F}_2 = (-4\\hat{i} + 9\\hat{j})\\text{ N}$:", equation: "\\vec{F}_1 + \\vec{F}_2 + \\vec{F}_3 = \\vec{0}", questionText: "Calcular la tercera fuerza equilibrante $\\vec{F}_3$:", options: ["\\vec{F}_3 = (-8\\hat{i} - 4\\hat{j})\\text{ N}", "\\vec{F}_3 = (8\\hat{i} + 4\\hat{j})\\text{ N}", "\\vec{F}_3 = (-16\\hat{i} + 14\\hat{j})\\text{ N}", "\\vec{F}_3 = (8\\hat{i} - 14\\hat{j})\\text{ N}"] },
+      { id: 24, topic: "MCU - Frecuencia", statement: "Una rueda gira con un período constante de $T = 0.05\\text{ s}$.", equation: "f = \\frac{1}{T}", questionText: "Calcular su frecuencia de giro $f$:", options: ["20 Hz", "50 Hz", "10 Hz", "5 Hz"] },
+      { id: 25, topic: "MCU - Velocidad Tangencial", statement: "Un punto en el borde de un disco de radio $r = 0.5\\text{ m}$ gira a $\\omega = 6\\text{ rad/s}$.", equation: "v = \\omega \\cdot r", questionText: "Determinar la rapidez tangencial $v$:", options: ["3 m/s", "12 m/s", "1.5 m/s", "6 m/s"] },
+      { id: 26, topic: "Trabajo Neto", statement: "Un cuerpo se desplaza $\\Delta \\vec{r} = (4\\hat{i})\\text{ m}$ sometido a la fuerza neta $\\vec{F} = (10\\hat{i} - 3\\hat{j})\\text{ N}$.", equation: "W_{neto} = \\vec{F} \\cdot \\Delta \\vec{r}", questionText: "Calcular el Trabajo Neto realizado sobre el cuerpo:", options: ["40 J", "28 J", "52 J", "12 J"] },
+      { id: 27, topic: "Energía Potencial Gravitatoria", statement: "Una masa de $m = 3\\text{ kg}$ se eleva verticalmente una altura $h = 5\\text{ m}$ ($g = 9.8\\text{ m/s}^2$).", equation: "E_p = mgh", questionText: "Calcular la Energía Potencial adquirida:", options: ["147 J", "150 J", "44.1 J", "29.4 J"] },
+      { id: 28, topic: "Conservación de Energía", statement: "Se deja caer un cuerpo de $m = 2\\text{ kg}$ desde el reposo desde una altura $h = 20\\text{ m}$ ($g = 10\\text{ m/s}^2$).", equation: "E_{p0} = E_{kf} \\implies mgh = \\frac{1}{2}mv^2", questionText: "Calcular la velocidad justo antes del impacto:", options: ["20 m/s", "10 m/s", "400 m/s", "14.1 m/s"] },
+      { id: 29, topic: "Potencia Mecánica", statement: "Un motor realiza un trabajo de $W = 1200\\text{ J}$ en un intervalo de tiempo de $t = 4\\text{ s}$.", equation: "P = \\frac{W}{t}", questionText: "Calcular la potencia desarrollada por el motor:", options: ["300 W", "4800 W", "600 W", "150 W"] },
+      { id: 30, topic: "MRU Vectorial", statement: "Un submarino navega a profundidad constante con vector velocidad:", equation: "\\vec{v} = (-12\\hat{i} + 16\\hat{j})\\text{ km/h}", questionText: "Calcular la rapidez escalar del submarino:", options: ["20 km/h", "28 km/h", "4 km/h", "192 km/h"] },
+      { id: 31, topic: "Vector Desplazamiento", statement: "Un objeto se traslada desde $\\vec{r}_A = (10\\hat{i} - 4\\hat{j})\\text{ m}$ hasta $\\vec{r}_B = (-2\\hat{i} + 11\\hat{j})\\text{ m}$.", equation: "\\Delta \\vec{r} = \\vec{r}_B - \\vec{r}_A", questionText: "Determinar el vector desplazamiento $\\Delta \\vec{r}$:", options: ["\\Delta \\vec{r} = (-12\\hat{i} + 15\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (8\\hat{i} + 7\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (12\\hat{i} - 15\\hat{j})\\text{ m}", "\\Delta \\vec{r} = (-8\\hat{i} + 15\\hat{j})\\text{ m}"] },
+      { id: 32, topic: "MRUV - Frenado", statement: "Un vehículo reduce su velocidad desde $\\vec{v}_0 = (20\\hat{i})\\text{ m/s}$ hasta detenerse en $t = 5\\text{ s}$.", equation: "\\vec{a} = \\frac{\\vec{v}_f - \\vec{v}_0}{t}", questionText: "Calcular el vector aceleración de frenado:", options: ["\\vec{a} = (-4\\hat{i})\\text{ m/s}^2", "\\vec{a} = (4\\hat{i})\\text{ m/s}^2", "\\vec{a} = (-100\\hat{i})\\text{ m/s}^2", "\\vec{a} = (-5\\hat{i})\\text{ m/s}^2"] },
+      { id: 33, topic: "MCU - Aceleración Angular", statement: "Una turbina incrementa su velocidad angular de $\\omega_0 = 10\\text{ rad/s}$ a $\\omega_f = 40\\text{ rad/s}$ en $\\Delta t = 6\\text{ s}$.", equation: "\\alpha = \\frac{\\omega_f - \\omega_0}{\\Delta t}", questionText: "Determinar la aceleración angular $\\alpha$:", options: ["5 rad/s²", "6.67 rad/s²", "30 rad/s²", "8.33 rad/s²"] },
+      { id: 34, topic: "Dinámica - Plano Inclinado", statement: "La componente del peso paralela a un plano inclinado de $30^\\circ$ para un bloque de $m = 4\\text{ kg}$ ($g = 10\\text{ m/s}^2$) es:", equation: "F_x = m \\cdot g \\cdot \\sin(30^\\circ)", questionText: "Calcular el valor de dicha fuerza paralela:", options: ["20 N", "34.6 N", "40 N", "10 N"] },
+      { id: 35, topic: "Fuerza Centripeta", statement: "Una masa de $m = 2\\text{ kg}$ gira atada a una cuerda en una trayectoria circular de radio $r = 1.5\\text{ m}$ a rapidez $v = 3\\text{ m/s}$.", equation: "F_c = \\frac{m v^2}{r}", questionText: "Calcular la Fuerza Centrípeta ejercida por la cuerda:", options: ["12 N", "18 N", "6 N", "9 N"] },
+      { id: 36, topic: "Trabajo por Fricción", statement: "Una fuerza de fricción constante $f_k = 15\\text{ N}$ opone el movimiento de un bloque que se desplaza $d = 6\\text{ m}$.", equation: "W_{fk} = -f_k \\cdot d", questionText: "Calcular el trabajo realizado por la fuerza de fricción:", options: ["-90 J", "90 J", "-2.5 J", "0 J"] },
+      { id: 37, topic: "Energía Elástica", statement: "Un resorte con constante elástica $k = 400\\text{ N/m}$ se comprime $x = 0.1\\text{ m}$.", equation: "E_e = \\frac{1}{2}k x^2", questionText: "Determinar la Energía Potencial Elástica almacenada:", options: ["2 J", "20 J", "4 J", "40 J"] },
+      { id: 38, topic: "Choque Inelástico", statement: "Una masa $m_1 = 3\\text{ kg}$ a $v_1 = 4\\text{ m/s}$ choca y se acopla a una masa en reposo $m_2 = 1\\text{ kg}$.", equation: "m_1 v_1 = (m_1 + m_2) v_f", questionText: "Calcular la velocidad final $v_f$ del conjunto:", options: ["3 m/s", "4 m/s", "12 m/s", "2 m/s"] },
+      { id: 39, topic: "MRU Vectorial", statement: "Un objeto se desplaza con velocidad $\\vec{v} = (9\\hat{i} - 12\\hat{j})\\text{ m/s}$ durante un tiempo de $t = 10\\text{ s}$.", equation: "|\\Delta \\vec{r}| = |\\vec{v}| \\cdot t", questionText: "Calcular la distancia escalar total recorrida:", options: ["150 m", "210 m", "30 m", "100 m"] },
+      { id: 40, topic: "Vector Posición Relativa", statement: "Dos partículas A y B se ubican en $\\vec{r}_A = (3\\hat{i} + 8\\hat{j})\\text{ m}$ y $\\vec{r}_B = (7\\hat{i} + 2\\hat{j})\\text{ m}$.", equation: "\\vec{r}_{B/A} = \\vec{r}_B - \\vec{r}_A", questionText: "Determinar la posición relativa de B respecto a A ($\\vec{r}_{B/A}$):", options: ["\\vec{r}_{B/A} = (4\\hat{i} - 6\\hat{j})\\text{ m}", "\\vec{r}_{B/A} = (-4\\hat{i} + 6\\hat{j})\\text{ m}", "\\vec{r}_{B/A} = (10\\hat{i} + 10\\hat{j})\\text{ m}", "\\vec{r}_{B/A} = (4\\hat{i} + 6\\hat{j})\\text{ m}"] }
+    ];
 
-    // Banco de datos (Soporta 40 preguntas)
-    const examData = Array.from({ length: TOTAL_QUESTIONS }, (_, i) => {
-      const qNum = i + 1;
-      return {
-        id: qNum,
-        topic: "MRU Vectorial en i, j",
-        statement: `Un avión se desplaza a velocidad constante durante \\(t = ${qNum % 5 + 1}\\text{ h}\\):`,
-        equation: `\\vec{v} = (${100 * qNum}\\hat{i} + 300\\hat{j})\\text{ km/h}`,
-        questionText: "Determinar la distancia escalar total recorrida \\(d\\):",
-        options: [
-          `${1500 * qNum} km`,
-          `${2100 * qNum} km`,
-          `${1200 * qNum} km`,
-          `${900 * qNum} km`
-        ]
-      };
-    });
+    // ESTADO DE LA APLICACIÓN
+    let currentQuestionIndex = 0;
+    let answers = new Array(40).fill(null);
+    let examActive = false;
+    let timerInterval = null;
 
-    // Cargar interfaz
+    // INICIALIZACIÓN
     document.addEventListener("DOMContentLoaded", () => {
       buildGrid();
       renderQuestion();
+
+      document.getElementById("btn-start").addEventListener("click", startExam);
+      document.getElementById("btn-unlock").addEventListener("click", unlockExam);
     });
 
+    // SISTEMA anti-fraude Y MODO KIOSKO
+    function startExam() {
+      enterFullscreen();
+      document.getElementById("start-overlay").classList.add("hidden");
+      examActive = true;
+      startTimer(3600); // 60 minutos
+      setupSecurityEvents();
+    }
+
+    function unlockExam() {
+      document.getElementById("block-overlay").classList.add("hidden");
+      enterFullscreen();
+    }
+
+    function enterFullscreen() {
+      const el = document.documentElement;
+      if (!document.fullscreenElement) {
+        if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+        else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      }
+    }
+
+    function setupSecurityEvents() {
+      // Anulación de clic derecho
+      document.addEventListener('contextmenu', e => e.preventDefault());
+      
+      // Anulación de copiar, cortar, pegar
+      document.addEventListener('copy', e => e.preventDefault());
+      document.addEventListener('cut', e => e.preventDefault());
+      document.addEventListener('paste', e => e.preventDefault());
+
+      // Atajos de teclado bloqueados (F12, PrintScreen, Ctrl+C, Ctrl+U, etc.)
+      window.addEventListener('keydown', e => {
+        if (!examActive) return;
+        if (
+          e.key === 'PrintScreen' || 
+          e.keyCode === 44 || 
+          e.key === 'F12' || 
+          (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a'))
+        ) {
+          e.preventDefault();
+          triggerViolation();
+        }
+      });
+
+      // Detección de pérdida de foco o cambio de pestaña
+      window.addEventListener('blur', () => {
+        if (examActive) triggerViolation();
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && examActive) triggerViolation();
+      });
+
+      // Detección de salida de Pantalla Completa
+      document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && examActive && document.getElementById("start-overlay").classList.contains("hidden")) {
+          document.getElementById("block-overlay").classList.remove("hidden");
+          triggerViolation();
+        }
+      });
+
+      // Bloqueo de navegación 'Atrás'
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+        history.go(1);
+      };
+    }
+
+    function triggerViolation() {
+      const banner = document.getElementById("alert-banner");
+      banner.classList.remove("hidden");
+      setTimeout(() => banner.classList.add("hidden"), 3500);
+    }
+
+    // NAVEGACIÓN Y RENDERIZADO
     function buildGrid() {
       const grid = document.getElementById("questions-grid");
       grid.innerHTML = "";
       
-      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+      for (let i = 0; i < 40; i++) {
         const btn = document.createElement("button");
         btn.className = "q-btn";
         btn.id = `q-btn-${i}`;
@@ -351,29 +568,27 @@
 
       card.innerHTML = `
         <div class="topic-tag">${q.topic}</div>
-        <div class="question-title">Pregunta ${q.id} de ${TOTAL_QUESTIONS}</div>
+        <div class="question-title">Pregunta ${q.id} de 40</div>
         <div class="question-statement">${q.statement}</div>
-        <div class="equation-container">\\[${q.equation}\\]</div>
+        <div class="equation-container">$$${q.equation}$$</div>
         <div class="question-statement">${q.questionText}</div>
         
         <div class="options-list">
           ${q.options.map((opt, idx) => `
             <label class="option-card ${selected === idx ? 'selected' : ''}" onclick="selectOption(${idx})">
               <input type="radio" name="option" ${selected === idx ? 'checked' : ''}>
-              <span>${opt}</span>
+              <span>$${opt}$</span>
             </label>
           `).join('')}
         </div>
       `;
 
-      // Reprocesar MathJax para ecuaciones LaTeX
       if (window.MathJax) {
         MathJax.typesetPromise([card]);
       }
 
-      // Deshabilitar navegación si estamos al inicio/final
       document.getElementById("btn-prev").disabled = currentQuestionIndex === 0;
-      document.getElementById("btn-next").innerText = currentQuestionIndex === TOTAL_QUESTIONS - 1 ? "Finalizar" : "Siguiente ►";
+      document.getElementById("btn-next").innerText = currentQuestionIndex === 39 ? "Finalizar Examen" : "Siguiente ►";
 
       updateGridState();
     }
@@ -391,14 +606,16 @@
 
     function navigate(direction) {
       const nextIndex = currentQuestionIndex + direction;
-      if (nextIndex >= 0 && nextIndex < TOTAL_QUESTIONS) {
+      if (nextIndex >= 0 && nextIndex < 40) {
         currentQuestionIndex = nextIndex;
         renderQuestion();
+      } else if (nextIndex === 40) {
+        finishExam();
       }
     }
 
     function updateGridState() {
-      for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+      for (let i = 0; i < 40; i++) {
         const btn = document.getElementById(`q-btn-${i}`);
         if (!btn) continue;
 
@@ -410,7 +627,32 @@
 
     function updateProgress() {
       const count = answers.filter(a => a !== null).length;
-      document.getElementById("progress-text").innerText = `Respondidas: ${count} / ${TOTAL_QUESTIONS}`;
+      document.getElementById("progress-text").innerText = `Respondidas: ${count} / 40`;
+    }
+
+    function startTimer(durationSeconds) {
+      let timer = durationSeconds;
+      const display = document.getElementById("timer");
+      
+      timerInterval = setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        display.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (--timer < 0) {
+          clearInterval(timerInterval);
+          alert("¡El tiempo asignado ha concluido!");
+          finishExam();
+        }
+      }, 1000);
+    }
+
+    function finishExam() {
+      if (confirm("¿Estás seguro de que deseas finalizar la evaluación?")) {
+        examActive = false;
+        clearInterval(timerInterval);
+        alert("Evaluación finalizada con éxito.");
+        location.reload();
+      }
     }
   </script>
 </body>
