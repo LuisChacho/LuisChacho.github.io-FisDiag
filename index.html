@@ -412,7 +412,7 @@
                 <i class="fas fa-shield-halved"></i>
             </div>
             <h2>Examen de Admisión Segura</h2>
-            <p>Esta evaluación requiere ejecución en <strong>Modo Pantalla Completa</strong>. La prueba monitoreará pérdidas de foco, bloqueos de teclado y cambio de pestañas.</p>
+            <p>Esta evaluación consta de <strong>40 preguntas</strong> y dispone de <strong>1 hora y 10 segundos</strong>. Requiere ejecución en Modo Pantalla Completa.</p>
             <button id="btn-start" class="btn btn-accent w-100" style="padding: 0.9rem;">
                 <i class="fas fa-expand"></i> Iniciar Evaluación Ahora
             </button>
@@ -445,7 +445,7 @@
                 <i class="far fa-clock"></i>
                 <div>
                     <span class="widget-lbl">Tiempo Restante</span>
-                    <span id="timer" class="widget-val">60:00</span>
+                    <span id="timer" class="widget-val">60:10</span>
                 </div>
             </div>
             <div class="widget">
@@ -532,68 +532,70 @@
     </main>
 
     <script>
-        // BANCO AMPLIO Y BALANCEADO DE 40 PREGUNTAS (TEÓRICAS Y PRÁCTICAS)
+        // BANCO BALANCEADO DE 40 PREGUNTAS (TEÓRICAS Y PRÁCTICAS)
         const questions = [
-            // UNIDADES Y VECTORES
-            { id: 1, topic: "Sistemas de Unidades", question: "¿Cuál es la unidad fundamental de masa en el Sistema Internacional (SI)?", options: ["Gramo (g)", "Kilogramo (kg)", "Libra (lb)", "Newton (N)"], answer: 1 },
-            { id: 2, topic: "Conversión de Unidades", question: "Un vehículo se desplaza a una velocidad constante de 108 km/h. ¿A cuántos metros por segundo (m/s) equivale dicha velocidad?", options: ["25 m/s", "30 m/s", "36 m/s", "40 m/s"], answer: 1 },
-            { id: 3, topic: "Vectores (Teoría)", question: "Un vector se define completamente mediante tres características fundamentales, las cuales son:", options: ["Masa, dirección y punto de aplicación", "Magnitud (módulo), dirección y sentido", "Rapidez, trayectoria y aceleración", "Escalar, ángulo y tiempo"], answer: 1 },
-            { id: 4, topic: "Vectores (Módulo)", question: "Dado el vector posición r = (6 i - 8 j) m, ¿cuál es su módulo o magnitud |r|?", options: ["7 m", "10 m", "14 m", "48 m"], answer: 1 },
-            { id: 5, topic: "Suma Vectorial", question: "Si F1 = (12 i - 5 j) N y F2 = (-4 i + 11 j) N actúan sobre una partícula, ¿cuál es el vector de la fuerza resultante FR?", options: ["FR = (8 i + 6 j) N", "FR = (16 i - 16 j) N", "FR = (8 i - 6 j) N", "FR = (-8 i + 6 j) N"], answer: 0 },
+            // UNIDADES Y CONVERSIONES
+            { id: 1, topic: "Sistemas de Unidades (Teoría)", question: "¿Cuál de las siguientes magnitudes corresponde a una unidad fundamental en el Sistema Internacional (SI)?", options: ["Newton (N)", "Kilogramo (kg)", "Joule (J)", "Watt (W)"], answer: 1 },
+            { id: 2, topic: "Conversión de Unidades (Práctica)", question: "Un vehículo comercial se desplaza a una rapidez constante de 108 km/h. ¿A cuántos metros por segundo (m/s) equivale?", options: ["25 m/s", "30 m/s", "36 m/s", "40 m/s"], answer: 1 },
+
+            // VECTORES
+            { id: 3, topic: "Vectores (Teoría)", question: "Un vector se distingue completamente de una cantidad escalar porque requiere:", options: ["Solo magnitud y unidad", "Magnitud, dirección y sentido", "Solo ángulo de inclinación", "Masa y tiempo"], answer: 1 },
+            { id: 4, topic: "Vectores (Práctica - Módulo)", question: "Dado el vector posición r = (6 i - 8 j) m, ¿cuál es su módulo o magnitud |r|?", options: ["7 m", "10 m", "14 m", "48 m"], answer: 1 },
+            { id: 5, topic: "Vectores (Práctica - Suma Vectorial)", question: "Si F1 = (12 i - 5 j) N y F2 = (-4 i + 11 j) N actúan sobre una partícula, ¿cuál es el vector de la fuerza resultante FR?", options: ["FR = (8 i + 6 j) N", "FR = (16 i - 16 j) N", "FR = (8 i - 6 j) N", "FR = (-8 i + 6 j) N"], answer: 0 },
 
             // CINEMÁTICA
-            { id: 6, topic: "Cinemática (Gráficas)", question: "¿Qué representa físicamente la pendiente de una recta en una gráfica de Posición vs. Tiempo (x vs. t)?", options: ["La aceleración del objeto", "La velocidad instantánea o media", "La fuerza neta aplicada", "El trabajo realizado"], answer: 1 },
-            { id: 7, topic: "MRU (Práctico)", question: "Un automóvil se desplaza con velocidad constante v = (30 i + 40 j) km/h durante t = 2 horas. ¿Cuál es el módulo del desplazamiento total |r|?", options: ["50 km", "100 km", "140 km", "70 km"], answer: 1 },
-            { id: 8, topic: "MRUV (Teoría)", question: "En un Movimiento Rectilíneo Uniformemente Variado (MRUV), la aceleración del móvil se caracteriza por ser:", options: ["Variable en módulo y dirección", "Igual a cero en todo momento", "Constante y diferente de cero", "Inversamente proporcional al tiempo"], answer: 2 },
-            { id: 9, topic: "MRUV (Práctico - Rapidez Final)", question: "Un objeto parte del reposo con aceleración constante a = (4 i - 6 j) m/s² durante t = 3 s. ¿Cuál es el módulo de su velocidad final?", options: ["21.63 m/s", "14.42 m/s", "30.00 m/s", "18.00 m/s"], answer: 0 },
-            { id: 10, topic: "Caída Libre (Práctico)", question: "Se deja caer una piedra desde lo alto de un edificio sin velocidad inicial. Si g = 10 m/s², ¿qué distancia recorre en los primeros 3 segundos?", options: ["30 m", "45 m", "60 m", "90 m"], answer: 1 },
-            { id: 11, topic: "Movimiento Circular Uniforme", question: "En un MCU, la magnitud de la velocidad permanece constante, pero su dirección cambia continuamente por acción de la:", options: ["Aceleración tangencial", "Aceleración centrípeta", "Fuerza de rozamiento", "Inercia angular"], answer: 1 },
+            { id: 6, topic: "Cinemática (Teoría - Gráficas)", question: "¿Qué representa físicamente la pendiente de la recta en una gráfica de Posición vs. Tiempo (x vs. t)?", options: ["Aceleración", "Velocidad", "Fuerza neta", "Trabajo"], answer: 1 },
+            { id: 7, topic: "MRU (Práctica - Desplazamiento)", question: "Un móvil se desplaza con velocidad constante v = (30 i + 40 j) km/h durante t = 2 h. ¿Cuál es la magnitud del desplazamiento total |r|?", options: ["50 km", "100 km", "140 km", "70 km"], answer: 1 },
+            { id: 8, topic: "MRUV (Teoría)", question: "En un Movimiento Rectilíneo Uniformemente Variado (MRUV), la aceleración se mantiene:", options: ["Variable linealmente", "Igual a cero", "Constante y diferente de cero", "Inversamente proporcional al tiempo"], answer: 2 },
+            { id: 9, topic: "MRUV (Práctica - Velocidad Vectorial)", question: "Un objeto parte del reposo con aceleración a = (4 i - 6 j) m/s² durante t = 3 s. ¿Cuál es el módulo de su velocidad final?", options: ["21.63 m/s", "14.42 m/s", "30.00 m/s", "18.00 m/s"], answer: 0 },
+            { id: 10, topic: "Caída Libre (Práctica)", question: "Se deja caer un cuerpo desde el reposo. Si la aceleración de la gravedad es g = 10 m/s², ¿qué distancia desciende en los primeros 3 segundos?", options: ["30 m", "45 m", "60 m", "90 m"], answer: 1 },
+            { id: 11, topic: "Movimiento Circular Uniforme (Teoría)", question: "En un MCU, la magnitud de la velocidad tangencial permanece constante, pero su dirección cambia continuamente debido a la:", options: ["Aceleración tangencial", "Aceleración centrípeta", "Fuerza de rozamiento", "Inercia angular"], answer: 1 },
 
             // DINÁMICA Y ESTÁTICA
-            { id: 12, topic: "Leyes de Newton (Teoría)", question: "Según la Primera Ley de Newton, un cuerpo mantendrá su estado de reposo o de MRU a menos que:", options: ["Aumente su energía térmica", "Actúe una fuerza neta externa sobre él", "Se incremente su masa", "Su aceleración sea positiva"], answer: 1 },
-            { id: 13, topic: "Leyes de Newton (Fórmula)", question: "¿Cuál es la expresión matemática que representa la Segunda Ley de Newton?", options: ["F = m / a", "F = m · a", "F = m · v", "F = 1/2 · m · a²"], answer: 1 },
-            { id: 14, topic: "Dinámica (Práctico Vectorial)", question: "Sobre un cuerpo de masa m = 2 kg actúa una fuerza neta F = (6 i + 8 j) N. ¿Cuál es el módulo de la aceleración obtenida?", options: ["3.0 m/s²", "4.0 m/s²", "5.0 m/s²", "7.0 m/s²"], answer: 2 },
-            { id: 15, topic: "Tercera Ley de Newton", question: "A toda fuerza de acción le corresponde una fuerza de reacción que actúa sobre un cuerpo distinto con:", options: ["Igual magnitud, dirección y sentido", "Igual magnitud pero sentido opuesto", "Diferente magnitud y sentido opuesto", "Magnitud doble y dirección perpendicular"], answer: 1 },
-            { id: 16, topic: "Estática (Equilibrio de Rotación)", question: "Para que un cuerpo rígido se encuentre en equilibrio de rotación, la suma de todos sus torques o momentos de fuerza debe ser:", options: ["Igual al peso total del cuerpo", "Cero", "Igual a la aceleración gravitatoria", "Igual a la fuerza normal"], answer: 1 },
-            { id: 17, topic: "Torque (Práctico)", question: "Se aplica una fuerza perpendicular F = 40 N a una distancia d = 1.5 m del eje de giro de una llave. ¿Cuál es la magnitud del torque generado?", options: ["26.6 N·m", "60.0 N·m", "80.0 N·m", "38.5 N·m"], answer: 1 },
+            { id: 12, topic: "Primera Ley de Newton (Teoría)", question: "Según la Primera Ley de Newton (Inercia), un objeto mantendrá su estado de reposo o MRU mientras:", options: ["No aumente su temperatura", "La fuerza neta sobre él sea cero", "Se incremente su masa", "Su aceleración sea positiva"], answer: 1 },
+            { id: 13, topic: "Segunda Ley de Newton (Teoría)", question: "¿Cuál es la expresión matemática fundamental de la Segunda Ley de Newton?", options: ["F = m / a", "F = m · a", "F = m · v", "F = 1/2 · m · a²"], answer: 1 },
+            { id: 14, topic: "Dinámica (Práctica - Aceleración Vectorial)", question: "Sobre un cuerpo de masa m = 2 kg actúa una fuerza neta F = (6 i + 8 j) N. ¿Cuál es el módulo de su aceleración?", options: ["3.0 m/s²", "4.0 m/s²", "5.0 m/s²", "7.0 m/s²"], answer: 2 },
+            { id: 15, topic: "Tercera Ley de Newton (Teoría)", question: "Las fuerzas de acción y reacción descritas en la Tercera Ley de Newton se caracterizan por ser:", options: ["De igual magnitud, dirección y sentido", "De igual magnitud pero en sentidos opuestos y sobre cuerpos distintos", "De distinta magnitud y aplicadas al mismo cuerpo", "Perpendiculares entre sí"], answer: 1 },
+            { id: 16, topic: "Estática (Teoría - Equilibrio)", question: "Para que un cuerpo rígido se encuentre en equilibrio de rotación, la suma vectorial de sus torques debe ser:", options: ["Igual a su peso", "Igual a cero", "Igual a la aceleración de la gravedad", "Igual a la fuerza normal"], answer: 1 },
+            { id: 17, topic: "Estática (Práctica - Torque)", question: "Se aplica una fuerza perpendicular F = 40 N a una distancia d = 1.5 m del eje de giro. ¿Cuál es el valor del torque producido?", options: ["26.6 N·m", "60.0 N·m", "80.0 N·m", "38.5 N·m"], answer: 1 },
 
             // TRABAJO, ENERGÍA Y POTENCIA
-            { id: 18, topic: "Trabajo Mecánico (Práctico)", question: "¿Qué trabajo realiza una fuerza constante de 50 N al desplazar un bloque a lo largo de 4 metros en su misma dirección?", options: ["12.5 J", "200.0 J", "54.0 J", "100.0 J"], answer: 1 },
-            { id: 19, topic: "Energía Potencial Gravitatoria", question: "La energía asociada exclusivamente a la posición de un objeto respecto a un nivel de referencia en un campo gravitatorio es:", options: ["Energía Cinética", "Energía Potencial Gravitatoria", "Energía Térmica", "Energía Elástica"], answer: 1 },
-            { id: 20, topic: "Energía Cinética (Fórmula)", question: "¿Cuál es la expresión matemática para calcular la Energía Cinética de un móvil?", options: ["Ec = m · g · h", "Ec = 1/2 · m · v²", "Ec = F · d", "Ec = m · v"], answer: 1 },
-            { id: 21, topic: "Energía Cinética (Práctico)", question: "Un automóvil de masa m = 1000 kg se desplaza a una rapidez v = 20 m/s. ¿Cuál es su Energía Cinética?", options: ["20,000 J", "200,000 J", "400,000 J", "10,000 J"], answer: 1 },
-            { id: 22, topic: "Potencia Mecánica (Teoría)", question: "La Potencia Mecánica se define operacionalmente como la rapidez con la que se realiza:", options: ["Una fuerza", "Un trabajo", "Un cambio de velocidad", "Un impulso"], answer: 1 },
-            { id: 23, topic: "Potencia Mecánica (Práctico)", question: "Un motor realiza un trabajo mecánico de 1200 Joules en un tiempo de 4 segundos. ¿Cuál es la potencia desarrollada en Watts?", options: ["300 W", "4800 W", "1200 W", "150 W"], answer: 0 },
-            { id: 24, topic: "Conservación de la Energía", question: "En un sistema cerrado donde solo realizan trabajo fuerzas conservativas (como el peso), se mantiene constante la:", options: ["Energía Cinética", "Energía Mecánica Total", "Energía Potencial únicamente", "Aceleración del sistema"], answer: 1 },
+            { id: 18, topic: "Trabajo Mecánico (Práctica)", question: "¿Qué trabajo realiza una fuerza horizontal constante de 50 N al desplazar un bloque 4 metros en su misma dirección?", options: ["12.5 J", "200.0 J", "54.0 J", "100.0 J"], answer: 1 },
+            { id: 19, topic: "Energía Potencial Gravitatoria (Teoría)", question: "La energía almacenada en un objeto debido exclusivamente a su posición respecto a un nivel de referencia es:", options: ["Energía Cinética", "Energía Potencial Gravitatoria", "Energía Térmica", "Energía Elástica"], answer: 1 },
+            { id: 20, topic: "Energía Cinética (Teoría - Fórmula)", question: "¿Cuál es la fórmula para calcular la Energía Cinética de un objeto en movimiento?", options: ["Ec = m · g · h", "Ec = 1/2 · m · v²", "Ec = F · d", "Ec = m · v"], answer: 1 },
+            { id: 21, topic: "Energía Cinética (Práctica)", question: "Un vehículo de masa m = 1000 kg avanza a una rapidez v = 20 m/s. ¿Cuál es su Energía Cinética?", options: ["20,000 J", "200,000 J", "400,000 J", "10,000 J"], answer: 1 },
+            { id: 22, topic: "Potencia Mecánica (Teoría)", question: "La Potencia Mecánica se define como la rapidez con la que se efectúa:", options: ["Una fuerza", "Un trabajo", "Un cambio de aceleración", "Un impulso"], answer: 1 },
+            { id: 23, topic: "Potencia Mecánica (Práctica)", question: "Un motor realiza un trabajo mecánico de 1200 Joules durante 4 segundos. ¿Cuál es la potencia desarrollada?", options: ["300 W", "4800 W", "1200 W", "150 W"], answer: 0 },
+            { id: 24, topic: "Conservación de la Energía (Teoría)", question: "En un sistema donde únicamente realizan trabajo fuerzas conservativas, se mantiene constante la:", options: ["Energía Cinética únicamente", "Energía Mecánica Total", "Energía Potencial únicamente", "Aceleración del sistema"], answer: 1 },
 
             // FLUIDOS Y TERMODINÁMICA
-            { id: 25, topic: "Hidrostática (Presión)", question: "¿Cómo se define la Presión hidrostática de forma matemática?", options: ["P = Fuerza × Área", "P = Fuerza / Área", "P = Masa / Volumen", "P = Densidad × Área"], answer: 1 },
-            { id: 26, topic: "Principio de Arquímedes", question: "Un cuerpo sumergido total o parcialmente en un fluido experimenta una fuerza de empuje hacia arriba igual al:", options: ["Peso del cuerpo sumergido", "Peso del fluido desalojado", "Volumen total de la masa del cuerpo", "Área proyectada en el fondo"], answer: 1 },
-            { id: 27, topic: "Termodinámica (Escalas)", question: "¿A qué temperatura en la escala Kelvin equivale el cero absoluto (-273.15 °C)?", options: ["-273.15 K", "0 K", "273.15 K", "100 K"], answer: 1 },
-            { id: 28, topic: "Mecanismos de Calor", question: "El mecanismo de transferencia de calor que no requiere de un medio material para propagarse (a través del vacío) se llama:", options: ["Conducción", "Convección", "Radiación", "Evaporación"], answer: 2 },
-            { id: 29, topic: "Calorimetría (Práctico)", question: "Si se suministran 500 calorías de calor a 100 gramos de agua (c = 1 cal/g°C), ¿cuál será el incremento de temperatura (ΔT)?", options: ["2.0 °C", "5.0 °C", "10.0 °C", "50.0 °C"], answer: 1 },
+            { id: 25, topic: "Hidrostática (Teoría - Presión)", question: "¿Cómo se define conceptualmente la Presión hidrostática?", options: ["P = Fuerza × Área", "P = Fuerza / Área", "P = Masa / Volumen", "P = Densidad × Área"], answer: 1 },
+            { id: 26, topic: "Principio de Arquímedes (Teoría)", question: "Un cuerpo sumergido totalmente en un fluido recibe un empuje vertical hacia arriba igual al:", options: ["Peso del propio cuerpo", "Peso del fluido desalojado", "Volumen de la masa del cuerpo", "Área de la base sumergida"], answer: 1 },
+            { id: 27, topic: "Termodinámica (Teoría - Escalas)", question: "¿A cuántos Kelvin equivale el cero absoluto de temperatura (-273.15 °C)?", options: ["-273.15 K", "0 K", "273.15 K", "100 K"], answer: 1 },
+            { id: 28, topic: "Transferencia de Calor (Teoría)", question: "El mecanismo de transmisión de calor mediante ondas electromagnéticas que no requiere medio material es la:", options: ["Conducción", "Convección", "Radiación", "Evaporación"], answer: 2 },
+            { id: 29, topic: "Calorimetría (Práctica)", question: "Si se entregan 500 calorías a 100 gramos de agua (calor específico c = 1 cal/g°C), ¿cuál es el incremento de temperatura (ΔT)?", options: ["2.0 °C", "5.0 °C", "10.0 °C", "50.0 °C"], answer: 1 },
 
             // ELECTRICIDAD Y ELECTROMAGNETISMO
-            { id: 30, topic: "Electrostática (Ley de Coulomb)", question: "La fuerza eléctrica entre dos cargas puntuales varía en razón inversamente proporcional a:", options: ["El cuadrado de la distancia que las separa", "El producto de la magnitud de las cargas", "La constante dieléctrica del vacío", "El tiempo de interacción de las cargas"], answer: 0 },
-            { id: 31, topic: "Ley de Ohm (Fórmula)", question: "¿Cuál es la expresión matemática directa de la Ley de Ohm para circuitos eléctricos?", options: ["V = I · R", "V = I / R", "R = V · I", "I = V · R"], answer: 0 },
-            { id: 32, topic: "Ley de Ohm (Práctico)", question: "Un circuito eléctrico alimentado con un voltaje de V = 24 V posee una resistencia R = 6 Ω. ¿Qué corriente eléctrica (I) circula por él?", options: ["144 A", "0.25 A", "4 A", "18 A"], answer: 2 },
-            { id: 33, topic: "Circuitos en Serie", question: "En un circuito eléctrico conectado strictly en serie, ¿qué magnitud permanece constante en todos los componentes?", options: ["El voltaje parcial", "La intensidad de corriente eléctrica", "La resistencia individual", "La potencia consumida"], answer: 1 },
-            { id: 34, topic: "Resistencia Equivalente (Práctico)", question: "Dos resistencias R1 = 4 Ω y R2 = 6 Ω están conectadas en serie. ¿Cuál es la resistencia equivalente del circuito?", options: ["2.4 Ω", "10.0 Ω", "24.0 Ω", "5.0 Ω"], answer: 1 },
+            { id: 30, topic: "Ley de Coulomb (Teoría)", question: "La fuerza electrostática entre dos cargas puntuales es inversamente proporcional a:", options: ["El cuadrado de la distancia que las separa", "El producto de las cargas", "La constante del medio", "El tiempo de interacción"], answer: 0 },
+            { id: 31, topic: "Ley de Ohm (Teoría - Fórmula)", question: "¿Cuál es la expresión matemática que representa la Ley de Ohm?", options: ["V = I · R", "V = I / R", "R = V · I", "I = V · R"], answer: 0 },
+            { id: 32, topic: "Ley de Ohm (Práctica)", question: "Por un circuito conectado a una batería de V = 24 V circula una resistencia de R = 6 Ω. ¿Cuál es la corriente I?", options: ["144 A", "0.25 A", "4 A", "18 A"], answer: 2 },
+            { id: 33, topic: "Circuito en Serie (Teoría)", question: "En un circuito eléctrico conectado en serie, la magnitud que se mantiene constante en todos sus componentes es:", options: ["El voltaje parcial", "La corriente eléctrica", "La resistencia individual", "La potencia disipada"], answer: 1 },
+            { id: 34, topic: "Resistencia Equivalente (Práctica)", question: "Dos resistencias R1 = 4 Ω y R2 = 6 Ω se conectan en serie. ¿Cuál es la resistencia equivalente?", options: ["2.4 Ω", "10.0 Ω", "24.0 Ω", "5.0 Ω"], answer: 1 },
 
             // ONDAS, ÓPTICA Y FÍSICA MODERNA
-            { id: 35, topic: "Ondas (Período)", question: "El tiempo necesario para que una onda complete un ciclo u oscilación completa se denomina:", options: ["Frecuencia", "Longitud de onda", "Período", "Amplitud"], answer: 2 },
-            { id: 36, topic: "Ondas (Ecuación Práctica)", question: "Si una onda posee una frecuencia f = 50 Hz y una longitud de onda λ = 2 metros, ¿cuál es su velocidad de propagación?", options: ["25 m/s", "100 m/s", "0.04 m/s", "52 m/s"], answer: 1 },
-            { id: 37, topic: "Óptica (Refracción)", question: "El cambio de dirección y velocidad que experimenta la luz al pasar de un medio material a otro se conoce como:", options: ["Reflexión", "Refracción", "Difracción", "Polarización"], answer: 1 },
-            { id: 38, topic: "Leyes de Kepler", question: "Según la Primera Ley de Kepler, las órbitas que describen los planetas alrededor del Sol son:", options: ["Circulares perfectas", "Elípticas, con el Sol en uno de los focos", "Parabólicas de trayecto abierto", "Espirales descendentes"], answer: 1 },
-            { id: 39, topic: "Física Moderna (Fotones)", question: "La constante de Planck (h) relaciona directamente la energía de un fotón con su:", options: ["Velocidad de masa", "Frecuencia de onda", "Amplitud de vibración", "Carga eléctrica"], answer: 1 },
-            { id: 40, topic: "Física Moderna (Relatividad)", question: "En la famosa fórmula de Einstein E = m · c², ¿qué representa la variable 'c'?", options: ["La constante de gravedad", "La velocidad de la luz en el vacío", "La carga del electrón", "La capacidad calorífica"], answer: 1 }
+            { id: 35, topic: "Ondas (Teoría - Período)", question: "El tiempo empleado por una onda en completar un ciclo o vibración completa se denomina:", options: ["Frecuencia", "Longitud de onda", "Período", "Amplitud"], answer: 2 },
+            { id: 36, topic: "Ondas (Práctica - Velocidad)", question: "Si una onda presenta una frecuencia f = 50 Hz y una longitud de onda λ = 2 m, ¿cuál es su velocidad de propagación?", options: ["25 m/s", "100 m/s", "0.04 m/s", "52 m/s"], answer: 1 },
+            { id: 37, topic: "Óptica (Teoría - Refracción)", question: "El cambio de dirección y velocidad de un rayo de luz al pasar de un medio transparente a otro se llama:", options: ["Reflexión", "Refracción", "Difracción", "Polarización"], answer: 1 },
+            { id: 38, topic: "Leyes de Kepler (Teoría)", question: "De acuerdo con la Primera Ley de Kepler, las órbitas descritas por los planetas alrededor del Sol son:", options: ["Circulares perfectas", "Elípticas, con el Sol en uno de sus focos", "Parabólicas abiertas", "Espirales"], answer: 1 },
+            { id: 39, topic: "Física Moderna (Teoría - Planck)", question: "La constante de Planck (h) establece la proporcionalidad entre la energía de un fotón y su:", options: ["Masa", "Frecuencia de onda", "Amplitud", "Carga eléctrica"], answer: 1 },
+            { id: 40, topic: "Física Moderna (Teoría - Relatividad)", question: "En la ecuación relativista de equivalencia masa-energía E = m · c², el término 'c' representa:", options: ["La constante gravitacional", "La velocidad de la luz en el vacío", "La constante del electrón", "El calor específico"], answer: 1 }
         ];
 
         // ESTADO DE LA APLICACIÓN
         let idx = 0;
         let userAnswers = {};
         let violations = 0;
-        let timeLeft = 3600; // 60 minutos
+        let timeLeft = 3610; // 1 HORA Y 10 SEGUNDOS (3600s + 10s)
         let timerId = null;
 
         // ELEMENTOS DOM
