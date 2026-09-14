@@ -1,4 +1,3 @@
-// BANCO CON 30 PREGUNTAS EN NOTACIÓN LATEX COMPLETA Y COMPONENTES (i, j)
 const questions = [
     { 
         id: 1, 
@@ -254,6 +253,116 @@ const questions = [
         question: "Un objeto de \\(m = 2\\text{ kg}\\) se eleva a una altura \\(h = 10\\text{ m}\\). Con \\(g = 9.8\\text{ m/s}^2\\), calcular su energía potencial gravitatoria: \\[ E_p = m \\cdot g \\cdot h \\]", 
         options: ["\\(196\\text{ J}\\)", "\\(200\\text{ J}\\)", "\\(98\\text{ J}\\)", "\\(392\\text{ J}\\)"], 
         answer: 0 
+    },
+    { 
+        id: 31, 
+        topic: "Vectores Módulo y Dirección", 
+        question: "Calcular el módulo del vector velocidad \\(\\vec{v} = (-6\\hat{i} + 8\\hat{j})\\text{ m/s}\\): \\[ |\\vec{v}| = \\sqrt{v_x^2 + v_y^2} \\]", 
+        options: ["\\(10\\text{ m/s}\\)", "\\(14\\text{ m/s}\\)", "\\(2\\text{ m/s}\\)", "\\(48\\text{ m/s}\\)"], 
+        answer: 0 
+    },
+    { 
+        id: 32, 
+        topic: "Vector Unitario", 
+        question: "Determinar el vector unitario \\(\\hat{u}_A\\) de un vector posición \\(\\vec{A} = (3\\hat{i} + 4\\hat{j})\\text{ m}\\):", 
+        options: [
+            "\\[ \\hat{u}_A = (0.6\\hat{i} + 0.8\\hat{j}) \\]", 
+            "\\[ \\hat{u}_A = (0.3\\hat{i} + 0.4\\hat{j}) \\]", 
+            "\\[ \\hat{u}_A = (3\\hat{i} + 4\\hat{j}) \\]", 
+            "\\[ \\hat{u}_A = (1\\hat{i} + 1\\hat{j}) \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 33, 
+        topic: "MRUV Frenado con g = 9.8", 
+        question: "Un vehículo frena con una desaceleración constante de \\(\\vec{a} = (-4.9\\hat{i})\\text{ m/s}^2\\). Si su rapidez inicial era de \\(19.6\\text{ m/s}\\), ¿en qué tiempo se detiene?", 
+        options: ["\\(4.0\\text{ s}\\)", "\\(2.0\\text{ s}\\)", "\\(9.8\\text{ s}\\)", "\\(1.0\\text{ s}\\)"], 
+        answer: 0 
+    },
+    { 
+        id: 34, 
+        topic: "MCU Frecuencia y Periodo", 
+        question: "Dada la relación entre el período \\(T\\) y la frecuencia \\(f\\), despejar \\(T\\): \\[ f = \\dfrac{1}{T} \\]", 
+        options: [
+            "\\[ T = \\dfrac{1}{f} \\]", 
+            "\\[ T = f \\]", 
+            "\\[ T = 2\\pi f \\]", 
+            "\\[ T = \\dfrac{f}{2\\pi} \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 35, 
+        topic: "Dinamica Plano Inclinado", 
+        question: "La componente del peso paralela a un plano inclinado un ángulo \\(\\theta\\) respecto a la horizontal es:", 
+        options: [
+            "\\[ W_x = m \\cdot g \\cdot \\sin(\\theta) \\]", 
+            "\\[ W_x = m \\cdot g \\cdot \\cos(\\theta) \\]", 
+            "\\[ W_x = m \\cdot g \\cdot \\tan(\\theta) \\]", 
+            "\\[ W_x = \\dfrac{m \\cdot g}{\\sin(\\theta)} \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 36, 
+        topic: "Fuerza de Rozamiento", 
+        question: "La fuerza de fricción estática máxima se define en función del coeficiente \\(\\mu_s\\) y la Normal \\(N\\) mediante:", 
+        options: [
+            "\\[ f_{s,\\text{máx}} = \\mu_s \\cdot N \\]", 
+            "\\[ f_{s,\\text{máx}} = \\dfrac{N}{\\mu_s} \\]", 
+            "\\[ f_{s,\\text{máx}} = \\mu_s \\cdot m \\cdot a \\]", 
+            "\\[ f_{s,\\text{máx}} = \\mu_s + N \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 37, 
+        topic: "Impulso Vectorial", 
+        question: "Un impulso vectorial \\(\\vec{I}\\) se define como el producto de la fuerza neta constante por el intervalo de tiempo: \\[ \\vec{I} = \\vec{F} \\cdot \\Delta t \\] Si \\(\\vec{F} = (10\\hat{i} - 5\\hat{j})\\text{ N}\\) actúa durante \\(0.2\\text{ s}\\), calcular \\(\\vec{I}\\):", 
+        options: [
+            "\\[ \\vec{I} = (2\\hat{i} - 1\\hat{j})\\text{ N}\\cdot\\text{s} \\]", 
+            "\\[ \\vec{I} = (50\\hat{i} - 25\\hat{j})\\text{ N}\\cdot\\text{s} \\]", 
+            "\\[ \\vec{I} = (10.2\\hat{i} - 4.8\\hat{j})\\text{ N}\\cdot\\text{s} \\]", 
+            "\\[ \\vec{I} = (5\\hat{i} - 2.5\\hat{j})\\text{ N}\\cdot\\text{s} \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 38, 
+        topic: "Cantidad de Movimiento", 
+        question: "Calcular el vector cantidad de movimiento \\(\\vec{p} = m \\cdot \\vec{v}\\) de un cuerpo de \\(m = 3\\text{ kg}\\) con velocidad \\(\\vec{v} = (-4\\hat{i} + 2\\hat{j})\\text{ m/s}\\):", 
+        options: [
+            "\\[ \\vec{p} = (-12\\hat{i} + 6\\hat{j})\\text{ kg}\\cdot\\text{m/s} \\]", 
+            "\\[ \\vec{p} = (-7\\hat{i} + 5\\hat{j})\\text{ kg}\\cdot\\text{m/s} \\]", 
+            "\\[ \\vec{p} = (-1.33\\hat{i} + 0.66\\hat{j})\\text{ kg}\\cdot\\text{m/s} \\]", 
+            "\\[ \\vec{p} = (12\\hat{i} - 6\\hat{j})\\text{ kg}\\cdot\\text{m/s} \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 39, 
+        topic: "Conservación de Energía", 
+        question: "En un sistema conservativo (sin fricción), la Energía Mecánica Total \\(E_M\\) satisface la condición:", 
+        options: [
+            "\\[ E_M = E_k + E_p = \\text{Constante} \\]", 
+            "\\[ E_M = E_k - E_p = 0 \\]", 
+            "\\[ E_M = E_k \\cdot E_p \\]", 
+            "\\[ E_M = \\dfrac{E_k}{E_p} \\]"
+        ], 
+        answer: 0 
+    },
+    { 
+        id: 40, 
+        topic: "Trabajo Neto y Variación de Energía", 
+        question: "El Teorema del Trabajo y la Energía Cinética establece que el Trabajo Neto \\(W_{\\text{net}}\\) realizado sobre una partícula equivale a:", 
+        options: [
+            "\\[ W_{\\text{net}} = \\Delta E_k = E_{k,f} - E_{k,0} \\]", 
+            "\\[ W_{\\text{net}} = E_{k,f} + E_{k,0} \\]", 
+            "\\[ W_{\\text{net}} = \\Delta E_p \\]", 
+            "\\[ W_{\\text{net}} = \\dfrac{\\Delta E_k}{\\Delta t} \\]"
+        ], 
+        answer: 0 
     }
 ];
 
@@ -261,7 +370,7 @@ const questions = [
 let idx = 0;
 let userAnswers = {};
 let violations = 0;
-let timeLeft = 3000; 
+let timeLeft = 3000; // 50 MINUTOS EXACTOS
 let timerId = null;
 let examActive = false;
 
@@ -356,7 +465,7 @@ function triggerViolation() {
     setTimeout(() => alertBanner.classList.add('hidden'), 3500);
 }
 
-// TEMPORIZADOR
+// TEMPORIZADOR CON CIERRE AUTOMÁTICO AL LLEGAR A 0
 function startTimer() {
     if (timerId) return;
     timerId = setInterval(() => {
@@ -364,8 +473,10 @@ function startTimer() {
         let m = Math.floor(timeLeft / 60);
         let s = timeLeft % 60;
         timerEl.textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        
         if (timeLeft <= 0) {
             clearInterval(timerId);
+            document.getElementById('time-up-msg').classList.remove('hidden');
             finishExam();
         }
     }, 1000);
@@ -456,6 +567,7 @@ btnFinish.addEventListener('click', () => {
     }
 });
 
+// FINALIZACIÓN Y EVALUACIÓN DE LO ATENDIDO
 function finishExam() {
     examActive = false;
     clearInterval(timerId);
@@ -468,7 +580,8 @@ function finishExam() {
     reviewBox.innerHTML = '';
 
     questions.forEach((q, i) => {
-        const ok = userAnswers[i] === q.answer;
+        const answered = userAnswers[i] !== undefined;
+        const ok = answered && (userAnswers[i] === q.answer);
         if (ok) score++;
 
         const item = document.createElement('div');
@@ -476,7 +589,7 @@ function finishExam() {
         item.innerHTML = `
             <div style="font-weight:600; font-size:0.95rem;">${i + 1}. ${q.question}</div>
             <div style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
-                Tu respuesta: <strong>${userAnswers[i] !== undefined ? q.options[userAnswers[i]] : 'Sin responder'}</strong> 
+                Tu respuesta: <strong>${answered ? q.options[userAnswers[i]] : '<em style="color:var(--danger-color)">Sin responder</em>'}</strong> 
                 ${ok ? '<span style="color:var(--success-color); font-weight:bold;">✓ Correcta</span>' : '<span style="color:var(--danger-color); font-weight:bold;">✗ (Correcta: ' + q.options[q.answer] + ')</span>'}
             </div>
         `;
