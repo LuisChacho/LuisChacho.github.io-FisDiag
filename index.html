@@ -5,12 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plataforma de Evaluación - Física</title>
   
-  <!-- Configuración e integración de MathJax -->
+  <!-- Configuración e integración de MathJax 3 -->
   <script>
     window.MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
       },
       svg: {
         fontCache: 'global'
@@ -20,7 +23,12 @@
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    * { 
+      box-sizing: border-box; 
+      font-family: system-ui, -apple-system, sans-serif;
+      user-select: none; /* Seguridad: Deshabilita la selección de texto */
+      -webkit-user-select: none;
+    }
     body { background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
     .container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; }
     
@@ -31,7 +39,7 @@
     .category { color: #0088cc; font-weight: bold; text-transform: uppercase; font-size: 13px; margin-bottom: 5px; }
     .question-number { font-size: 20px; font-weight: bold; margin-bottom: 15px; }
     
-    .formula-box { background: #f8fafc; border-left: 4px solid #0088cc; padding: 15px; margin: 15px 0; text-align: center; font-size: 1.1em; }
+    .formula-box { background: #f8fafc; border-left: 4px solid #0088cc; padding: 15px; margin: 15px 0; text-align: center; font-size: 1.15em; }
     
     .options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
     .option-label { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.2s; }
@@ -42,26 +50,21 @@
     .nav-btn.active { border-color: #0088cc; background: #e0f2fe; color: #0088cc; font-weight: bold; }
   </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Seguridad: Deshabilita clic derecho -->
 
 <div class="container">
   <main class="main-content">
-    <div class="category" id="categoria">TRABAJO MECÁNICO</div>
-    <div class="question-number" id="pregunta-titulo">Pregunta 13 de 40</div>
+    <div class="category" id="categoria">VECTOR POSICIÓN</div>
+    <div class="question-number" id="pregunta-titulo">Pregunta 3 de 40</div>
     
-    <div id="enunciado">
-      <!-- El texto con LaTeX se inyectará dinámicamente -->
-    </div>
-
-    <div class="options" id="opciones-container">
-      <!-- Opciones inyectadas dinámicamente -->
-    </div>
+    <div id="enunciado"></div>
+    <div class="options" id="opciones-container"></div>
   </main>
 
   <aside class="sidebar">
     <div class="card">
       <small style="color: #64748b; font-weight: bold;">TIEMPO RESTANTE</small>
-      <div style="font-size: 28px; font-weight: bold;">59:46</div>
+      <div style="font-size: 28px; font-weight: bold;">59:54</div>
     </div>
 
     <div class="card">
@@ -71,23 +74,27 @@
 
     <div class="card">
       <small style="color: #64748b; font-weight: bold;">NAVEGACIÓN DIRECTA</small>
-      <div class="grid-nav" id="grid-navegacion">
-        <!-- Botones creados automáticamente -->
-      </div>
+      <div class="grid-nav" id="grid-navegacion"></div>
     </div>
   </aside>
 </div>
 
 <script>
-  // Banco de preguntas con escapes de barra invertida (\\) requeridos por JavaScript
+  // BANCO DE PREGUNTAS
+  // Nota: Usa '\\hat{\\imath}' y '\\hat{\\jmath}' para evitar superposición de tildes/puntos en los vectores.
   const preguntas = [
     {
-      id: 13,
-      categoria: "TRABAJO MECÁNICO",
-      textoInicial: "Una fuerza $\\vec{F} = (6\\hat{i} + 8\\hat{j})\\text{ N}$ desplaza un objeto a lo largo del vector:",
-      ecuacionDestacada: "$$\\Delta \\vec{r} = (5\\hat{i} + 2\\hat{j})\\text{ m}$$",
-      textoFinal: "Calcular el trabajo escalar realizado $W = \\vec{F} \\cdot \\Delta \\vec{r}$:",
-      opciones: ["46 J", "30 J", "16 J", "70 J"]
+      id: 3,
+      categoria: "VECTOR POSICIÓN",
+      textoInicial: "Un móvil parte desde el origen $(0,0)$ y se desplaza según el vector posición:",
+      ecuacionDestacada: "$$\\vec{r}(t) = (3t\\hat{\\imath} + 4t^2\\hat{\\jmath})\\text{ m}$$",
+      textoFinal: "Determinar el vector posición en $t = 2\\text{ s}$:",
+      opciones: [
+        "$\\vec{r}(2) = (6\\hat{\\imath} + 16\\hat{\\jmath})\\text{ m}$",
+        "$\\vec{r}(2) = (3\\hat{\\imath} + 8\\hat{\\jmath})\\text{ m}$",
+        "$\\vec{r}(2) = (6\\hat{\\imath} + 8\\hat{\\jmath})\\text{ m}$",
+        "$\\vec{r}(2) = (12\\hat{\\imath} + 16\\hat{\\jmath})\\text{ m}$"
+      ]
     }
   ];
 
@@ -97,7 +104,7 @@
     document.getElementById("categoria").innerText = data.categoria;
     document.getElementById("pregunta-titulo").innerText = `Pregunta ${data.id} de 40`;
     
-    // Inyección de HTML con sintaxis LaTeX
+    // Inyección de HTML con LaTeX
     document.getElementById("enunciado").innerHTML = `
       <p>${data.textoInicial}</p>
       <div class="formula-box">${data.ecuacionDestacada}</div>
@@ -117,22 +124,43 @@
       contenedorOpciones.appendChild(label);
     });
 
-    // RE-RENDERIZAR MATHJAX TRAS CAMBIAR EL CONTENIDO EN EL DOM
+    // PROCESAMIENTO OBLIGATORIO DE MATHJAX TRAS ACTUALIZAR EL DOM
     if (window.MathJax && window.MathJax.typesetPromise) {
       MathJax.typesetPromise();
     }
   }
 
-  // Generar cuadrícula de navegación simple
+  // NAVEGACIÓN
   const grid = document.getElementById("grid-navegacion");
   for (let i = 1; i <= 40; i++) {
     const btn = document.createElement("div");
-    btn.className = `nav-btn ${i === 13 ? 'active' : ''}`;
+    btn.className = `nav-btn ${i === 3 ? 'active' : ''}`;
     btn.innerText = i;
     grid.appendChild(btn);
   }
 
-  // Cargar la pregunta inicial al iniciar la página
+  // CAPAS DE SEGURIDAD
+  // 1. Deshabilitar atajos de teclado para captura/inspección (F12, Ctrl+Shift+I, Ctrl+C, etc.)
+  document.addEventListener('keydown', function(e) {
+    if (
+      e.key === 'F12' || 
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+      (e.ctrlKey && (e.key === 'u' || e.key === 'c' || e.key === 'a' || e.key === 's'))
+    ) {
+      e.preventDefault();
+      alert("Acción no permitida durante la evaluación.");
+    }
+  });
+
+  // 2. Control de cambio de pestaña / pérdida de foco
+  document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+      console.warn("Advertencia: El estudiante cambió de pestaña.");
+      // Aquí puedes registrar el evento o incrementar un contador de faltas
+    }
+  });
+
+  // CARGA INICIAL
   window.addEventListener("DOMContentLoaded", () => {
     cargarPregunta(0);
   });
