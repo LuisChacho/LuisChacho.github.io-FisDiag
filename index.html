@@ -3,51 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Evaluación - Acceso a la Universidad</title>
-    <!-- ICONOS FONTAWESOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Plataforma de Admisión Académica | Evaluación de Física</title>
+
     <style>
+        /* ==========================================================================
+           RESET Y VARIABLES DE DISEÑO PREMIUM
+           ========================================================================== */
         :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
             --primary: #0f172a;
+            --primary-light: #1e293b;
             --accent: #2563eb;
             --accent-hover: #1d4ed8;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
+            --accent-soft: #eff6ff;
             --border: #e2e8f0;
-            --danger: #ef4444;
-            --success: #10b981;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --danger: #dc2626;
+            --danger-soft: #fef2f2;
+            --success: #16a34a;
+            --warning: #d97706;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
 
-        /* DERECHOS DE AUTOR Y BLOQUEO DE SEGURIDAD */
+        /* PROTECCIÓN DIRECTA EN CSS CONTRA SELECCIÓN DE TEXTO */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             user-select: none !important;
             -webkit-user-select: none !important;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-dark);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
 
-        /* HEADER PROFESIONAL */
+        /* ==========================================================================
+           ENCABEZADO / NAVBAR
+           ========================================================================== */
         .navbar {
-            background-color: var(--primary);
+            background: var(--primary);
             color: #ffffff;
-            padding: 0.8rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .brand {
@@ -56,131 +72,168 @@
             gap: 1rem;
         }
 
-        .brand i {
-            font-size: 1.8rem;
-            color: #38bdf8;
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #38bdf8, var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.4);
         }
 
         .brand-text h1 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.02em;
+            color: #f8fafc;
         }
 
         .brand-text p {
             font-size: 0.75rem;
             color: #94a3b8;
+            font-weight: 500;
         }
 
-        .header-widgets {
+        .header-stats {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.25rem;
         }
 
-        .widget {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.12);
-            padding: 0.4rem 1rem;
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.5rem 1rem;
             border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 0.75rem;
         }
 
-        .widget i {
-            color: #38bdf8;
-            font-size: 1.1rem;
+        .stat-icon {
+            font-size: 1.2rem;
         }
 
-        .widget-val {
+        .stat-val {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
         }
 
-        .widget-lbl {
+        .stat-lbl {
             font-size: 0.65rem;
             color: #94a3b8;
-            display: block;
             text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
         }
 
-        /* LAYOUT PRINCIPAL */
-        .container {
+        /* BANNER ALERTA */
+        .banner-warning {
+            background: #fef2f2;
+            border-bottom: 1px solid #fecaca;
+            color: #991b1b;
+            padding: 0.65rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* ==========================================================================
+           ESTRUCTURA Y CONTENEDORES
+           ========================================================================== */
+        .main-wrapper {
             max-width: 1280px;
             margin: 2rem auto;
             padding: 0 1.5rem;
             display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 2rem;
+            grid-template-columns: 1fr 340px;
+            gap: 1.75rem;
             flex: 1;
             width: 100%;
         }
 
         .card {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.75rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
         }
 
-        /* SECCIÓN PREGUNTA */
-        .q-header {
+        /* ==========================================================================
+           PANEL PREGUNTA
+           ========================================================================== */
+        .q-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        .tag-badge {
-            background: #eff6ff;
+        .badge-count {
+            background: var(--accent-soft);
             color: var(--accent);
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 0.85rem;
             border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 700;
+            border: 1px solid #bfdbfe;
         }
 
-        .topic-name {
+        .topic-lbl {
             color: var(--text-muted);
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
-        .progress-track {
+        .progress-bar-bg {
             height: 6px;
             background: #e2e8f0;
             border-radius: 3px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             overflow: hidden;
         }
 
-        .progress-fill {
+        .progress-bar-fill {
             height: 100%;
-            background: var(--accent);
+            background: linear-gradient(90deg, var(--accent), #38bdf8);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .q-title {
-            font-size: 1.15rem;
+        .q-statement {
+            font-size: 1.2rem;
             font-weight: 600;
             line-height: 1.6;
-            margin-bottom: 1.5rem;
-            color: #0f172a;
+            margin-bottom: 1.75rem;
+            color: var(--text-main);
         }
 
-        .options-list {
+        /* OPCIONES DE RESPUESTA */
+        .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.85rem;
             margin-bottom: 2rem;
         }
 
         .opt-card {
             border: 1.5px solid var(--border);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -192,40 +245,42 @@
         .opt-card:hover {
             border-color: #93c5fd;
             background: #f8fafc;
+            transform: translateY(-1px);
         }
 
-        .opt-card.active {
+        .opt-card.selected {
             border-color: var(--accent);
-            background: #eff6ff;
+            background: var(--accent-soft);
             box-shadow: 0 0 0 1px var(--accent);
         }
 
-        .opt-card input {
-            cursor: pointer;
+        .opt-radio {
+            width: 20px;
+            height: 20px;
             accent-color: var(--accent);
-            width: 18px;
-            height: 18px;
+            cursor: pointer;
         }
 
-        .opt-card label {
+        .opt-label {
             cursor: pointer;
             width: 100%;
-            font-size: 0.95rem;
-            color: var(--text-dark);
+            font-size: 0.98rem;
+            color: var(--text-main);
             font-weight: 500;
+            line-height: 1.4;
         }
 
-        /* BOTONES DE NAVEGACIÓN */
-        .actions {
+        /* CONTROLES NAVEGACIÓN */
+        .actions-bar {
             display: flex;
             justify-content: space-between;
-            padding-top: 1rem;
+            padding-top: 1.5rem;
             border-top: 1px solid var(--border);
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -233,99 +288,104 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.9rem;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
         }
 
-        .btn-accent { background: var(--accent); color: white; }
-        .btn-accent:hover { background: var(--accent-hover); }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
 
-        .btn-outline { background: white; border: 1px solid var(--border); color: var(--text-dark); }
-        .btn-outline:hover { background: #f1f5f9; }
-        .btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-secondary { background: white; border: 1px solid var(--border); color: var(--text-main); }
+        .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
+        .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #dc2626; }
+        .btn-danger:hover { background: #b91c1c; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); }
 
-        .w-100 { width: 100%; justify-content: center; }
+        .w-full { width: 100%; justify-content: center; }
 
-        /* NAVEGADOR LATERAL */
-        .map-title {
-            font-size: 0.95rem;
+        /* ==========================================================================
+           PANEL LATERAL / MAPA DE PREGUNTAS
+           ========================================================================== */
+        .sidebar-title {
+            font-size: 0.85rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
             color: var(--text-muted);
         }
 
-        .grid-map {
+        .q-grid-map {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 0.5rem;
+            gap: 0.6rem;
             margin-bottom: 1.5rem;
         }
 
-        .map-num {
+        .map-item {
             aspect-ratio: 1;
             border: 1px solid var(--border);
             background: #ffffff;
-            border-radius: 6px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-dark);
+            color: var(--text-muted);
             transition: all 0.15s ease;
         }
 
-        .map-num:hover { border-color: var(--accent); }
-        .map-num.active { border-color: var(--accent); background: #eff6ff; color: var(--accent); font-weight: 700; }
-        .map-num.filled { background: var(--accent); color: white; border-color: var(--accent); }
+        .map-item:hover { border-color: var(--accent); color: var(--accent); }
+        .map-item.current { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+        .map-item.answered { background: var(--accent); color: white; border-color: var(--accent); }
 
-        .legend {
+        .legend-box {
             display: flex;
             justify-content: space-between;
             font-size: 0.75rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
+            padding-bottom: 1.25rem;
             border-bottom: 1px solid var(--border);
         }
 
-        .legend-item { display: flex; align-items: center; gap: 0.4rem; }
+        .legend-tag { display: flex; align-items: center; gap: 0.4rem; font-weight: 500; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
-        .dot-active { background: #eff6ff; border: 1px solid var(--accent); }
-        .dot-filled { background: var(--accent); }
-        .dot-empty { background: #ffffff; border: 1px solid var(--border); }
+        .dot-curr { background: var(--accent-soft); border: 2px solid var(--accent); }
+        .dot-ans { background: var(--accent); }
+        .dot-empty { background: white; border: 1px solid var(--border); }
 
-        /* MODALES Y OVERLAYS */
+        /* ==========================================================================
+           MODALES DE SEGURIDAD
+           ========================================================================== */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(8px);
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 1.5rem;
         }
 
-        .modal-box {
+        .modal-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2.5rem;
             max-width: 480px;
-            width: 90%;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            box-shadow: var(--shadow-lg);
         }
 
-        .modal-icon-wrapper {
+        .modal-icon {
             width: 70px;
             height: 70px;
-            background: #eff6ff;
+            background: var(--accent-soft);
             color: var(--accent);
             border-radius: 50%;
             display: flex;
@@ -335,270 +395,223 @@
             margin: 0 auto 1.25rem;
         }
 
-        .modal-box.danger .modal-icon-wrapper {
-            background: #fef2f2;
+        .modal-card.warning .modal-icon {
+            background: var(--danger-soft);
             color: var(--danger);
         }
 
-        .modal-box h2 {
+        .modal-card h2 {
             font-size: 1.35rem;
             margin-bottom: 0.75rem;
-            color: #0f172a;
+            color: var(--text-main);
+            font-weight: 700;
         }
 
-        .modal-box p {
+        .modal-card p {
             font-size: 0.9rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
             margin-bottom: 1.75rem;
-        }
-
-        .banner-alert {
-            background: #fef2f2;
-            border-bottom: 1px solid #fecaca;
-            color: #991b1b;
-            padding: 0.6rem;
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: 600;
         }
 
         .hidden { display: none !important; }
 
-        /* PANTALLA DE RESULTADOS */
-        .results-grid {
+        /* RESULTADOS */
+        .results-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+            gap: 1.25rem;
+            margin: 1.75rem 0;
         }
 
-        .res-box {
+        .res-card {
             background: #f8fafc;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 1.25rem;
             text-align: center;
         }
 
-        .res-big {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--accent);
-            display: block;
-            margin-top: 0.25rem;
-        }
+        .res-card .lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        .res-card .val { font-size: 2rem; font-weight: 800; color: var(--accent); margin-top: 0.25rem; display: block; }
+        .res-card .val.bad { color: var(--danger); }
 
-        .res-big.danger { color: var(--danger); }
-
-        .review-card {
+        .rev-item {
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
             margin-bottom: 0.75rem;
             background: #ffffff;
         }
-
-        .review-card.ok { border-left: 4px solid var(--success); }
-        .review-card.fail { border-left: 4px solid var(--danger); }
+        .rev-item.correct { border-left: 4px solid var(--success); }
+        .rev-item.incorrect { border-left: 4px solid var(--danger); }
     </style>
 </head>
 <body>
 
-    <!-- OVERLAY OBLIGATORIO DE PANTALLA COMPLETA -->
+    <!-- OVERLAY INICIAL (PANTALLA COMPLETA) -->
     <div id="start-overlay" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-icon-wrapper">
-                <i class="fas fa-shield-halved"></i>
-            </div>
+        <div class="modal-card">
+            <div class="modal-icon">🛡️</div>
             <h2>Examen de Admisión Segura</h2>
-            <p>Esta evaluación consta de <strong>40 preguntas</strong> y dispone de <strong>1 hora y 10 segundos</strong>. Requiere ejecución en Modo Pantalla Completa.</p>
-            <button id="btn-start" class="btn btn-accent w-100" style="padding: 0.9rem;">
-                <i class="fas fa-expand"></i> Iniciar Evaluación Ahora
+            <p>La evaluación consta de <strong>40 preguntas</strong> y dispones de <strong>1 hora y 10 segundos</strong>. El sistema activará el modo de pantalla completa y bloqueará la captura de pantalla o cambio de pestaña.</p>
+            <button id="btn-start" class="btn btn-primary w-full" style="padding: 0.9rem;">
+                ⛶ Iniciar Evaluación Segura
             </button>
         </div>
     </div>
 
-    <!-- BLOQUEO POR INFRACCIÓN -->
+    <!-- OVERLAY ADVERTENCIA DE SEGURIDAD -->
     <div id="block-overlay" class="modal-overlay hidden">
-        <div class="modal-box danger">
-            <div class="modal-icon-wrapper">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
+        <div class="modal-card warning">
+            <div class="modal-icon">⚠️</div>
             <h2>Infracción Detectada</h2>
-            <p>Se ha registrado un intento no permitido (captura de pantalla, atajo de teclado o salida de foco). La acción ha quedado registrada en el sistema.</p>
-            <button id="btn-unlock" class="btn btn-danger w-100">Entendido y Reanudar</button>
+            <p>Se ha registrado un intento no permitido (cambio de ventana, atajo de teclado o salida de pantalla completa). La infracción ha sido guardada.</p>
+            <button id="btn-unlock" class="btn btn-danger w-full">Reanudar Examen</button>
         </div>
     </div>
 
-    <!-- NAVBAR -->
+    <!-- BARRA SUPERIOR -->
     <nav class="navbar">
         <div class="brand">
-            <i class="fas fa-graduation-cap"></i>
+            <div class="brand-logo">⚛</div>
             <div class="brand-text">
-                <h1>Evaluación de Física General - Acceso a la U</h1>
-                <p>Sistema Académico Unificado de Alta Seguridad</p>
+                <h1>Evaluación Nacional de Física General</h1>
+                <p>Plataforma de Admisión Académica</p>
             </div>
         </div>
-        <div class="header-widgets">
-            <div class="widget">
-                <i class="far fa-clock"></i>
+        <div class="header-stats">
+            <div class="stat-badge">
+                <span class="stat-icon">⏱️</span>
                 <div>
-                    <span class="widget-lbl">Tiempo Restante</span>
-                    <span id="timer" class="widget-val">60:10</span>
+                    <span class="stat-lbl">Tiempo</span>
+                    <span id="timer" class="stat-val">60:10</span>
                 </div>
             </div>
-            <div class="widget">
-                <i class="fas fa-chart-pie"></i>
+            <div class="stat-badge">
+                <span class="stat-icon">📊</span>
                 <div>
-                    <span class="widget-lbl">Progreso</span>
-                    <span id="prog-val" class="widget-val">0 / 40</span>
+                    <span class="stat-lbl">Progreso</span>
+                    <span id="prog-val" class="stat-val">0 / 40</span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div id="alert-banner" class="banner-alert hidden">
-        <i class="fas fa-exclamation-circle"></i> Advertencia: Salida de pantalla completa o cambio de foco detectado.
+    <div id="alert-banner" class="banner-warning hidden">
+        ⚠️ Alerta: Cambio de pestaña o intento no permitido detectado.
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="container">
-        <!-- PREGUNTA -->
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="main-wrapper">
+        <!-- ÁREA DE LA PREGUNTA -->
         <section id="panel-exam" class="card">
-            <div class="q-header">
-                <span id="q-number" class="tag-badge">Pregunta 1 de 40</span>
-                <span id="q-topic" class="topic-name">Tema</span>
+            <div class="q-meta">
+                <span id="q-number" class="badge-count">Pregunta 1 de 40</span>
+                <span id="q-topic" class="topic-lbl">Cargando tema...</span>
             </div>
 
-            <div class="progress-track">
-                <div id="progress-bar" class="progress-fill"></div>
+            <div class="progress-bar-bg">
+                <div id="progress-bar" class="progress-bar-fill"></div>
             </div>
 
-            <h2 id="q-text" class="q-title">Cargando reactivo...</h2>
+            <h2 id="q-text" class="q-statement">Cargando...</h2>
 
-            <div id="options-box" class="options-list">
-                <!-- Opciones dinámicas -->
-            </div>
+            <div id="options-box" class="options-grid"></div>
 
-            <div class="actions">
-                <button id="btn-prev" class="btn btn-outline" disabled>
-                    <i class="fas fa-chevron-left"></i> Anterior
-                </button>
-                <button id="btn-next" class="btn btn-accent">
-                    Siguiente <i class="fas fa-chevron-right"></i>
-                </button>
+            <div class="actions-bar">
+                <button id="btn-prev" class="btn btn-secondary" disabled>◀ Anterior</button>
+                <button id="btn-next" class="btn btn-primary">Siguiente ▶</button>
             </div>
         </section>
 
-        <!-- NAVEGACIÓN -->
+        <!-- PANEL LATERAL -->
         <aside id="panel-side">
             <div class="card">
-                <h3 class="map-title">Mapa de Reactivos</h3>
-                <div id="questions-grid" class="grid-map">
-                    <!-- Cuadrícula 1 - 40 -->
+                <h3 class="sidebar-title">Mapa de Preguntas</h3>
+                <div id="questions-grid" class="q-grid-map"></div>
+                <div class="legend-box">
+                    <span class="legend-tag"><i class="dot dot-curr"></i> Actual</span>
+                    <span class="legend-tag"><i class="dot dot-ans"></i> Hecha</span>
+                    <span class="legend-tag"><i class="dot dot-empty"></i> Pendiente</span>
                 </div>
-                <div class="legend">
-                    <span class="legend-item"><i class="dot dot-active"></i> Actual</span>
-                    <span class="legend-item"><i class="dot dot-filled"></i> Respondida</span>
-                    <span class="legend-item"><i class="dot dot-empty"></i> Pendiente</span>
-                </div>
-                <button id="btn-finish" class="btn btn-danger w-100">
-                    <i class="fas fa-paper-plane"></i> Finalizar Prueba
-                </button>
+                <button id="btn-finish" class="btn btn-danger w-full">✉ Entregar Examen</button>
             </div>
         </aside>
 
-        <!-- RESULTADOS -->
+        <!-- PANEL RESULTADOS -->
         <section id="panel-results" class="card hidden" style="grid-column: 1 / -1;">
-            <h2><i class="fas fa-circle-check" style="color: var(--success);"></i> Evaluación Finalizada</h2>
-            <div class="results-grid">
-                <div class="res-box">
-                    <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">PUNTAJE OBTENIDO</span>
-                    <span id="res-score" class="res-big">0 / 40</span>
+            <h2>✔ Evaluación Finalizada</h2>
+            <div class="results-summary">
+                <div class="res-card">
+                    <span class="lbl">Puntaje Obtenido</span>
+                    <span id="res-score" class="val">0 / 40</span>
                 </div>
-                <div class="res-box">
-                    <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">PORCENTAJE DE ACIERTOS</span>
-                    <span id="res-percent" class="res-big">0%</span>
+                <div class="res-card">
+                    <span class="lbl">Porcentaje</span>
+                    <span id="res-percent" class="val">0%</span>
                 </div>
-                <div class="res-box">
-                    <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">INFRACCIONES DE SEGURIDAD</span>
-                    <span id="res-violations" class="res-big danger">0</span>
+                <div class="res-card">
+                    <span class="lbl">Infracciones Registradas</span>
+                    <span id="res-violations" class="val bad">0</span>
                 </div>
             </div>
-            <h3 style="margin-top: 1.5rem; margin-bottom: 1rem;">Desglose de Respuestas</h3>
+            <h3 style="margin: 1.5rem 0 1rem;">Revisión de Respuestas</h3>
             <div id="review-box"></div>
         </section>
     </main>
 
+    <!-- SCRIPT COMPLETO: PREGUNTAS + SEGURIDAD + CONTROL -->
     <script>
-        // BANCO BALANCEADO DE 40 PREGUNTAS (TEÓRICAS Y PRÁCTICAS)
         const questions = [
-            // UNIDADES Y CONVERSIONES
-            { id: 1, topic: "Sistemas de Unidades (Teoría)", question: "¿Cuál de las siguientes magnitudes corresponde a una unidad fundamental en el Sistema Internacional (SI)?", options: ["Newton (N)", "Kilogramo (kg)", "Joule (J)", "Watt (W)"], answer: 1 },
-            { id: 2, topic: "Conversión de Unidades (Práctica)", question: "Un vehículo comercial se desplaza a una rapidez constante de 108 km/h. ¿A cuántos metros por segundo (m/s) equivale?", options: ["25 m/s", "30 m/s", "36 m/s", "40 m/s"], answer: 1 },
-
-            // VECTORES
-            { id: 3, topic: "Vectores (Teoría)", question: "Un vector se distingue completamente de una cantidad escalar porque requiere:", options: ["Solo magnitud y unidad", "Magnitud, dirección y sentido", "Solo ángulo de inclinación", "Masa y tiempo"], answer: 1 },
-            { id: 4, topic: "Vectores (Práctica - Módulo)", question: "Dado el vector posición r = (6 i - 8 j) m, ¿cuál es su módulo o magnitud |r|?", options: ["7 m", "10 m", "14 m", "48 m"], answer: 1 },
-            { id: 5, topic: "Vectores (Práctica - Suma Vectorial)", question: "Si F1 = (12 i - 5 j) N y F2 = (-4 i + 11 j) N actúan sobre una partícula, ¿cuál es el vector de la fuerza resultante FR?", options: ["FR = (8 i + 6 j) N", "FR = (16 i - 16 j) N", "FR = (8 i - 6 j) N", "FR = (-8 i + 6 j) N"], answer: 0 },
-
-            // CINEMÁTICA
-            { id: 6, topic: "Cinemática (Teoría - Gráficas)", question: "¿Qué representa físicamente la pendiente de la recta en una gráfica de Posición vs. Tiempo (x vs. t)?", options: ["Aceleración", "Velocidad", "Fuerza neta", "Trabajo"], answer: 1 },
-            { id: 7, topic: "MRU (Práctica - Desplazamiento)", question: "Un móvil se desplaza con velocidad constante v = (30 i + 40 j) km/h durante t = 2 h. ¿Cuál es la magnitud del desplazamiento total |r|?", options: ["50 km", "100 km", "140 km", "70 km"], answer: 1 },
-            { id: 8, topic: "MRUV (Teoría)", question: "En un Movimiento Rectilíneo Uniformemente Variado (MRUV), la aceleración se mantiene:", options: ["Variable linealmente", "Igual a cero", "Constante y diferente de cero", "Inversamente proporcional al tiempo"], answer: 2 },
-            { id: 9, topic: "MRUV (Práctica - Velocidad Vectorial)", question: "Un objeto parte del reposo con aceleración a = (4 i - 6 j) m/s² durante t = 3 s. ¿Cuál es el módulo de su velocidad final?", options: ["21.63 m/s", "14.42 m/s", "30.00 m/s", "18.00 m/s"], answer: 0 },
-            { id: 10, topic: "Caída Libre (Práctica)", question: "Se deja caer un cuerpo desde el reposo. Si la aceleración de la gravedad es g = 10 m/s², ¿qué distancia desciende en los primeros 3 segundos?", options: ["30 m", "45 m", "60 m", "90 m"], answer: 1 },
-            { id: 11, topic: "Movimiento Circular Uniforme (Teoría)", question: "En un MCU, la magnitud de la velocidad tangencial permanece constante, pero su dirección cambia continuamente debido a la:", options: ["Aceleración tangencial", "Aceleración centrípeta", "Fuerza de rozamiento", "Inercia angular"], answer: 1 },
-
-            // DINÁMICA Y ESTÁTICA
-            { id: 12, topic: "Primera Ley de Newton (Teoría)", question: "Según la Primera Ley de Newton (Inercia), un objeto mantendrá su estado de reposo o MRU mientras:", options: ["No aumente su temperatura", "La fuerza neta sobre él sea cero", "Se incremente su masa", "Su aceleración sea positiva"], answer: 1 },
-            { id: 13, topic: "Segunda Ley de Newton (Teoría)", question: "¿Cuál es la expresión matemática fundamental de la Segunda Ley de Newton?", options: ["F = m / a", "F = m · a", "F = m · v", "F = 1/2 · m · a²"], answer: 1 },
-            { id: 14, topic: "Dinámica (Práctica - Aceleración Vectorial)", question: "Sobre un cuerpo de masa m = 2 kg actúa una fuerza neta F = (6 i + 8 j) N. ¿Cuál es el módulo de su aceleración?", options: ["3.0 m/s²", "4.0 m/s²", "5.0 m/s²", "7.0 m/s²"], answer: 2 },
-            { id: 15, topic: "Tercera Ley de Newton (Teoría)", question: "Las fuerzas de acción y reacción descritas en la Tercera Ley de Newton se caracterizan por ser:", options: ["De igual magnitud, dirección y sentido", "De igual magnitud pero en sentidos opuestos y sobre cuerpos distintos", "De distinta magnitud y aplicadas al mismo cuerpo", "Perpendiculares entre sí"], answer: 1 },
-            { id: 16, topic: "Estática (Teoría - Equilibrio)", question: "Para que un cuerpo rígido se encuentre en equilibrio de rotación, la suma vectorial de sus torques debe ser:", options: ["Igual a su peso", "Igual a cero", "Igual a la aceleración de la gravedad", "Igual a la fuerza normal"], answer: 1 },
-            { id: 17, topic: "Estática (Práctica - Torque)", question: "Se aplica una fuerza perpendicular F = 40 N a una distancia d = 1.5 m del eje de giro. ¿Cuál es el valor del torque producido?", options: ["26.6 N·m", "60.0 N·m", "80.0 N·m", "38.5 N·m"], answer: 1 },
-
-            // TRABAJO, ENERGÍA Y POTENCIA
-            { id: 18, topic: "Trabajo Mecánico (Práctica)", question: "¿Qué trabajo realiza una fuerza horizontal constante de 50 N al desplazar un bloque 4 metros en su misma dirección?", options: ["12.5 J", "200.0 J", "54.0 J", "100.0 J"], answer: 1 },
-            { id: 19, topic: "Energía Potencial Gravitatoria (Teoría)", question: "La energía almacenada en un objeto debido exclusivamente a su posición respecto a un nivel de referencia es:", options: ["Energía Cinética", "Energía Potencial Gravitatoria", "Energía Térmica", "Energía Elástica"], answer: 1 },
-            { id: 20, topic: "Energía Cinética (Teoría - Fórmula)", question: "¿Cuál es la fórmula para calcular la Energía Cinética de un objeto en movimiento?", options: ["Ec = m · g · h", "Ec = 1/2 · m · v²", "Ec = F · d", "Ec = m · v"], answer: 1 },
-            { id: 21, topic: "Energía Cinética (Práctica)", question: "Un vehículo de masa m = 1000 kg avanza a una rapidez v = 20 m/s. ¿Cuál es su Energía Cinética?", options: ["20,000 J", "200,000 J", "400,000 J", "10,000 J"], answer: 1 },
-            { id: 22, topic: "Potencia Mecánica (Teoría)", question: "La Potencia Mecánica se define como la rapidez con la que se efectúa:", options: ["Una fuerza", "Un trabajo", "Un cambio de aceleración", "Un impulso"], answer: 1 },
-            { id: 23, topic: "Potencia Mecánica (Práctica)", question: "Un motor realiza un trabajo mecánico de 1200 Joules durante 4 segundos. ¿Cuál es la potencia desarrollada?", options: ["300 W", "4800 W", "1200 W", "150 W"], answer: 0 },
-            { id: 24, topic: "Conservación de la Energía (Teoría)", question: "En un sistema donde únicamente realizan trabajo fuerzas conservativas, se mantiene constante la:", options: ["Energía Cinética únicamente", "Energía Mecánica Total", "Energía Potencial únicamente", "Aceleración del sistema"], answer: 1 },
-
-            // FLUIDOS Y TERMODINÁMICA
-            { id: 25, topic: "Hidrostática (Teoría - Presión)", question: "¿Cómo se define conceptualmente la Presión hidrostática?", options: ["P = Fuerza × Área", "P = Fuerza / Área", "P = Masa / Volumen", "P = Densidad × Área"], answer: 1 },
-            { id: 26, topic: "Principio de Arquímedes (Teoría)", question: "Un cuerpo sumergido totalmente en un fluido recibe un empuje vertical hacia arriba igual al:", options: ["Peso del propio cuerpo", "Peso del fluido desalojado", "Volumen de la masa del cuerpo", "Área de la base sumergida"], answer: 1 },
-            { id: 27, topic: "Termodinámica (Teoría - Escalas)", question: "¿A cuántos Kelvin equivale el cero absoluto de temperatura (-273.15 °C)?", options: ["-273.15 K", "0 K", "273.15 K", "100 K"], answer: 1 },
-            { id: 28, topic: "Transferencia de Calor (Teoría)", question: "El mecanismo de transmisión de calor mediante ondas electromagnéticas que no requiere medio material es la:", options: ["Conducción", "Convección", "Radiación", "Evaporación"], answer: 2 },
-            { id: 29, topic: "Calorimetría (Práctica)", question: "Si se entregan 500 calorías a 100 gramos de agua (calor específico c = 1 cal/g°C), ¿cuál es el incremento de temperatura (ΔT)?", options: ["2.0 °C", "5.0 °C", "10.0 °C", "50.0 °C"], answer: 1 },
-
-            // ELECTRICIDAD Y ELECTROMAGNETISMO
-            { id: 30, topic: "Ley de Coulomb (Teoría)", question: "La fuerza electrostática entre dos cargas puntuales es inversamente proporcional a:", options: ["El cuadrado de la distancia que las separa", "El producto de las cargas", "La constante del medio", "El tiempo de interacción"], answer: 0 },
-            { id: 31, topic: "Ley de Ohm (Teoría - Fórmula)", question: "¿Cuál es la expresión matemática que representa la Ley de Ohm?", options: ["V = I · R", "V = I / R", "R = V · I", "I = V · R"], answer: 0 },
-            { id: 32, topic: "Ley de Ohm (Práctica)", question: "Por un circuito conectado a una batería de V = 24 V circula una resistencia de R = 6 Ω. ¿Cuál es la corriente I?", options: ["144 A", "0.25 A", "4 A", "18 A"], answer: 2 },
-            { id: 33, topic: "Circuito en Serie (Teoría)", question: "En un circuito eléctrico conectado en serie, la magnitud que se mantiene constante en todos sus componentes es:", options: ["El voltaje parcial", "La corriente eléctrica", "La resistencia individual", "La potencia disipada"], answer: 1 },
-            { id: 34, topic: "Resistencia Equivalente (Práctica)", question: "Dos resistencias R1 = 4 Ω y R2 = 6 Ω se conectan en serie. ¿Cuál es la resistencia equivalente?", options: ["2.4 Ω", "10.0 Ω", "24.0 Ω", "5.0 Ω"], answer: 1 },
-
-            // ONDAS, ÓPTICA Y FÍSICA MODERNA
-            { id: 35, topic: "Ondas (Teoría - Período)", question: "El tiempo empleado por una onda en completar un ciclo o vibración completa se denomina:", options: ["Frecuencia", "Longitud de onda", "Período", "Amplitud"], answer: 2 },
-            { id: 36, topic: "Ondas (Práctica - Velocidad)", question: "Si una onda presenta una frecuencia f = 50 Hz y una longitud de onda λ = 2 m, ¿cuál es su velocidad de propagación?", options: ["25 m/s", "100 m/s", "0.04 m/s", "52 m/s"], answer: 1 },
-            { id: 37, topic: "Óptica (Teoría - Refracción)", question: "El cambio de dirección y velocidad de un rayo de luz al pasar de un medio transparente a otro se llama:", options: ["Reflexión", "Refracción", "Difracción", "Polarización"], answer: 1 },
-            { id: 38, topic: "Leyes de Kepler (Teoría)", question: "De acuerdo con la Primera Ley de Kepler, las órbitas descritas por los planetas alrededor del Sol son:", options: ["Circulares perfectas", "Elípticas, con el Sol en uno de sus focos", "Parabólicas abiertas", "Espirales"], answer: 1 },
-            { id: 39, topic: "Física Moderna (Teoría - Planck)", question: "La constante de Planck (h) establece la proporcionalidad entre la energía de un fotón y su:", options: ["Masa", "Frecuencia de onda", "Amplitud", "Carga eléctrica"], answer: 1 },
-            { id: 40, topic: "Física Moderna (Teoría - Relatividad)", question: "En la ecuación relativista de equivalencia masa-energía E = m · c², el término 'c' representa:", options: ["La constante gravitacional", "La velocidad de la luz en el vacío", "La constante del electrón", "El calor específico"], answer: 1 }
+            { id: 1, topic: "Unidades SI (Teoría)", question: "¿Cuál de las siguientes unidades corresponde a una magnitud fundamental en el Sistema Internacional (SI)?", options: ["Joule (J)", "Kilogramo (kg)", "Newton (N)", "Watt (W)"], answer: 1 },
+            { id: 2, topic: "Conversión de Unidades (Práctica)", question: "Un automóvil se desplaza a 72 km/h. ¿A cuántos metros por segundo (m/s) equivale dicha rapidez?", options: ["15 m/s", "20 m/s", "25 m/s", "30 m/s"], answer: 1 },
+            { id: 3, topic: "Unidades Derivadas (Teoría)", question: "La unidad del Newton (N) en el Sistema Internacional expresada en magnitudes fundamentales equivale a:", options: ["kg·m/s", "kg·m/s²", "kg·m²/s²", "kg/m·s²"], answer: 1 },
+            { id: 4, topic: "Conversión de Unidades (Práctica)", question: "Un recipiente contiene 0.05 m³ de agua. ¿A cuántos litros equivale dicho volumen?", options: ["5 Litros", "50 Litros", "500 Litros", "0.5 Litros"], answer: 1 },
+            { id: 5, topic: "Movimiento y Trayectoria (Teoría)", question: "¿Cuál es la diferencia fundamental entre el desplazamiento y la distancia recorrida?", options: ["El desplazamiento es escalar y la distancia es vectorial", "El desplazamiento depende del camino y la distancia es en línea recta", "El desplazamiento es un vector que une posición inicial y final; la distancia es la longitud de la trayectoria", "Son términos idénticos en cualquier tipo de movimiento"], answer: 2 },
+            { id: 6, topic: "Movimiento y Trayectoria (Teoría)", question: "Si un deportista da una vuelta completa a una pista circular de 400 m regresando al punto de partida, su desplazamiento es:", options: ["400 m", "200 m", "0 m", "800 m"], answer: 2 },
+            { id: 7, topic: "Trayectoria (Práctica)", question: "Un móvil se desplaza 6 m hacia el Este y luego 8 m hacia el Norte. ¿Cuál es el módulo de su desplazamiento total?", options: ["14 m", "10 m", "2 m", "48 m"], answer: 1 },
+            { id: 8, topic: "MRU (Teoría)", question: "En un Movimiento Rectilíneo Uniforme (MRU), la aceleración del móvil se caracteriza por ser:", options: ["Constante y positiva", "Nula (igual a cero)", "Variable linealmente", "Igual a la aceleración de la gravedad"], answer: 1 },
+            { id: 9, topic: "MRU (Práctica)", question: "Un tren viaja con rapidez constante de 25 m/s durante 2 minutos. ¿Qué distancia recorre en dicho tiempo?", options: ["50 m", "1500 m", "3000 m", "500 m"], answer: 2 },
+            { id: 10, topic: "MRU (Práctica)", question: "Dos autos distantes 600 m parten al encuentro simultáneamente con velocidades de 20 m/s y 10 m/s. ¿En cuánto tiempo se cruzan?", options: ["10 s", "20 s", "30 s", "60 s"], answer: 1 },
+            { id: 11, topic: "MRU (Teoría - Gráficas)", question: "En una gráfica de Posición vs. Tiempo (x vs. t) para un MRU, la pendiente de la recta representa:", options: ["La aceleración", "La velocidad constante", "El trabajo realizado", "La distancia acumulada"], answer: 1 },
+            { id: 12, topic: "MRUV (Teoría)", question: "En un MRUV desacelerado (frenado), el vector aceleración y el vector velocidad tienen:", options: ["La misma dirección y sentido", "Direcciones perpendiculares", "Misma dirección pero sentidos opuestos", "Magnitudes iguales"], answer: 2 },
+            { id: 13, topic: "MRUV (Práctica)", question: "Un auto arranca del reposo con aceleración constante de 3 m/s². ¿Qué velocidad alcanza a los 6 segundos?", options: ["9 m/s", "18 m/s", "54 m/s", "12 m/s"], answer: 1 },
+            { id: 14, topic: "MRUV (Práctica)", question: "Un vehículo reduce su velocidad de 30 m/s a 10 m/s en 4 segundos. ¿Cuál es su aceleración?", options: ["-5 m/s²", "-10 m/s²", "5 m/s²", "-2.5 m/s²"], answer: 0 },
+            { id: 15, topic: "MRUV (Práctica)", question: "Un objeto parte del reposo y acelera a 2 m/s². ¿Qué distancia recorre durante los primeros 5 segundos?", options: ["10 m", "25 m", "50 m", "20 m"], answer: 1 },
+            { id: 16, topic: "MCU (Teoría)", question: "En el MCU, aunque la rapidez permanece constante, existe aceleración centrípeta debido a que:", options: ["El radio cambia continuamente", "La dirección de la velocidad cambia constantemente", "El período aumenta progresivamente", "La masa del objeto varía"], answer: 1 },
+            { id: 17, topic: "MCU (Teoría)", question: "El tiempo empleado por una partícula en completar una vuelta o revolución completa se denomina:", options: ["Frecuencia", "Período", "Velocidad angular", "Aceleración angular"], answer: 1 },
+            { id: 18, topic: "MCU (Práctica)", question: "Una rueda gira con una velocidad angular constante de 10 rad/s. Si su radio es de 0.5 m, ¿cuál es su rapidez tangencial?", options: ["5 m/s", "20 m/s", "10 m/s", "2.5 m/s"], answer: 0 },
+            { id: 19, topic: "MCU (Práctica)", question: "Un punto en el borde de un disco experimenta una velocidad tangencial de 6 m/s a 2 m del centro. ¿Cuál es su aceleración centrípeta?", options: ["3 m/s²", "12 m/s²", "18 m/s²", "36 m/s²"], answer: 2 },
+            { id: 20, topic: "Caída Libre (Teoría)", question: "Si se desprecia la resistencia del aire, en la caída libre de dos objetos de masas m1 = 1 kg y m2 = 10 kg arrojados desde la misma altura:", options: ["El más pesado cae primero", "Llegan al suelo exactamente al mismo tiempo", "El más liviano desciende más rápido", "Sus aceleraciones dependen de su volumen"], answer: 1 },
+            { id: 21, topic: "Caída Libre (Práctica)", question: "Se deja caer una piedra desde un puente. Si g = 10 m/s², ¿cuál es su velocidad tras 3 segundos de caída?", options: ["15 m/s", "30 m/s", "45 m/s", "90 m/s"], answer: 1 },
+            { id: 22, topic: "Caída Libre (Práctica)", question: "Desde un edificio se suelta una pelota. Si tarda 4 segundos en tocar el suelo, ¿cuál es la altura del edificio? (g = 10 m/s²)", options: ["40 m", "80 m", "160 m", "100 m"], answer: 1 },
+            { id: 23, topic: "Caída Libre (Práctica)", question: "Un objeto se lanza verticalmente hacia arriba con 30 m/s. ¿Cuál es el tiempo total que tarda en alcanzar su altura máxima? (g = 10 m/s²)", options: ["3 s", "6 s", "1.5 s", "30 s"], answer: 0 },
+            { id: 24, topic: "Movimiento Parabólico (Teoría)", question: "En un tiro parabólico ideal, la componente horizontal de la velocidad (Vx) se mantiene:", options: ["Aumentando continuamente", "Disminuyendo hasta hacerse cero", "Constante durante todo el trayecto", "Perpendicular a la gravedad solo en el vértice"], answer: 2 },
+            { id: 25, topic: "Movimiento Parabólico (Teoría)", question: "En el punto más alto de la trayectoria parabólica de un proyectil, la componente vertical de la velocidad (Vy) vale:", options: ["Su valor máximo", "Igual a Vx", "Cero", "Igual a la gravedad"], answer: 2 },
+            { id: 26, topic: "Movimiento Parabólico (Práctica)", question: "Un proyectil se lanza con Vo = 50 m/s a un ángulo cuyo sin(θ)=0.6 y cos(θ)=0.8. ¿Cuáles son sus componentes de velocidad Vox y Voy?", options: ["Vox = 30 m/s, Voy = 40 m/s", "Vox = 40 m/s, Voy = 30 m/s", "Vox = 50 m/s, Voy = 50 m/s", "Vox = 20 m/s, Voy = 30 m/s"], answer: 1 },
+            { id: 27, topic: "Movimiento Parabólico (Práctica)", question: "Si la componente vertical inicial de un proyectil es Voy = 20 m/s, ¿cuánto tiempo tarda en alcanzar la altura máxima? (g = 10 m/s²)", options: ["1 s", "2 s", "4 s", "8 s"], answer: 1 },
+            { id: 28, topic: "Fuerzas (Teoría)", question: "La fuerza normal es una fuerza de contacto que actúa entre dos superficies de forma:", options: ["Paralela a las superficies", "Perpendicular a la superficie de contacto", "Siempre en sentido opuesto al movimiento", "Igual a la masa por la velocidad"], answer: 1 },
+            { id: 29, topic: "Fuerzas (Teoría)", question: "La fuerza de fricción o rozamiento estático máxima se caracteriza por ser siempre:", options: ["Independiente del tipo de superficie", "Opuesta al intento de movimiento del objeto", "Igual al peso del objeto", "Mayor que la fuerza normal"], answer: 1 },
+            { id: 30, topic: "Fuerzas (Práctica)", question: "Un bloque de 10 kg reposa sobre una superficie horizontal. Si g = 9.8 m/s², ¿cuál es el valor de la fuerza Normal?", options: ["9.8 N", "98 N", "10 N", "0 N"], answer: 1 },
+            { id: 31, topic: "Primera Ley de Newton (Teoría)", question: "La Primera Ley de Newton o Ley de Inercia establece que un cuerpo permanece en reposo o con MRU a menos que:", options: ["La gravedad desaparezca", "Una fuerza neta no nula actúe sobre él", "Su masa disminuya", "Aumente su energía cinética"], answer: 1 },
+            { id: 32, topic: "Segunda Ley de Newton (Práctica)", question: "Sobre un bloque de 5 kg actúa una fuerza neta horizontal de 20 N. ¿Cuál es su aceleración?", options: ["100 m/s²", "4 m/s²", "0.25 m/s²", "15 m/s²"], answer: 1 },
+            { id: 33, topic: "Tercera Ley de Newton (Teoría)", question: "Las fuerzas de Acción y Reacción descritas por la Tercera Ley de Newton nunca se anulan entre sí porque:", options: ["Tienen magnitudes diferentes", "Actúan sobre cuerpos diferentes", "Van en la misma dirección", "Ocurren en momentos distintos"], answer: 1 },
+            { id: 34, topic: "Segunda Ley de Newton (Práctica)", question: "Una fuerza horizontal de 50 N arrastra un bloque de 8 kg sobre una mesa donde la fricción es de 10 N. ¿Cuál es la aceleración del bloque?", options: ["5.0 m/s²", "6.25 m/s²", "3.75 m/s²", "7.5 m/s²"], answer: 2 },
+            { id: 35, topic: "Trabajo Mecánico (Teoría)", question: "Si la fuerza aplicada sobre un objeto es perpendicular a su desplazamiento (ángulo de 90°), el trabajo realizado es:", options: ["Positivo máximo", "Negativo", "Cero", "Dependiente del tiempo"], answer: 2 },
+            { id: 36, topic: "Trabajo Mecánico (Práctica)", question: "Una fuerza constante de 40 N empuja una caja una distancia de 5 metros en su misma dirección. ¿Qué trabajo se realiza?", options: ["8 J", "200 J", "45 J", "100 J"], answer: 1 },
+            { id: 37, topic: "Energía Cinética (Práctica)", question: "¿Cuál es la Energía Cinética de un objeto de masa m = 4 kg que se desplaza a v = 3 m/s?", options: ["6 J", "12 J", "18 J", "36 J"], answer: 2 },
+            { id: 38, topic: "Energía Potencial Gravitatoria (Práctica)", question: "Un cuerpo de 2 kg se encuentra a una altura de 5 m del suelo. ¿Cuál es su Energía Potencial Gravitatoria? (g = 10 m/s²)", options: ["10 J", "50 J", "100 J", "20 J"], answer: 2 },
+            { id: 39, topic: "Potencia Mecánica (Teoría y Práctica)", question: "Un motor realiza un trabajo de 2400 J en 12 segundos. ¿Qué potencia mecánica desarrolla?", options: ["200 W", "28800 W", "100 W", "240 W"], answer: 0 },
+            { id: 40, topic: "Conservación de la Energía (Teoría)", question: "En ausencia de fuerzas no conservativas (como el rozamiento), la Energía Mecánica Total de un sistema se define como la suma de:", options: ["Trabajo y Potencia", "Energía Cinética + Energía Potencial", "Fuerza + Aceleración", "Masa + Velocidad"], answer: 1 }
         ];
 
-        // ESTADO DE LA APLICACIÓN
         let idx = 0;
         let userAnswers = {};
         let violations = 0;
-        let timeLeft = 3610; // 1 HORA Y 10 SEGUNDOS (3600s + 10s)
+        let timeLeft = 3610; // 1 hora y 10 segundos
         let timerId = null;
 
-        // ELEMENTOS DOM
         const overlayStart = document.getElementById('start-overlay');
         const overlayBlock = document.getElementById('block-overlay');
         const btnStart = document.getElementById('btn-start');
@@ -619,11 +632,10 @@
         const progressBar = document.getElementById('progress-bar');
         const questionsGrid = document.getElementById('questions-grid');
 
-        // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', () => {
             initGrid();
             loadQuestion(idx);
-            setupSecurity();
+            setupSecurityEvents();
 
             btnStart.addEventListener('click', () => {
                 enterFullscreen();
@@ -640,31 +652,46 @@
         function enterFullscreen() {
             const el = document.documentElement;
             if (!document.fullscreenElement) {
-                if (el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+                if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
                 else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
             }
         }
 
-        function setupSecurity() {
+        /* ==========================================================================
+           SISTEMA DE SEGURIDAD (ANTICOPIA / SALIDA DE PESTAÑA / ATAJOS)
+           ========================================================================== */
+        function setupSecurityEvents() {
+            // Bloqueo de menú contextual (clic derecho)
             document.addEventListener('contextmenu', e => e.preventDefault());
+
+            // Bloqueo de portapapeles
             document.addEventListener('copy', e => e.preventDefault());
             document.addEventListener('cut', e => e.preventDefault());
+            document.addEventListener('paste', e => e.preventDefault());
 
+            // Bloqueo de atajos de teclado (F12, PrintScreen, Ctrl+C, Ctrl+U, etc.)
             window.addEventListener('keydown', e => {
-                if (e.key === 'PrintScreen' || e.keyCode === 44 || e.key === 'F12' || (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p'))) {
+                if (
+                    e.key === 'PrintScreen' || 
+                    e.keyCode === 44 || 
+                    e.key === 'F12' || 
+                    (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a'))
+                ) {
                     e.preventDefault();
                     triggerViolation();
                 }
             });
 
+            // Pérdida de foco / cambio de pestaña
             window.addEventListener('blur', triggerViolation);
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) triggerViolation();
             });
 
+            // Control de salida del modo Pantalla Completa
             document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement) {
-                    overlayStart.classList.remove('hidden');
+                if (!document.fullscreenElement && overlayStart.classList.contains('hidden')) {
+                    overlayBlock.classList.remove('hidden');
                 }
             });
         }
@@ -672,9 +699,10 @@
         function triggerViolation() {
             violations++;
             alertBanner.classList.remove('hidden');
-            setTimeout(() => alertBanner.classList.add('hidden'), 3500);
+            setTimeout(() => alertBanner.classList.add('hidden'), 4000);
         }
 
+        /* TEMPORIZADOR */
         function startTimer() {
             if (timerId) return;
             timerId = setInterval(() => {
@@ -689,6 +717,7 @@
             }, 1000);
         }
 
+        /* RENDER DE PREGUNTA */
         function loadQuestion(i) {
             const q = questions[i];
             qNumber.textContent = `Pregunta ${i + 1} de ${questions.length}`;
@@ -698,10 +727,10 @@
             optionsBox.innerHTML = '';
             q.options.forEach((opt, oIdx) => {
                 const item = document.createElement('div');
-                item.className = `opt-card ${userAnswers[i] === oIdx ? 'active' : ''}`;
+                item.className = `opt-card ${userAnswers[i] === oIdx ? 'selected' : ''}`;
                 item.innerHTML = `
-                    <input type="radio" name="opt" id="opt-${oIdx}" ${userAnswers[i] === oIdx ? 'checked' : ''}>
-                    <label for="opt-${oIdx}">${opt}</label>
+                    <input type="radio" class="opt-radio" name="opt" id="opt-${oIdx}" ${userAnswers[i] === oIdx ? 'checked' : ''}>
+                    <label class="opt-label" for="opt-${oIdx}">${opt}</label>
                 `;
                 item.addEventListener('click', () => {
                     userAnswers[i] = oIdx;
@@ -712,7 +741,7 @@
             });
 
             btnPrev.disabled = i === 0;
-            btnNext.textContent = i === questions.length - 1 ? "Revisar / Guardar" : "Siguiente";
+            btnNext.textContent = i === questions.length - 1 ? "Revisar Respuestas" : "Siguiente ▶";
             updateGrid();
         }
 
@@ -726,7 +755,7 @@
             questionsGrid.innerHTML = '';
             questions.forEach((_, i) => {
                 const btn = document.createElement('div');
-                btn.className = 'map-num';
+                btn.className = 'map-item';
                 btn.textContent = i + 1;
                 btn.addEventListener('click', () => {
                     idx = i;
@@ -737,11 +766,11 @@
         }
 
         function updateGrid() {
-            const btns = questionsGrid.querySelectorAll('.map-num');
+            const btns = questionsGrid.querySelectorAll('.map-item');
             btns.forEach((btn, i) => {
-                btn.className = 'map-num';
-                if (i === idx) btn.classList.add('active');
-                if (userAnswers[i] !== undefined) btn.classList.add('filled');
+                btn.className = 'map-item';
+                if (i === idx) btn.classList.add('current');
+                if (userAnswers[i] !== undefined) btn.classList.add('answered');
             });
         }
 
@@ -754,7 +783,7 @@
         });
 
         btnFinish.addEventListener('click', () => {
-            if (confirm("¿Deseas finalizar la prueba de forma definitiva?")) {
+            if (confirm("¿Estás seguro de que deseas finalizar la evaluación?")) {
                 finishExam();
             }
         });
@@ -774,12 +803,12 @@
                 if (ok) score++;
 
                 const card = document.createElement('div');
-                card.className = `review-card ${ok ? 'ok' : 'fail'}`;
+                card.className = `rev-item ${ok ? 'correct' : 'incorrect'}`;
                 card.innerHTML = `
-                    <p style="font-weight:600; font-size:0.9rem;">${i + 1}. ${q.question}</p>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.3rem;">
-                        Tu respuesta: <strong>${userAnswers[i] !== undefined ? q.options[userAnswers[i]] : 'Sin responder'}</strong> 
-                        ${ok ? '✓' : '✗ (Correcta: ' + q.options[q.answer] + ')'}
+                    <p style="font-weight:600; font-size:0.95rem;">${i + 1}. ${q.question}</p>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.4rem;">
+                        Respuesta marcada: <strong>${userAnswers[i] !== undefined ? q.options[userAnswers[i]] : 'Sin responder'}</strong> 
+                        ${ok ? '✓ Correcta' : '✗ (Correcta: ' + q.options[q.answer] + ')'}
                     </p>
                 `;
                 reviewBox.appendChild(card);
