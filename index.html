@@ -272,25 +272,25 @@
         ⚠️ REGISTRO DE INFRACCIÓN: Cambio de pestaña o infracción de seguridad detectada.
     </div>
 
-    <!-- OVERLAY INICIAL -->
+    <!-- OVERLAY INICIAL / REANUDACIÓN -->
     <div id="start-overlay" class="overlay">
         <div class="overlay-card">
             <div class="brand-badge">EVALUACIÓN DE FÍSICA GENERAL</div>
-            <h2>Prueba Completa de Diagnóstico</h2>
-            <p style="margin-top: 0.5rem; color: #475569; font-size: 0.95rem;">Evaluación de 40 reactivos que abarca Cinemática, Dinámica, Trabajo, Energía e Impulso.</p>
+            <h2 id="modal-title">Prueba Completa de Diagnóstico</h2>
+            <p id="modal-desc" style="margin-top: 0.5rem; color: #475569; font-size: 0.95rem;">Evaluación de 40 reactivos que abarca Unidades, Vectores, Cinemática, Dinámica, Trabajo, Energía e Impulso.</p>
             
             <div class="rules-box">
                 <ul>
                     <li>⏱️ <strong>Tiempo límite:</strong> 50 minutos (Autoguardado continuo)</li>
                     <li>🔒 <strong>Seguridad:</strong> Pantalla completa requerida</li>
-                    <li>💾 <strong>Persistencia:</strong> Si recargas la página, tu tiempo y respuestas continúan intactos.</li>
+                    <li>💾 <strong>Persistencia:</strong> Si recargas la página, tu intento continúa intacto.</li>
                 </ul>
             </div>
-            <button id="btn-start" class="btn-primary-large">Iniciar / Reanudar Examen</button>
+            <button id="btn-start" class="btn-primary-large">Iniciar Examen</button>
         </div>
     </div>
 
-    <!-- OVERLAY BLOQUEO -->
+    <!-- OVERLAY BLOQUEO PANTALLA COMPLETA -->
     <div id="block-overlay" class="overlay hidden">
         <div class="overlay-card danger-border">
             <h2 style="color: var(--danger);">Examen Pausado</h2>
@@ -299,7 +299,7 @@
         </div>
     </div>
 
-    <!-- PLATAFORMA -->
+    <!-- PLATAFORMA PRINCIPAL -->
     <div class="app-layout">
         <header class="main-header">
             <div class="header-titles">
@@ -366,6 +366,9 @@
                         <strong id="res-violations">0</strong>
                     </div>
                 </div>
+                
+                <button id="btn-restart-eval" class="btn-primary-large" style="margin-bottom: 1.5rem;">Iniciar Nuevo Intento</button>
+
                 <h3>Revisión de Respuestas</h3>
                 <div id="review-box" style="margin-top: 1rem;"></div>
             </section>
@@ -450,6 +453,7 @@
         const alertBanner = document.getElementById('alert-banner');
         const btnStart = document.getElementById('btn-start');
         const btnUnlock = document.getElementById('btn-unlock');
+        const btnRestartEval = document.getElementById('btn-restart-eval');
 
         const panelExam = document.getElementById('panel-exam');
         const panelSide = document.getElementById('panel-side');
@@ -474,10 +478,11 @@
             loadStateFromStorage();
             btnStart.addEventListener('click', startExam);
             btnUnlock.addEventListener('click', unlockExam);
+            btnRestartEval.addEventListener('click', resetAndRestartExam);
             btnPrev.addEventListener('click', () => navigate(-1));
             btnNext.addEventListener('click', () => navigate(1));
             btnFinish.addEventListener('click', () => {
-                if (confirm('¿Desea dar por finalizada la evaluación? Esto reiniciará la prueba permanentemente.')) {
+                if (confirm('¿Desea dar por finalizada la evaluación? Esto detendrá la prueba y generará los resultados.')) {
                     finishExam();
                 }
             });
@@ -486,21 +491,34 @@
 
         /* PERSISTENCIA Y AUTOGUARDADO EN LOCALSTORAGE */
         function loadStateFromStorage() {
+            const hasStarted = localStorage.getItem('eval_hasStarted');
             const savedAnswers = localStorage.getItem('eval_userAnswers');
             const savedTime = localStorage.getItem('eval_remainingSeconds');
             const savedIdx = localStorage.getItem('eval_currentIdx');
             const savedViolations = localStorage.getItem('eval_violations');
 
-            if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
-            if (savedTime !== null) remainingSeconds = parseInt(savedTime, 10);
-            if (savedIdx !== null) currentIdx = parseInt(savedIdx, 10);
-            if (savedViolations !== null) violations = parseInt(savedViolations, 10);
+            if (hasStarted === 'true') {
+                if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+                if (savedTime !== null) remainingSeconds = parseInt(savedTime, 10);
+                if (savedIdx !== null) currentIdx = parseInt(savedIdx, 10);
+                if (savedViolations !== null) violations = parseInt(savedViolations, 10);
+
+                // Adaptar el modal para indicar que el examen está en curso
+                document.getElementById('modal-title').innerText = "Examen en Curso";
+                document.getElementById('modal-desc').innerText = "Tienes un intento activo guardado. Haz clic abajo para reanudar el tiempo y tus respuestas.";
+                btnStart.innerText = "Reanudar Examen";
+            } else {
+                document.getElementById('modal-title').innerText = "Prueba Completa de Diagnóstico";
+                document.getElementById('modal-desc').innerText = "Evaluación de 40 reactivos que abarca Unidades, Vectores, Cinemática, Dinámica, Trabajo, Energía e Impulso.";
+                btnStart.innerText = "Iniciar Examen";
+            }
 
             updateTimerDisplay();
             updateProgressUI();
         }
 
         function saveStateToStorage() {
+            localStorage.setItem('eval_hasStarted', 'true');
             localStorage.setItem('eval_userAnswers', JSON.stringify(userAnswers));
             localStorage.setItem('eval_remainingSeconds', remainingSeconds.toString());
             localStorage.setItem('eval_currentIdx', currentIdx.toString());
@@ -508,10 +526,27 @@
         }
 
         function clearStorage() {
+            localStorage.removeItem('eval_hasStarted');
             localStorage.removeItem('eval_userAnswers');
             localStorage.removeItem('eval_remainingSeconds');
             localStorage.removeItem('eval_currentIdx');
             localStorage.removeItem('eval_violations');
+        }
+
+        function resetAndRestartExam() {
+            clearStorage();
+            userAnswers = new Array(40).fill(null);
+            remainingSeconds = INITIAL_TIME_SECONDS;
+            currentIdx = 0;
+            violations = 0;
+            
+            panelResults.classList.add('hidden');
+            panelExam.classList.remove('hidden');
+            panelSide.classList.remove('hidden');
+
+            updateProgressUI();
+            updateGridUI();
+            startExam();
         }
 
         function renderMath(targetElement) {
@@ -530,6 +565,7 @@
             enterFullscreen();
             startOverlay.classList.add('hidden');
             examActive = true;
+            saveStateToStorage();
             startTimer();
             setupSecurity();
             renderQuestion();
@@ -635,7 +671,7 @@
         function finishExam() {
             examActive = false;
             clearInterval(timerInterval);
-            clearStorage();
+            clearStorage(); // Se elimina la persistencia del estado en curso únicamente al finalizar
             
             panelExam.classList.add('hidden');
             panelSide.classList.add('hidden');
