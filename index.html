@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Evaluación - Física preuniversitaria</title>
+    <title>Evaluación Diagnóstica de Física General</title>
     
-    <!-- Renderizador KaTeX con soporte tipográfico completo -->
+    <!-- Renderizador de Ecuaciones (KaTeX) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -39,7 +39,7 @@
             overflow: hidden;
         }
 
-        /* AISLAMIENTO DE TIPOGRAFÍA PARA KATEX */
+        /* AISLAMIENTO Y PROTECCIÓN TIPOGRÁFICA KATEX */
         .katex, .katex * {
             font-family: 'KaTeX_Main', 'KaTeX_Math', serif !important;
             user-select: none;
@@ -47,7 +47,7 @@
 
         .hidden { display: none !important; }
 
-        /* BANNER DE INFRACCIÓN */
+        /* ALERTA FLOTANTE DE SEGURIDAD */
         .alert-banner {
             position: fixed;
             top: 1rem;
@@ -63,7 +63,7 @@
             z-index: 10000;
         }
 
-        /* CAPAS MODALES / OVERLAYS */
+        /* OVERLAYS Y MODALES DE SEGURIDAD */
         .overlay {
             position: fixed;
             top: 0;
@@ -115,7 +115,7 @@
         .rules-box ul { list-style: none; }
         .rules-box li { margin-bottom: 0.5rem; font-size: 0.875rem; color: #334155; }
 
-        /* ESTRUCTURA PRINCIPAL DE PANTALLA */
+        /* ARQUITECTURA DE LA PLATAFORMA */
         .app-layout {
             display: flex;
             flex-direction: column;
@@ -172,8 +172,8 @@
         .formula-box {
             background: #f8fafc;
             border-left: 4px solid var(--primary);
-            padding: 1rem;
-            margin: 1rem 0;
+            padding: 1.2rem;
+            margin: 1.2rem 0;
             text-align: center;
             font-size: 1.2rem;
             border-radius: 0 8px 8px 0;
@@ -254,7 +254,7 @@
         .btn-danger-outline { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 0.75rem; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-danger-outline:hover { background: #fef2f2; }
 
-        /* PANEL DE RESULTADOS */
+        /* RESUMEN DE RESULTADOS */
         .results-panel { grid-column: 1 / -1; overflow-y: auto; }
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0 2rem 0; }
         .stat-card { background: #f8fafc; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
@@ -270,41 +270,42 @@
 </head>
 <body>
 
-    <!-- BANNER FLOTANTE DE SEGURIDAD -->
+    <!-- ALERTA FLOTANTE DE SEGURIDAD -->
     <div id="alert-banner" class="alert-banner hidden">
-        ⚠️ REGISTRO DE INFRACCIÓN: Acción no permitida o salida del entorno seguro.
+        ⚠️ REGISTRO DE INFRACCIÓN: Salida o acción no permitida detectada.
     </div>
 
-    <!-- PANTALLA INICIAL (INICIO DE PANTALLA COMPLETA) -->
+    <!-- OVERLAY 1: PANTALLA INICIAL -->
     <div id="start-overlay" class="overlay">
         <div class="overlay-card">
             <div class="brand-badge">EVALUACIÓN ACADÉMICA</div>
             <h2>Física General y Vectorial</h2>
-            <p style="margin-top: 0.5rem; color: #475569; font-size: 0.95rem;">Examen diagnóstico estandarizado con notación vectorial en $\hat{\imath}, \hat{\jmath}$ y cálculo cinemático.</p>
+            <p style="margin-top: 0.5rem; color: #475569; font-size: 0.95rem;">La evaluación consta de 40 reactivos con notación vectorial formal en $\hat{\imath}, \hat{\jmath}$, despeje de fórmulas y cinemática.</p>
             
             <div class="rules-box">
                 <ul>
-                    <li>⏱️ <strong>Tiempo máximo:</strong> 50 minutos (cierre automático)</li>
-                    <li>🔒 <strong>Seguridad activada:</strong> Pantalla completa obligatoria</li>
-                    <li>🚫 <strong>Restricciones:</strong> Prohibido copiar, salir de la pestaña o usar atajos</li>
+                    <li>⏱️ <strong>Tiempo límite:</strong> 50 minutos (cierre automático)</li>
+                    <li>🔒 <strong>Entorno Seguro:</strong> Pantalla completa obligatoria</li>
+                    <li>🚫 <strong>Restricciones:</strong> Prohibido copiar, alternar pestañas o usar atajos</li>
                 </ul>
             </div>
-            <button id="btn-start" class="btn-primary-large">Iniciar Evaluación Segura</button>
+            <button id="btn-start" class="btn-primary-large">Iniciar Examen</button>
         </div>
     </div>
 
-    <!-- PANTALLA DE BLOQUEO POR PERDIDA DE FOCO -->
+    <!-- OVERLAY 2: BLOQUEO POR PÉRDIDA DE FOCO / PANTALLA COMPLETA -->
     <div id="block-overlay" class="overlay hidden">
         <div class="overlay-card danger-border">
-            <h2 style="color: var(--danger);">Evaluación Pausada</h2>
-            <p style="margin-top: 0.75rem; color: #334155;">Se ha detectado una interrupción en el entorno seguro (cambio de ventana o salida de pantalla completa). Reingrese para continuar.</p>
-            <button id="btn-unlock" class="btn-primary" style="margin-top: 1.5rem; width: 100%;">Reanudar Examen</button>
+            <h2 style="color: var(--danger);">Examen Pausado</h2>
+            <p style="margin-top: 0.75rem; color: #334155;">Se ha detectado una interrupción en la seguridad del entorno (salida de pantalla completa o cambio de foco). Reingrese para continuar.</p>
+            <button id="btn-unlock" class="btn-primary" style="margin-top: 1.5rem; width: 100%;">Reanudar Evaluación</button>
         </div>
     </div>
 
-    <!-- PLATAFORMA PRINCIPAL -->
+    <!-- CONTENEDOR PRINCIPAL TEMA CLARO -->
     <div class="app-layout">
         
+        <!-- HEADER SUPERIOR -->
         <header class="main-header">
             <div class="header-titles">
                 <h1>Plataforma de Evaluación Diagnóstica</h1>
@@ -316,14 +317,16 @@
             </div>
         </header>
 
+        <!-- ÁREA CENTRAL DE TRABAJO -->
         <div class="workspace">
             
-            <!-- PANEL DE PREGUNTA ACTUAL -->
+            <!-- PANEL IZQUIERDO: PREGUNTA Y OPCIONES -->
             <main id="panel-exam" class="card-panel main-content">
                 <div>
                     <div class="question-header">
                         <h3 id="q-number">Pregunta 1 de 40</h3>
                     </div>
+
                     <div class="question-body">
                         <div id="q-text" class="question-text">Cargando reactivo...</div>
                         <div id="options-box" class="options-group"></div>
@@ -336,11 +339,11 @@
                 </footer>
             </main>
 
-            <!-- PANEL LATERAL DE NAVEGACIÓN -->
+            <!-- PANEL DERECHO: NAVEGACIÓN Y PROGRESO -->
             <aside id="panel-side" class="card-panel sidebar">
                 <div class="progress-section">
                     <div class="progress-labels">
-                        <span>Avance del Examen</span>
+                        <span>Avance</span>
                         <strong id="prog-val">0 / 40</strong>
                     </div>
                     <div class="progress-track">
@@ -356,7 +359,7 @@
                 <button id="btn-finish" class="btn-danger-outline">Finalizar Examen</button>
             </aside>
 
-            <!-- PANEL DE RESULTADOS FINAL -->
+            <!-- PANEL DE RESULTADOS -->
             <section id="panel-results" class="card-panel results-panel hidden">
                 <h2>Resumen de Evaluación</h2>
                 <div class="stats-grid">
@@ -369,18 +372,18 @@
                         <strong id="res-percent">0%</strong>
                     </div>
                     <div class="stat-card danger">
-                        <span>Infracciones Registradas</span>
+                        <span>Infracciones</span>
                         <strong id="res-violations">0</strong>
                     </div>
                 </div>
-                <h3>Revisión Detallada</h3>
+                <h3>Revisión de Respuestas</h3>
                 <div id="review-box" style="margin-top: 1rem;"></div>
             </section>
         </div>
     </div>
 
     <script>
-        // BANCO COMPLETO DE 40 PREGUNTAS CON NOTACIÓN KATEX LIMPIA (\hat{\imath}, \hat{\jmath})
+        // BANCO CON NOTACIÓN FORMAL IMPECABLE (\hat{\imath}, \hat{\jmath})
         const examData = [
           { topic: "MRU Vectorial", text: "Un dron se desplaza desde $\\vec{r}_0 = (4\\hat{\\imath} + 2\\hat{\\jmath})\\text{ m}$ hasta $\\vec{r}_f = (10\\hat{\\imath} - 6\\hat{\\jmath})\\text{ m}$ en $\\Delta t = 2\\text{ s}$. Calcular su velocidad constante $\\vec{v}$:", options: ["$\\vec{v} = (3\\hat{\\imath} - 4\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (6\\hat{\\imath} - 8\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (7\\hat{\\imath} - 2\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (14\\hat{\\imath} - 4\\hat{\\jmath})\\text{ m/s}$"], correct: 0 },
           { topic: "MRU Vectorial", text: "Un vehículo se desplaza durante $3\\text{ s}$ a rapidez constante con $\\vec{v} = (5\\hat{\\imath} - 12\\hat{\\jmath})\\text{ m/s}$. Calcular el módulo del desplazamiento total:", options: ["$39\\text{ m}$", "$51\\text{ m}$", "$15\\text{ m}$", "$36\\text{ m}$"], correct: 0 },
@@ -424,14 +427,12 @@
           { topic: "Posición Relativa", text: "Dadas $\\vec{r}_A = (3\\hat{\\imath} + 8\\hat{\\jmath})\\text{ m}$ y $\\vec{r}_B = (7\\hat{\\imath} + 2\\hat{\\jmath})\\text{ m}$, la posición relativa de B respecto a A ($\\vec{r}_{B/A}$) es:", options: ["$\\vec{r}_{B/A} = (4\\hat{\\imath} - 6\\hat{\\jmath})\\text{ m}$", "$\\vec{r}_{B/A} = (-4\\hat{\\imath} + 6\\hat{\\jmath})\\text{ m}$", "$\\vec{r}_{B/A} = (10\\hat{\\imath} + 10\\hat{\\jmath})\\text{ m}$", "$\\vec{r}_{B/A} = (4\\hat{\\imath} + 6\\hat{\\jmath})\\text{ m}$"], correct: 0 }
         ];
 
-        // ESTADOS DEL SISTEMA
         let currentIdx = 0;
         let userAnswers = new Array(40).fill(null);
         let violations = 0;
         let examActive = false;
         let timerInterval = null;
 
-        // ELEMENTOS DOM
         const startOverlay = document.getElementById('start-overlay');
         const blockOverlay = document.getElementById('block-overlay');
         const alertBanner = document.getElementById('alert-banner');
@@ -456,7 +457,6 @@
         const progVal = document.getElementById('prog-val');
         const timerDisplay = document.getElementById('timer');
 
-        // INICIALIZACIÓN
         document.addEventListener('DOMContentLoaded', () => {
             buildGrid();
             btnStart.addEventListener('click', startExam);
@@ -469,7 +469,6 @@
             renderMath(document.body);
         });
 
-        // RENDERIZADOR MATEMÁTICO KATEX
         function renderMath(targetElement) {
             if (window.renderMathInElement) {
                 renderMathInElement(targetElement, {
@@ -511,7 +510,6 @@
                 optionsBox.appendChild(btn);
             });
 
-            // Procesamiento de formulas en el reactivo y opciones
             renderMath(qText);
             renderMath(optionsBox);
 
@@ -611,7 +609,6 @@
             renderMath(reviewBox);
         }
 
-        // ENTORNO DE SEGURIDAD KIOSKO
         function setupSecurity() {
             document.addEventListener('contextmenu', e => e.preventDefault());
             document.addEventListener('copy', e => e.preventDefault());
