@@ -9,389 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-
-    <style>
-        :root {
-            --primary: #0284c7;
-            --primary-dark: #0369a1;
-            --bg-body: #f1f5f9;
-            --bg-card: #ffffff;
-            --border-color: #e2e8f0;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --danger-bg: #fef2f2;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        .hidden { display: none !important; }
-        .text-danger { color: var(--danger); }
-
-        /* OVERLAYS Y MODALES */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(6px);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-            overflow-y: auto;
-        }
-
-        .overlay-card {
-            background: var(--bg-card);
-            max-width: 500px;
-            width: 100%;
-            padding: 2rem 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin: auto;
-        }
-
-        .overlay-card.danger-border { border-top: 6px solid var(--danger); }
-
-        .brand-badge {
-            display: inline-block;
-            background: #e0f2fe;
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            margin-bottom: 0.75rem;
-            letter-spacing: 0.05em;
-        }
-
-        .form-group {
-            text-align: left;
-            margin-top: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 0.35rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-            background-color: #f8fafc;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-        }
-
-        .rules-box {
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.85rem;
-            margin: 1.25rem 0;
-            text-align: left;
-        }
-
-        .rules-box ul { list-style: none; }
-        .rules-box li { margin-bottom: 0.4rem; font-size: 0.85rem; line-height: 1.4; }
-        .rules-box li:last-child { margin-bottom: 0; }
-
-        .alert-banner {
-            position: fixed;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: var(--danger);
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            z-index: 10000;
-            text-align: center;
-            max-width: 90vw;
-        }
-
-        /* ESTRUCTURA PRINCIPAL ADAPTABLE */
-        .app-layout {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            padding: 1rem;
-            gap: 1rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .main-header {
-            background: var(--bg-card);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .header-titles {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .main-header h1 { 
-            font-size: 1.15rem; 
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .header-subinfo {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem 1rem;
-            margin-top: 0.25rem;
-            align-items: center;
-        }
-
-        .topic-tag {
-            font-size: 0.75rem;
-            color: var(--primary);
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .student-tag {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .header-timer { 
-            text-align: right;
-            background: #f8fafc;
-            padding: 0.5rem 0.85rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            min-width: 100px;
-        }
-        .timer-title { font-size: 0.65rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em; }
-        .timer-clock { font-size: 1.25rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
-
-        .workspace {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            flex-grow: 1;
-        }
-
-        @media (min-width: 900px) {
-            .app-layout {
-                height: 100vh;
-                padding: 1.25rem;
-                overflow: hidden;
-            }
-            .workspace {
-                display: grid;
-                grid-template-columns: 1fr 320px;
-                overflow: hidden;
-            }
-        }
-
-        .card-panel {
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 1.25rem;
-        }
-
-        /* PANEL IZQUIERDO DE PREGUNTAS */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow-y: auto;
-            gap: 1.25rem;
-        }
-
-        .question-header h3 { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
-        .question-text { 
-            font-size: 1.05rem; 
-            line-height: 1.6; 
-            margin: 0.75rem 0 1.25rem 0;
-            overflow-x: auto;
-            padding-bottom: 0.25rem;
-        }
-
-        .options-group { display: flex; flex-direction: column; gap: 0.75rem; }
-
-        .option-btn {
-            display: flex;
-            align-items: center;
-            padding: 0.85rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background: var(--bg-card);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-            font-size: 0.95rem;
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        .option-btn:hover { border-color: #93c5fd; background: #f8fafc; }
-        .option-btn.selected { border-color: var(--primary); background: #eff6ff; font-weight: 600; }
-        
-        .option-btn .opt-index {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-right: 0.85rem;
-            flex-shrink: 0;
-        }
-        .option-btn.selected .opt-index { background: var(--primary); color: white; }
-
-        .question-footer { 
-            display: flex; 
-            gap: 0.75rem; 
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .question-footer button {
-            flex: 1;
-        }
-
-        /* PANEL DERECHO / SIDEBAR */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            overflow-y: auto;
-        }
-
-        .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600; }
-        .progress-track { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 0%; background: var(--primary); transition: width 0.3s; }
-
-        .grid-section { display: flex; flex-direction: column; flex-grow: 1; }
-        .grid-section h4 { font-size: 0.85rem; margin-bottom: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-        .questions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
-            gap: 0.4rem;
-            max-height: 280px;
-            overflow-y: auto;
-            padding-right: 0.25rem;
-        }
-
-        @media (min-width: 900px) {
-            .questions-grid {
-                grid-template-columns: repeat(5, 1fr);
-                max-height: none;
-            }
-        }
-
-        .grid-btn {
-            aspect-ratio: 1;
-            border: 1px solid var(--border-color);
-            background: white;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s;
-        }
-
-        .grid-btn.answered { background: var(--success); color: white; border-color: var(--success); }
-        .grid-btn.active { outline: 2px solid var(--primary); font-weight: 800; border-color: var(--primary); }
-
-        /* BOTONES GENERALES */
-        .btn-primary { background: var(--primary); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .btn-primary:hover { background: var(--primary-dark); }
-        .btn-secondary { background: #e2e8f0; color: var(--text-main); border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-primary-large { background: var(--primary); color: white; border: none; padding: 0.85rem; width: 100%; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: background 0.2s; }
-        .btn-primary-large:hover { background: var(--primary-dark); }
-        .btn-danger-outline { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
-        .btn-danger-outline:hover { background: var(--danger-bg); }
-
-        /* RESULTADOS */
-        .results-panel { grid-column: 1 / -1; overflow-y: auto; }
-        .stats-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-            gap: 0.85rem; 
-            margin: 1.25rem 0 1.5rem 0; 
-        }
-        .stat-card { background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); text-align: center; }
-        .stat-card span { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-        .stat-card strong { display: block; font-size: 1.5rem; color: var(--primary); margin-top: 0.25rem; }
-        .stat-card.danger strong { color: var(--danger); }
-        
-        .review-item { 
-            border: 1px solid var(--border-color); 
-            border-radius: 8px; 
-            padding: 1rem; 
-            margin-bottom: 0.85rem; 
-            background: #ffffff;
-            overflow-x: auto;
-        }
-        .review-item.correct { border-left: 5px solid var(--success); }
-        .review-item.incorrect { border-left: 5px solid var(--danger); }
-        .review-item p { margin-top: 0.4rem; font-size: 0.95rem; }
-
-        @media print { body { display: none !important; } }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
@@ -399,30 +17,40 @@
         ⚠️ REGISTRO DE INFRACCIÓN: Cambio de pestaña o infracción de seguridad detectada.
     </div>
 
+    <!-- OVERLAY BLOQUEO DE INTENTO ÚNICO -->
+    <div id="attempt-blocked-overlay" class="overlay hidden">
+        <div class="overlay-card danger-border">
+            <h2 style="color: var(--danger);">Acceso Denegado</h2>
+            <p style="margin-top: 0.75rem; color: #334155;">
+                Se ha detectado que la cédula registrada o este dispositivo ya cuenta con un intento consumido en esta evaluación.
+            </p>
+            <div id="blocked-student-info" style="margin-top: 1rem; font-weight: 700; color: var(--primary);"></div>
+        </div>
+    </div>
+
     <!-- OVERLAY INICIAL CON REGISTRO DE ESTUDIANTE -->
     <div id="start-overlay" class="overlay">
         <div class="overlay-card">
             <div class="brand-badge">EVALUACIÓN DE FÍSICA GENERAL</div>
-            <h2 id="modal-title" style="font-size: 1.35rem;">Prueba Completa de Diagnóstico</h2>
-            <p id="modal-desc" style="margin-top: 0.5rem; color: #475569; font-size: 0.9rem; line-height: 1.4;">
-                Evaluación de 40 reactivos que abarca Unidades, Vectores, Cinemática, Dinámica, Trabajo, Energía e Impulso.
-            </p>
+            <h2 id="modal-title">Prueba Completa de Diagnóstico</h2>
+            <p id="modal-desc" style="margin-top: 0.5rem; color: #475569; font-size: 0.95rem;">Evaluación de 40 reactivos que abarca Unidades, Vectores, Cinemática, Dinámica, Trabajo, Energía e Impulso.</p>
             
-            <form id="student-form" onsubmit="event.preventDefault(); startExam();">
+            <form id="student-form" onsubmit="event.preventDefault(); handleStartExam();" style="margin-top: 1.25rem; text-align: left;">
                 <div class="form-group">
-                    <label for="student-name">Nombre Completo <span class="text-danger">*</span></label>
+                    <label for="student-name">Nombres y Apellidos <span class="text-danger">*</span></label>
                     <input type="text" id="student-name" class="form-control" placeholder="Ej. Juan Pérez" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 0.85rem;">
                     <label for="student-id">Número de Cédula / ID <span class="text-danger">*</span></label>
                     <input type="text" id="student-id" class="form-control" placeholder="Ej. 1104567890" required pattern="[0-9]{8,13}" title="Ingrese solo números (entre 8 y 13 dígitos)">
                 </div>
 
                 <div class="rules-box">
                     <ul>
-                        <li>⏱️ <strong>Tiempo límite:</strong> 50 minutos (Autoguardado)</li>
+                        <li>⏱️ <strong>Tiempo límite:</strong> 50 minutos (Autoguardado continuo)</li>
                         <li>🔒 <strong>Seguridad:</strong> Pantalla completa obligatoria</li>
-                        <li>💾 <strong>Persistencia:</strong> Tu avance se guarda si recargas.</li>
+                        <li>⚠️ <strong>Infracciones:</strong> Máximo 3 faltas antes del bloqueo automático</li>
+                        <li>⛔ <strong>Intento único:</strong> Solo un intento permitido por estudiante/dispositivo</li>
                     </ul>
                 </div>
                 
@@ -434,11 +62,9 @@
     <!-- OVERLAY BLOQUEO PANTALLA COMPLETA -->
     <div id="block-overlay" class="overlay hidden">
         <div class="overlay-card danger-border">
-            <h2 style="color: var(--danger); font-size: 1.25rem;">Examen Pausado</h2>
-            <p style="margin-top: 0.75rem; color: #334155; font-size: 0.9rem;">
-                Se ha detectado una interrupción en el entorno de pantalla completa. Reingrese para continuar.
-            </p>
-            <button id="btn-unlock" class="btn-primary" style="margin-top: 1.25rem; width: 100%;">Continuar Evaluación</button>
+            <h2 style="color: var(--danger);">Examen Pausado</h2>
+            <p style="margin-top: 0.75rem; color: #334155;">Se ha detectado una interrupción en el entorno de pantalla completa. Reingrese para continuar.</p>
+            <button id="btn-unlock" class="btn-primary" style="margin-top: 1.5rem; width: 100%;">Continuar Evaluación</button>
         </div>
     </div>
 
@@ -446,14 +72,14 @@
     <div class="app-layout">
         <header class="main-header">
             <div class="header-titles">
-                <h1>Evaluación Diagnóstica de Física</h1>
+                <h1>Plataforma de Evaluación Diagnóstica</h1>
                 <div class="header-subinfo">
                     <span id="q-topic" class="topic-tag">UNIDADES Y VECTORES</span>
                     <span id="student-info-display" class="student-tag">Estudiante: -</span>
                 </div>
             </div>
             <div class="header-timer">
-                <div class="timer-title">TIEMPO RESTANTE</div>
+                <span class="timer-title">TIEMPO RESTANTE</span>
                 <div id="timer" class="timer-clock">50:00</div>
             </div>
         </header>
@@ -480,7 +106,7 @@
             <aside id="panel-side" class="card-panel sidebar">
                 <div class="progress-section">
                     <div class="progress-labels">
-                        <span>Avance</span>
+                        <span>Avance del Examen</span>
                         <strong id="prog-val">0 / 40</strong>
                     </div>
                     <div class="progress-track">
@@ -497,16 +123,17 @@
             </aside>
 
             <section id="panel-results" class="card-panel results-panel hidden">
-                <h2 style="font-size: 1.35rem;">Resumen de Evaluación</h2>
-                <div id="student-results-badge" style="margin-top: 0.4rem; color: var(--text-muted); font-weight: 600; font-size: 0.9rem;"></div>
+                <h2>Resumen de Evaluación</h2>
+                <div id="student-results-badge" style="margin-top: 0.5rem; color: var(--text-muted); font-weight: 600;"></div>
+                <div id="time-up-msg" class="alert-timeup hidden">El examen ha sido bloqueado o finalizado por límite de tiempo/infracciones.</div>
                 
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <span>Puntaje Obtenido</span>
+                        <span>Aciertos</span>
                         <strong id="res-score">0 / 40</strong>
                     </div>
                     <div class="stat-card">
-                        <span>Porcentaje</span>
+                        <span>Calificación Final</span>
                         <strong id="res-percent">0%</strong>
                     </div>
                     <div class="stat-card danger">
@@ -514,390 +141,13 @@
                         <strong id="res-violations">0</strong>
                     </div>
                 </div>
-                
-                <button id="btn-restart-eval" class="btn-primary-large" style="margin-bottom: 1.5rem;">Iniciar Nuevo Intento</button>
 
-                <h3 style="font-size: 1.1rem; margin-top: 1rem;">Revisión de Respuestas</h3>
-                <div id="review-box" style="margin-top: 0.85rem;"></div>
+                <h3>Revisión de Respuestas</h3>
+                <div id="review-box" style="margin-top: 1rem;"></div>
             </section>
         </div>
     </div>
 
-    <script>
-        const INITIAL_TIME_SECONDS = 50 * 60; // 50 minutos
-        
-        // Banco de datos completo
-        const examData = [
-          { topic: "Unidades SI", text: "La unidad de medida de la fuerza en el Sistema Internacional (SI) expresada en unidades fundamentales es:", options: ["$\\text{kg}\\cdot\\text{m}/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}^2/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}/\\text{s}$", "$\\text{N}\\cdot\\text{m}$"], correct: 0 },
-          { topic: "Conversión de Unidades", text: "Un vehículo viaja a una rapidez de $108\\text{ km/h}$. Su equivalencia en el Sistema Internacional ($\\text{m/s}$) es:", options: ["$30\\text{ m/s}$", "$25\\text{ m/s}$", "$36\\text{ m/s}$", "$15\\text{ m/s}$"], correct: 0 },
-          { topic: "Vectores Fundamentales", text: "Dado el vector $\\vec{A} = (3\\hat{\\imath} - 4\\hat{\\jmath})\\text{ m}$, determinar su módulo y su dirección respecto al eje $+x$:", options: ["$|\\vec{A}| = 5\\text{ m}$, $\\theta = -53.13^\\circ$", "$|\\vec{A}| = 7\\text{ m}$, $\\theta = 53.13^\\circ$", "$|\\vec{A}| = 5\\text{ m}$, $\\theta = 126.87^\\circ$", "$|\\vec{A}| = 25\\text{ m}$, $\\theta = -36.87^\\circ$"], correct: 0 },
-          { topic: "Unidades SI - Energía", text: "El Joule ($\\text{J}$) es la unidad SI de trabajo y energía. En unidades fundamentales equivale a:", options: ["$\\text{kg}\\cdot\\text{m}^2/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}/\\text{s}$", "$\\text{N}/\\text{m}$"], correct: 0 },
-          { topic: "MRU Vectorial", text: "Un dron se desplaza desde $\\vec{r}_0 = (4\\hat{\\imath} + 2\\hat{\\jmath})\\text{ m}$ hasta $\\vec{r}_f = (10\\hat{\\imath} - 6\\hat{\\jmath})\\text{ m}$ en $\\Delta t = 2\\text{ s}$. Calcular su velocidad constante $\\vec{v}$:", options: ["$\\vec{v} = (3\\hat{\\imath} - 4\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (6\\hat{\\imath} - 8\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (7\\hat{\\imath} - 2\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (14\\hat{\\imath} - 4\\hat{\\jmath})\\text{ m/s}$"], correct: 0 },
-          { topic: "MRU Vectorial", text: "Un móvil tiene velocidad constante $\\vec{v} = (5\\hat{\\imath} - 12\\hat{\\jmath})\\text{ m/s}$. El módulo de su desplazamiento tras $3\\text{ s}$ es:", options: ["$39\\text{ m}$", "$51\\text{ m}$", "$15\\text{ m}$", "$36\\text{ m}$"], correct: 0 },
-          { topic: "MRU Vectorial", text: "Un barco navega durante $4\\text{ h}$ con $\\vec{v} = (15\\hat{\\imath} + 20\\hat{\\jmath})\\text{ km/h}$. Su posición final partiendo del origen es:", options: ["$\\vec{r} = (60\\hat{\\imath} + 80\\hat{\\jmath})\\text{ km}$", "$\\vec{r} = (30\\hat{\\imath} + 40\\hat{\\jmath})\\text{ km}$", "$\\vec{r} = (100\\hat{\\imath})\\text{ km}$", "$\\vec{r} = (15\\hat{\\imath} + 20\\hat{\\jmath})\\text{ km}$"], correct: 0 },
-          { topic: "MRU Vectorial", text: "Iniciando en $\\vec{r}_0 = (-2\\hat{\\imath} + 4\\hat{\\jmath})\\text{ m}$ con $\\vec{v} = (3\\hat{\\imath} + 5\\hat{\\jmath})\\text{ m/s}$, la posición a los $t = 4\\text{ s}$ es:", options: ["$\\vec{r} = (10\\hat{\\imath} + 24\\hat{\\jmath})\\text{ m}$", "$\\vec{r} = (12\\hat{\\imath} + 20\\hat{\\jmath})\\text{ m}$", "$\\vec{r} = (14\\hat{\\imath} + 16\\hat{\\jmath})\\text{ m}$", "$\\vec{r} = (8\\hat{\\imath} + 20\\hat{\\jmath})\\text{ m}$"], correct: 0 },
-          { topic: "MRUV Vectorial", text: "Una partícula acelera desde el reposo con $\\vec{a} = (2\\hat{\\imath} + 4\\hat{\\jmath})\\text{ m/s}^2$. Su velocidad a los $t = 5\\text{ s}$ es:", options: ["$\\vec{v} = (10\\hat{\\imath} + 20\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (5\\hat{\\imath} + 10\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (20\\hat{\\imath} + 40\\hat{\\jmath})\\text{ m/s}$", "$\\vec{v} = (8\\hat{\\imath} + 16\\hat{\\jmath})\\text{ m/s}$"], correct: 0 },
-          { topic: "MRUV Vectorial", text: "Con $\\vec{v}_0 = (3\\hat{\\imath} + 2\\hat{\\jmath})\\text{ m/s}$ y $\\vec{a} = (4\\hat{\\imath} - 2\\hat{\\jmath})\\text{ m/s}^2$, calcular el desplazamiento $\\Delta \\vec{r}$ tras $t = 2\\text{ s}$:", options: ["$\\Delta \\vec{r} = (14\\hat{\\imath} + 0\\hat{\\jmath})\\text{ m}$", "$\\Delta \\vec{r} = (10\\hat{\\imath} + 4\\hat{\\jmath})\\text{ m}$", "$\\Delta \\vec{r} = (12\\hat{\\imath} - 2\\hat{\\jmath})\\text{ m}$", "$\\Delta \\vec{r} = (8\\hat{\\imath} + 2\\hat{\\jmath})\\text{ m}$"], correct: 0 },
-          { topic: "MRUV Vectorial", text: "La velocidad de un auto cambia de $\\vec{v}_1 = (2\\hat{\\imath} + 3\\hat{\\jmath})\\text{ m/s}$ a $\\vec{v}_2 = (8\\hat{\\imath} + 11\\hat{\\jmath})\\text{ m/s}$ en $\\Delta t = 2\\text{ s}$. Su aceleración media es:", options: ["$\\vec{a}_m = (3\\hat{\\imath} + 4\\hat{\\jmath})\\text{ m/s}^2$", "$\\vec{a}_m = (6\\hat{\\imath} + 8\\hat{\\jmath})\\text{ m/s}^2$", "$\\vec{a}_m = (5\\hat{\\imath} + 7\\hat{\\jmath})\\text{ m/s}^2$", "$\\vec{a}_m = (4\\hat{\\imath} + 3\\hat{\\jmath})\\text{ m/s}^2$"], correct: 0 },
-          { topic: "MRUV Vectorial", text: "Un objeto reduce su velocidad de $\\vec{v}_0 = (20\\hat{\\imath})\\text{ m/s}$ al reposo en $t = 5\\text{ s}$. Su aceleración constante es:", options: ["$\\vec{a} = (-4\\hat{\\imath})\\text{ m/s}^2$", "$\\vec{a} = (4\\hat{\\imath})\\text{ m/s}^2$", "$\\vec{a} = (-100\\hat{\\imath})\\text{ m/s}^2$", "$\\vec{a} = (-5\\hat{\\imath})\\text{ m/s}^2$"], correct: 0 },
-          { topic: "MRUV Escalar", text: "Un vehículo frena uniformemente de $20\\text{ m/s}$ a $10\\text{ m/s}$ recorriendo $30\\text{ m}$. La aceleración del móvil es:", options: ["$-5\\text{ m/s}^2$", "$-2.5\\text{ m/s}^2$", "$-3\\text{ m/s}^2$", "$-1.5\\text{ m/s}^2$"], correct: 0 },
-          { topic: "Caída Libre", text: "Se deja caer una piedra desde el reposo desde una altura de $20\\text{ m}$ ($g = 10\\text{ m/s}^2$). El tiempo de caída es:", options: ["$2\\text{ s}$", "$4\\text{ s}$", "$1\\text{ s}$", "$3\\text{ s}$"], correct: 0 },
-          { topic: "Lanzamiento Vertical", text: "Se lanza un objeto hacia arriba con $v_0 = 30\\text{ m/s}$ ($g = 10\\text{ m/s}^2$). La altura máxima alcanzada es:", options: ["$45\\text{ m}$", "$90\\text{ m}$", "$30\\text{ m}$", "$60\\text{ m}$"], correct: 0 },
-          { topic: "Caída Libre", text: "Un objeto lanzado hacia abajo con $v_0 = 5\\text{ m/s}$ alcanza una rapidez de $25\\text{ m/s}$ tras caer ($g = 10\\text{ m/s}^2$). El tiempo transcurrido es:", options: ["$2\\text{ s}$", "$3\\text{ s}$", "$2.5\\text{ s}$", "$1.5\\text{ s}$"], correct: 0 },
-          { topic: "MCU - Cinemática", text: "Una partícula en MCU gira a $\\omega = 10\\text{ rad/s}$ en una trayectoria de radio $R = 2\\text{ m}$. Su rapidez tangencial $v$ es:", options: ["$20\\text{ m/s}$", "$5\\text{ m/s}$", "$40\\text{ m/s}$", "$10\\text{ m/s}$"], correct: 0 },
-          { topic: "MCU - Aceleración", text: "Un punto en el borde de un disco de radio $R = 0.5\\text{ m}$ gira con $v = 4\\text{ m/s}$. La aceleración centrípeta es:", options: ["$32\\text{ m/s}^2$", "$16\\text{ m/s}^2$", "$8\\text{ m/s}^2$", "$4\\text{ m/s}^2$"], correct: 0 },
-          { topic: "MCU - Período y Frecuencia", text: "Si un motor realiza $120\\text{ RPM}$ (revoluciones por minuto), su frecuencia $f$ en Hertz ($\\text{Hz}$) es:", options: ["$2\\text{ Hz}$", "$120\\text{ Hz}$", "$60\\text{ Hz}$", "$4\\text{ Hz}$"], correct: 0 },
-          { topic: "MCUV", text: "Una rueda incrementa su velocidad angular de $\\omega_0 = 5\\text{ rad/s}$ a $\\omega_f = 25\\text{ rad/s}$ en $4\\text{ s}$. Su aceleración angular $\\alpha$ es:", options: ["$5\\text{ rad/s}^2$", "$10\\text{ rad/s}^2$", "$2.5\\text{ rad/s}^2$", "$20\\text{ rad/s}^2$"], correct: 0 },
-          { topic: "Leyes de Newton", text: "Sobre una masa de $m = 4\\text{ kg}$ actúa una fuerza neta de $12\\text{ N}$. La aceleración producida es:", options: ["$3\\text{ m/s}^2$", "$48\\text{ m/s}^2$", "$0.33\\text{ m/s}^2$", "$8\\text{ m/s}^2$"], correct: 0 },
-          { topic: "Dinámica con Fricción", text: "Un bloque de $10\\text{ kg}$ es empujado con $50\\text{ N}$. Si la fuerza de fricción es $10\\text{ N}$, la aceleración es:", options: ["$4\\text{ m/s}^2$", "$5\\text{ m/s}^2$", "$6\\text{ m/s}^2$", "$3\\text{ m/s}^2$"], correct: 0 },
-          { topic: "Dinámica - Plano Inclinado", text: "Un bloque de $m = 2\\text{ kg}$ se desliza sin fricción por un plano inclinado a $30^\\circ$ ($g = 10\\text{ m/s}^2$). La aceleración paralela al plano es:", options: ["$5\\text{ m/s}^2$", "$10\\text{ m/s}^2$", "$8.66\\text{ m/s}^2$", "$2.5\\text{ m/s}^2$"], correct: 0 },
-          { topic: "Fuerza Centrípeta", text: "Una masa de $2\\text{ kg}$ gira atada a una cuerda de $1.5\\text{ m}$ con rapidez constante de $3\\text{ m/s}$. La tensión (fuerza centrípeta) es:", options: ["$12\\text{ N}$", "$18\\text{ N}$", "$6\\text{ N}$", "$9\\text{ N}$"], correct: 0 },
-          { topic: "Tercera Ley de Newton", text: "Si un libro de $2\\text{ kg}$ descansa sobre una mesa ($g = 9.8\\text{ m/s}^2$), la magnitud de la fuerza normal ejercida por la mesa es:", options: ["$19.6\\text{ N}$", "$9.8\\text{ N}$", "$0\\text{ N}$", "$39.2\\text{ N}$"], correct: 0 },
-          { topic: "Estática - 1ra Condición", text: "Un cuerpo se encuentra en equilibrio traslacional bajo la acción de tres fuerzas. Si dos fuerzas son $F_1 = 10\\text{ N}$ a la derecha y $F_2 = 4\\text{ N}$ a la izquierda, la tercera fuerza $F_3$ debe ser:", options: ["$6\\text{ N}$ a la izquierda", "$6\\text{ N}$ a la derecha", "$14\\text{ N}$ a la izquierda", "$10\\text{ N}$ a la izquierda"], correct: 0 },
-          { topic: "Estática - Tensión", text: "Un semáforo de $100\\text{ N}$ cuelga simétricamente de dos cuerdas verticales. La tensión en cada cuerda es:", options: ["$50\\text{ N}$", "$100\\text{ N}$", "$200\\text{ N}$", "$25\\text{ N}$"], correct: 0 },
-          { topic: "Estática - Torque", text: "Se aplica una fuerza perpendicular de $20\\text{ N}$ en el extremo de una llave de $0.3\\text{ m}$ de largo. El torque generado es:", options: ["$6\\text{ N}\\cdot\\text{m}$", "$66.6\\text{ N}\\cdot\\text{m}$", "$1.5\\text{ N}\\cdot\\text{m}$", "$60\\text{ N}\\cdot\\text{m}$"], correct: 0 },
-          { topic: "Trabajo Mecánico", text: "Una fuerza de $30\\text{ N}$ paralela al desplazamiento mueve un cuerpo una distancia de $4\\text{ m}$. El trabajo realizado es:", options: ["$120\\text{ J}$", "$7.5\\text{ J}$", "$34\\text{ J}$", "$26\\text{ J}$"], correct: 0 },
-          { topic: "Trabajo con Ángulo", text: "Una fuerza de $50\\text{ N}$ aplicada a $60^\\circ$ respecto a la horizontal desplaza un carrito $10\\text{ m}$. El trabajo mecánico es ($\\cos 60^\\circ = 0.5$):", options: ["$250\\text{ J}$", "$500\\text{ J}$", "$433\\text{ J}$", "$100\\text{ J}$"], correct: 0 },
-          { topic: "Potencia Mecánica", text: "Un motor efectúa un trabajo de $2400\\text{ J}$ en un tiempo de $8\\text{ s}$. La potencia desarrollada es:", options: ["$300\\text{ W}$", "$19200\\text{ W}$", "$600\\text{ W}$", "$150\\text{ W}$"], correct: 0 },
-          { topic: "Trabajo por Fricción", text: "Una fuerza de rozamiento constante de $15\\text{ N}$ actúa sobre un objeto a lo largo de un desplazamiento de $6\\text{ m}$. El trabajo de la fricción es:", options: ["$-90\\text{ J}$", "$90\\text{ J}$", "$0\\text{ J}$", "$-2.5\\text{ J}$"], correct: 0 },
-          { topic: "Energía Cinética", text: "Un auto de masa $m = 1000\\text{ kg}$ avanza a una rapidez de $v = 10\\text{ m/s}$. Su energía cinética es:", options: ["$50000\\text{ J}$", "$100000\\text{ J}$", "$10000\\text{ J}$", "$5000\\text{ J}$"], correct: 0 },
-          { topic: "Energía Potencial Gravitatoria", text: "Un objeto de $m = 3\\text{ kg}$ se eleva a una altura $h = 5\\text{ m}$ ($g = 10\\text{ m/s}^2$). Su energía potencial ganada es:", options: ["$150\\text{ J}$", "$15\\text{ J}$", "$30\\text{ J}$", "$75\\text{ J}$"], correct: 0 },
-          { topic: "Conservación de Energía", text: "Se suelta una masa de $2\\text{ kg}$ desde el reposo a una altura de $5\\text{ m}$ ($g = 10\\text{ m/s}^2$). Ignorando el aire, su rapidez al llegar al suelo es:", options: ["$10\\text{ m/s}$", "$100\\text{ m/s}$", "$14.14\\text{ m/s}$", "$5\\text{ m/s}$"], correct: 0 },
-          { topic: "Energía Elástica", text: "Un resorte de constante $k = 200\\text{ N/m}$ se comprime $x = 0.2\\text{ m}$. La energía potencial elástica almacenada es:", options: ["$4\\text{ J}$", "$40\\text{ J}$", "$8\\text{ J}$", "$2\\text{ J}$"], correct: 0 },
-          { topic: "Impulso Mecánico", text: "Una fuerza constante de $40\\text{ N}$ se aplica sobre una pelota durante $\\Delta t = 0.2\\text{ s}$. El impulso impartido es:", options: ["$8\\text{ N}\\cdot\\text{s}$", "$200\\text{ N}\\cdot\\text{s}$", "$80\\text{ N}\\cdot\\text{s}$", "$4\\text{ N}\\cdot\\text{s}$"], correct: 0 },
-          { topic: "Cantidad de Movimiento", text: "Un proyectil de $m = 0.5\\text{ kg}$ lleva una rapidez de $200\\text{ m/s}$. La cantidad de movimiento $p$ es:", options: ["$100\\text{ kg}\\cdot\\text{m/s}$", "$400\\text{ kg}\\cdot\\text{m/s}$", "$200\\text{ kg}\\cdot\\text{m/s}$", "$50\\text{ kg}\\cdot\\text{m/s}$"], correct: 0 },
-          { topic: "Conservación del Impulso", text: "Un patinador de $60\\text{ kg}$ en reposo lanza un balón de $2\\text{ kg}$ hacia adelante a $15\\text{ m/s}$. La rapidez de retroceso del patinador es:", options: ["$0.5\\text{ m/s}$", "$30\\text{ m/s}$", "$1\\text{ m/s}$", "$2\\text{ m/s}$"], correct: 0 },
-          { topic: "Choque Inelástico", text: "Un carrito $A$ de $3\\text{ kg}$ a $4\\text{ m/s}$ choca y queda acoplado a un carrito $B$ de $1\\text{ kg}$ en reposo. La rapidez final del conjunto es:", options: ["$3\\text{ m/s}$", "$4\\text{ m/s}$", "$2\\text{ m/s}$", "$1.5\\text{ m/s}$"], correct: 0 }
-        ];
-
-        let currentIdx = 0;
-        let userAnswers = new Array(40).fill(null);
-        let violations = 0;
-        let examActive = false;
-        let timerInterval = null;
-        let remainingSeconds = INITIAL_TIME_SECONDS;
-        let studentData = { name: '', id: '' };
-
-        const startOverlay = document.getElementById('start-overlay');
-        const blockOverlay = document.getElementById('block-overlay');
-        const alertBanner = document.getElementById('alert-banner');
-        const btnStart = document.getElementById('btn-start');
-        const btnUnlock = document.getElementById('btn-unlock');
-        const btnRestartEval = document.getElementById('btn-restart-eval');
-
-        const panelExam = document.getElementById('panel-exam');
-        const panelSide = document.getElementById('panel-side');
-        const panelResults = document.getElementById('panel-results');
-
-        const qTopic = document.getElementById('q-topic');
-        const qNumber = document.getElementById('q-number');
-        const qText = document.getElementById('q-text');
-        const optionsBox = document.getElementById('options-box');
-
-        const btnPrev = document.getElementById('btn-prev');
-        const btnNext = document.getElementById('btn-next');
-        const btnFinish = document.getElementById('btn-finish');
-
-        const questionsGrid = document.getElementById('questions-grid');
-        const progressBar = document.getElementById('progress-bar');
-        const progVal = document.getElementById('prog-val');
-        const timerDisplay = document.getElementById('timer');
-
-        document.addEventListener('DOMContentLoaded', () => {
-            buildGrid();
-            loadStateFromStorage();
-            btnUnlock.addEventListener('click', unlockExam);
-            btnRestartEval.addEventListener('click', resetAndRestartExam);
-            btnPrev.addEventListener('click', () => navigate(-1));
-            btnNext.addEventListener('click', () => navigate(1));
-            btnFinish.addEventListener('click', () => {
-                if (confirm('¿Desea dar por finalizada la evaluación? Esto detendrá la prueba y generará los resultados.')) {
-                    finishExam();
-                }
-            });
-            renderMath(document.body);
-        });
-
-        /* PERSISTENCIA Y LOCALSTORAGE */
-        function loadStateFromStorage() {
-            const hasStarted = localStorage.getItem('eval_hasStarted');
-            const savedAnswers = localStorage.getItem('eval_userAnswers');
-            const savedTime = localStorage.getItem('eval_remainingSeconds');
-            const savedIdx = localStorage.getItem('eval_currentIdx');
-            const savedViolations = localStorage.getItem('eval_violations');
-            const savedStudent = localStorage.getItem('eval_studentData');
-
-            if (savedStudent) {
-                studentData = JSON.parse(savedStudent);
-                document.getElementById('student-name').value = studentData.name || '';
-                document.getElementById('student-id').value = studentData.id || '';
-                document.getElementById('student-info-display').innerText = `Estudiante: ${studentData.name} (${studentData.id})`;
-            }
-
-            if (hasStarted === 'true') {
-                if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
-                if (savedTime !== null) remainingSeconds = parseInt(savedTime, 10);
-                if (savedIdx !== null) currentIdx = parseInt(savedIdx, 10);
-                if (savedViolations !== null) violations = parseInt(savedViolations, 10);
-
-                document.getElementById('modal-title').innerText = "Examen en Curso";
-                document.getElementById('modal-desc').innerText = "Tienes un intento activo guardado. Presiona abajo para reanudar el tiempo y tus respuestas.";
-                btnStart.innerText = "Reanudar Examen";
-            } else {
-                document.getElementById('modal-title').innerText = "Prueba Completa de Diagnóstico";
-                document.getElementById('modal-desc').innerText = "Evaluación de 40 reactivos que abarca Unidades, Vectores, Cinemática, Dinámica, Trabajo, Energía e Impulso.";
-                btnStart.innerText = "Iniciar Examen";
-            }
-
-            updateTimerDisplay();
-            updateProgressUI();
-        }
-
-        function saveStateToStorage() {
-            localStorage.setItem('eval_hasStarted', 'true');
-            localStorage.setItem('eval_userAnswers', JSON.stringify(userAnswers));
-            localStorage.setItem('eval_remainingSeconds', remainingSeconds.toString());
-            localStorage.setItem('eval_currentIdx', currentIdx.toString());
-            localStorage.setItem('eval_violations', violations.toString());
-            localStorage.setItem('eval_studentData', JSON.stringify(studentData));
-        }
-
-        function clearStorage() {
-            localStorage.removeItem('eval_hasStarted');
-            localStorage.removeItem('eval_userAnswers');
-            localStorage.removeItem('eval_remainingSeconds');
-            localStorage.removeItem('eval_currentIdx');
-            localStorage.removeItem('eval_violations');
-        }
-
-        function resetAndRestartExam() {
-            clearStorage();
-            userAnswers = new Array(40).fill(null);
-            remainingSeconds = INITIAL_TIME_SECONDS;
-            currentIdx = 0;
-            violations = 0;
-            
-            panelResults.classList.add('hidden');
-            panelExam.classList.remove('hidden');
-            panelSide.classList.remove('hidden');
-
-            updateProgressUI();
-            updateGridUI();
-            
-            startOverlay.classList.remove('hidden');
-            document.getElementById('modal-title').innerText = "Prueba Completa de Diagnóstico";
-            btnStart.innerText = "Iniciar Examen";
-        }
-
-        function renderMath(targetElement) {
-            if (window.renderMathInElement) {
-                renderMathInElement(targetElement, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ],
-                    throwOnError: false
-                });
-            }
-        }
-
-        function startExam() {
-            const nameInput = document.getElementById('student-name').value.trim();
-            const idInput = document.getElementById('student-id').value.trim();
-
-            if (!nameInput || !idInput) {
-                alert("Por favor complete los campos de Nombre y Cédula.");
-                return;
-            }
-
-            studentData = { name: nameInput, id: idInput };
-            document.getElementById('student-info-display').innerText = `Estudiante: ${studentData.name} (${studentData.id})`;
-
-            enterFullscreen();
-            startOverlay.classList.add('hidden');
-            examActive = true;
-            saveStateToStorage();
-            startTimer();
-            setupSecurity();
-            renderQuestion();
-        }
-
-        function unlockExam() {
-            blockOverlay.classList.add('hidden');
-            enterFullscreen();
-        }
-
-        function renderQuestion() {
-            const q = examData[currentIdx];
-            qTopic.innerText = q.topic;
-            qNumber.innerText = `Pregunta ${currentIdx + 1} de 40`;
-            qText.innerHTML = q.text;
-
-            optionsBox.innerHTML = '';
-            q.options.forEach((optText, i) => {
-                const btn = document.createElement('button');
-                btn.className = `option-btn ${userAnswers[currentIdx] === i ? 'selected' : ''}`;
-                btn.innerHTML = `<span class="opt-index">${String.fromCharCode(65 + i)}</span><span>${optText}</span>`;
-                btn.onclick = () => selectOption(i);
-                optionsBox.appendChild(btn);
-            });
-
-            renderMath(qText);
-            renderMath(optionsBox);
-
-            btnPrev.disabled = currentIdx === 0;
-            btnNext.innerText = currentIdx === 39 ? 'Finalizar ►' : 'Siguiente ►';
-            updateGridUI();
-            saveStateToStorage();
-        }
-
-        function selectOption(index) {
-            userAnswers[currentIdx] = index;
-            renderQuestion();
-            updateProgressUI();
-            saveStateToStorage();
-        }
-
-        function navigate(dir) {
-            if (currentIdx + dir >= 0 && currentIdx + dir < 40) {
-                currentIdx += dir;
-                renderQuestion();
-            } else if (currentIdx + dir === 40) {
-                if (confirm('¿Desea dar por finalizada la evaluación?')) finishExam();
-            }
-        }
-
-        function buildGrid() {
-            questionsGrid.innerHTML = '';
-            for (let i = 0; i < 40; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'grid-btn';
-                btn.innerText = i + 1;
-                btn.onclick = () => {
-                    currentIdx = i;
-                    renderQuestion();
-                };
-                questionsGrid.appendChild(btn);
-            }
-        }
-
-        function updateGridUI() {
-            const btns = questionsGrid.children;
-            for (let i = 0; i < 40; i++) {
-                btns[i].className = 'grid-btn';
-                if (userAnswers[i] !== null) btns[i].classList.add('answered');
-                if (i === currentIdx) btns[i].classList.add('active');
-            }
-        }
-
-        function updateProgressUI() {
-            const count = userAnswers.filter(a => a !== null).length;
-            progVal.innerText = `${count} / 40`;
-            progressBar.style.width = `${(count / 40) * 100}%`;
-        }
-
-        function updateTimerDisplay() {
-            const m = Math.floor(remainingSeconds / 60);
-            const s = remainingSeconds % 60;
-            timerDisplay.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-
-        function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                if (remainingSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    alert("¡El tiempo límite ha finalizado! Se procesará su examen automáticamente.");
-                    finishExam();
-                } else {
-                    remainingSeconds--;
-                    updateTimerDisplay();
-                    if (remainingSeconds % 5 === 0) saveStateToStorage();
-                }
-            }, 1000);
-        }
-
-        function finishExam() {
-            examActive = false;
-            clearInterval(timerInterval);
-            
-            panelExam.classList.add('hidden');
-            panelSide.classList.add('hidden');
-            panelResults.classList.remove('hidden');
-
-            let score = 0;
-            userAnswers.forEach((ans, i) => {
-                if (ans === examData[i].correct) score++;
-            });
-
-            document.getElementById('student-results-badge').innerText = `Estudiante: ${studentData.name} (ID: ${studentData.id})`;
-            document.getElementById('res-score').innerText = `${score} / 40`;
-            document.getElementById('res-percent').innerText = `${((score / 40) * 100).toFixed(1)}%`;
-            document.getElementById('res-violations').innerText = violations;
-
-            const reviewBox = document.getElementById('review-box');
-            reviewBox.innerHTML = '';
-            examData.forEach((q, i) => {
-                const isCorrect = userAnswers[i] === q.correct;
-                const item = document.createElement('div');
-                item.className = `review-item ${isCorrect ? 'correct' : 'incorrect'}`;
-                item.innerHTML = `
-                    <strong style="color: var(--text-muted); font-size: 0.85rem;">PREGUNTA ${i + 1} (${q.topic})</strong>
-                    <p style="font-weight: 600; margin-top: 0.25rem;">${q.text}</p>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Respuesta elegida: ${userAnswers[i] !== null ? q.options[userAnswers[i]] : '<em>Sin responder</em>'}</p>
-                    <p style="color: var(--success); font-weight: 600; font-size: 0.9rem;">Respuesta correcta: ${q.options[q.correct]}</p>
-                `;
-                reviewBox.appendChild(item);
-            });
-            renderMath(reviewBox);
-        }
-
-        /* SEGURIDAD Y PANTALLA COMPLETA */
-        function setupSecurity() {
-            document.addEventListener('contextmenu', e => e.preventDefault());
-            document.addEventListener('copy', e => e.preventDefault());
-            document.addEventListener('cut', e => e.preventDefault());
-            document.addEventListener('paste', e => e.preventDefault());
-
-            window.addEventListener('keydown', e => {
-                if (!examActive) return;
-                if (e.key === 'PrintScreen' || e.key === 'F12' || (e.ctrlKey && ['c', 'u', 's', 'p', 'a'].includes(e.key.toLowerCase()))) {
-                    e.preventDefault();
-                    registerViolation();
-                }
-            });
-
-            window.addEventListener('blur', () => { if (examActive) registerViolation(); });
-            document.addEventListener('visibilitychange', () => { if (document.hidden && examActive) registerViolation(); });
-
-            document.addEventListener('fullscreenchange', () => {
-                if (!document.fullscreenElement && examActive && startOverlay.classList.contains('hidden')) {
-                    blockOverlay.classList.remove('hidden');
-                    registerViolation();
-                }
-            });
-
-            history.pushState(null, null, location.href);
-            window.onpopstate = () => history.go(1);
-        }
-
-        function registerViolation() {
-            violations++;
-            alertBanner.classList.remove('hidden');
-            setTimeout(() => alertBanner.classList.add('hidden'), 3000);
-            saveStateToStorage();
-        }
-
-        function enterFullscreen() {
-            const el = document.documentElement;
-            if (!document.fullscreenElement) {
-                if (el.requestFullscreen) {
-                    el.requestFullscreen().catch(() => {});
-                } else if (el.webkitRequestFullscreen) {
-                    el.webkitRequestFullscreen();
-                }
-            }
-        }
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>
