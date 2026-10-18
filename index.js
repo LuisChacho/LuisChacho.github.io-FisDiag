@@ -1,4 +1,4 @@
-// BANCO EXACTO Y COMPLETO DE 40 PREGUNTAS
+// BANCO REVISADO DE 40 PREGUNTAS (SIN IMPULSO, CONSERVACIÓN DEL IMPULSO, CHOQUE NI TENSIONES VERTICALES)
 const rawExamData = [
   { topic: "Unidades SI", text: "La unidad de medida de la fuerza en el Sistema Internacional (SI) expresada en unidades fundamentales es:", options: ["$\\text{kg}\\cdot\\text{m}/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}^2/\\text{s}^2$", "$\\text{kg}\\cdot\\text{m}/\\text{s}$", "$\\text{N}\\cdot\\text{m}$"], correct: 0 },
   { topic: "Conversión de Unidades", text: "Un vehículo viaja a una rapidez de $108\\text{ km/h}$. Su equivalencia en el Sistema Internacional ($\\text{m/s}$) es:", options: ["$30\\text{ m/s}$", "$25\\text{ m/s}$", "$36\\text{ m/s}$", "$15\\text{ m/s}$"], correct: 0 },
@@ -26,7 +26,7 @@ const rawExamData = [
   { topic: "Fuerza Centrípeta", text: "Una masa de $2\\text{ kg}$ gira atada a una cuerda de $1.5\\text{ m}$ con rapidez constante de $3\\text{ m/s}$. La tensión (fuerza centrípeta) es:", options: ["$12\\text{ N}$", "$18\\text{ N}$", "$6\\text{ N}$", "$9\\text{ N}$"], correct: 0 },
   { topic: "Tercera Ley de Newton", text: "Si un libro de $2\\text{ kg}$ descansa sobre una mesa ($g = 9.8\\text{ m/s}^2$), la magnitud de la fuerza normal ejercida por la mesa es:", options: ["$19.6\\text{ N}$", "$9.8\\text{ N}$", "$0\\text{ N}$", "$39.2\\text{ N}$"], correct: 0 },
   { topic: "Estática - 1ra Condición", text: "Un cuerpo se encuentra en equilibrio traslacional bajo la acción de tres fuerzas. Si dos fuerzas son $F_1 = 10\\text{ N}$ a la derecha y $F_2 = 4\\text{ N}$ a la izquierda, la tercera fuerza $F_3$ debe ser:", options: ["$6\\text{ N}$ a la izquierda", "$6\\text{ N}$ a la derecha", "$14\\text{ N}$ a la izquierda", "$10\\text{ N}$ a la izquierda"], correct: 0 },
-  { topic: "Estática - Tensión", text: "Un semáforo de $100\\text{ N}$ cuelga simétricamente de dos cuerdas verticales. La tensión en cada cuerda es:", options: ["$50\\text{ N}$", "$100\\text{ N}$", "$200\\text{ N}$", "$25\\text{ N}$"], correct: 0 },
+  { topic: "Energía Cinética", text: "Un vehículo de $1200\\text{ kg}$ circula con una rapidez de $20\\text{ m/s}$. Determinar su energía cinética:", options: ["$240\\,000\\text{ J}$", "$120\\,000\\text{ J}$", "$480\\,000\\text{ J}$", "$60\\,000\\text{ J}$"], correct: 0 },
   { topic: "Estática - Torque", text: "Se aplica una fuerza perpendicular de $20\\text{ N}$ en el extremo de una llave de $0.3\\text{ m}$ de largo. El torque generado es:", options: ["$6\\text{ N}\\cdot\\text{m}$", "$66.6\\text{ N}\\cdot\\text{m}$", "$1.5\\text{ N}\\cdot\\text{m}$", "$60\\text{ N}\\cdot\\text{m}$"], correct: 0 },
   { topic: "Trabajo Mecánico", text: "Una fuerza de $30\\text{ N}$ paralela al desplazamiento mueve un cuerpo una distancia de $4\\text{ m}$. El trabajo realizado es:", options: ["$120\\text{ J}$", "$7.5\\text{ J}$", "$34\\text{ J}$", "$26\\text{ J}$"], correct: 0 },
   { topic: "Trabajo con Ángulo", text: "Una fuerza de $50\\text{ N}$ aplicada a $60^\\circ$ respecto a la horizontal desplaza un carrito $10\\text{ m}$. El trabajo mecánico es ($\\cos 60^\\circ = 0.5$):", options: ["$250\\text{ J}$", "$500\\text{ J}$", "$433\\text{ J}$", "$100\\text{ J}$"], correct: 0 },
@@ -34,12 +34,12 @@ const rawExamData = [
   { topic: "Trabajo por Fricción", text: "Una fuerza de rozamiento constante de $15\\text{ N}$ actúa sobre un objeto a lo largo de un desplazamiento de $6\\text{ m}$. El trabajo de la fricción es:", options: ["$-90\\text{ J}$", "$90\\text{ J}$", "$0\\text{ J}$", "$-2.5\\text{ J}$"], correct: 0 },
   { topic: "Energía Cinética", text: "Un auto de masa $m = 1000\\text{ kg}$ avanza a una rapidez de $v = 10\\text{ m/s}$. Su energía cinética es:", options: ["$50000\\text{ J}$", "$100000\\text{ J}$", "$10000\\text{ J}$", "$5000\\text{ J}$"], correct: 0 },
   { topic: "Energía Potencial Gravitatoria", text: "Un objeto de $m = 3\\text{ kg}$ se eleva a una altura $h = 5\\text{ m}$ ($g = 10\\text{ m/s}^2$). Su energía potencial ganada es:", options: ["$150\\text{ J}$", "$15\\text{ J}$", "$30\\text{ J}$", "$75\\text{ J}$"], correct: 0 },
-  { topic: "Conservación de Energía", text: "Se suelta una masa de $2\\text{ kg}$ desde el reposo a una altura de $5\\text{ m}$ ($g = 10\\text{ m/s}^2$). Ignorando el aire, su rapidez al llegar al suelo es:", options: ["$10\\text{ m/s}$", "$100\\text{ m/s}$", "$14.14\\text{ m/s}$", "$5\\text{ m/s}$"], correct: 0 },
+  { topic: "Energía Potencial Gravitatoria", text: "Una pelota de $2\\text{ kg}$ se coloca en un estante a $4\\text{ m}$ de altura sobre el piso ($g = 9.8\\text{ m/s}^2$). Su energía potencial es:", options: ["$78.4\\text{ J}$", "$39.2\\text{ J}$", "$19.6\\text{ J}$", "$156.8\\text{ J}$"], correct: 0 },
   { topic: "Energía Elástica", text: "Un resorte de constante $k = 200\\text{ N/m}$ se comprime $x = 0.2\\text{ m}$. La energía potencial elástica almacenada es:", options: ["$4\\text{ J}$", "$40\\text{ J}$", "$8\\text{ J}$", "$2\\text{ J}$"], correct: 0 },
-  { topic: "Impulso Mecánico", text: "Una fuerza constante de $40\\text{ N}$ se aplica sobre una pelota durante $\\Delta t = 0.2\\text{ s}$. El impulso impartido es:", options: ["$8\\text{ N}\\cdot\\text{s}$", "$200\\text{ N}\\cdot\\text{s}$", "$80\\text{ N}\\cdot\\text{s}$", "$4\\text{ N}\\cdot\\text{s}$"], correct: 0 },
-  { topic: "Cantidad de Movimiento", text: "Un proyectil de $m = 0.5\\text{ kg}$ lleva una rapidez de $200\\text{ m/s}$. La cantidad de movimiento $p$ es:", options: ["$100\\text{ kg}\\cdot\\text{m/s}$", "$400\\text{ kg}\\cdot\\text{m/s}$", "$200\\text{ kg}\\cdot\\text{m/s}$", "$50\\text{ kg}\\cdot\\text{m/s}$"], correct: 0 },
-  { topic: "Conservación del Impulso", text: "Un patinador de $60\\text{ kg}$ en reposo lanza un balón de $2\\text{ kg}$ hacia adelante a $15\\text{ m/s}$. La rapidez de retroceso del patinador es:", options: ["$0.5\\text{ m/s}$", "$30\\text{ m/s}$", "$1\\text{ m/s}$", "$2\\text{ m/s}$"], correct: 0 },
-  { topic: "Choque Inelástico", text: "Un carrito $A$ de $3\\text{ kg}$ a $4\\text{ m/s}$ choca y queda acoplado a un carrito $B$ de $1\\text{ kg}$ en reposo. La rapidez final del conjunto es:", options: ["$3\\text{ m/s}$", "$4\\text{ m/s}$", "$2\\text{ m/s}$", "$1.5\\text{ m/s}$"], correct: 0 }
+  { topic: "Energía Cinética", text: "Si la velocidad de un cuerpo de masa $m$ se duplica, su energía cinética se multiplica por un factor de:", options: ["$4$", "$2$", "$8$", "$16$"], correct: 0 },
+  { topic: "Energía Potencial Gravitatoria", text: "Un dron de $1.5\\text{ kg}$ vuela a una altura fija de $20\\text{ m}$ ($g = 10\\text{ m/s}^2$). Su energía potencial gravitatoria respecto al suelo es:", options: ["$300\\text{ J}$", "$150\\text{ J}$", "$600\\text{ J}$", "$30\\text{ J}$"], correct: 0 },
+  { topic: "Trabajo Mecánico", text: "Para elevar un cuerpo de $10\\text{ kg}$ verticalmente a velocidad constante a una altura de $3\\text{ m}$ ($g = 10\\text{ m/s}^2$), el trabajo realizado es:", options: ["$300\\text{ J}$", "$30\\text{ J}$", "$100\\text{ J}$", "$600\\text{ J}$"], correct: 0 },
+  { topic: "Energía Potencial Gravitatoria", text: "Un bloque de $5\\text{ kg}$ se encuentra a una altura de $12\\text{ m}$ sobre el suelo ($g = 10\\text{ m/s}^2$). Su energía potencial gravitatoria es:", options: ["$600\\text{ J}$", "$300\\text{ J}$", "$1200\\text{ J}$", "$60\\text{ J}$"], correct: 0 }
 ];
 
 const INITIAL_TIME_SECONDS = 50 * 60; // 50 minutos
@@ -144,7 +144,6 @@ function handleStartExam() {
         return;
     }
 
-    // Verificar si esta cédula ya fue registrada antes
     const completedIds = JSON.parse(localStorage.getItem('eval_completed_ids') || '[]');
     if (completedIds.includes(idInput)) {
         alert("Esta cédula ya tiene un intento completado en esta plataforma.");
@@ -290,7 +289,6 @@ function finishExam() {
     clearInterval(timerInterval);
     exitFullscreen();
 
-    // Registrar intento completado para impedir nuevos intentos
     localStorage.setItem('eval_completed', 'true');
     const completedIds = JSON.parse(localStorage.getItem('eval_completed_ids') || '[]');
     if (studentData.id && !completedIds.includes(studentData.id)) {
